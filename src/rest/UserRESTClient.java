@@ -9,6 +9,7 @@ import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import manager.UserManager;
+import static reto2crud.Reto2CRUD.BASE_URI;
 
 /**
  * Jersey REST client generated for REST resource:UserFacadeREST [user]<br>
@@ -20,13 +21,12 @@ import manager.UserManager;
  *        client.close();
  * </pre>
  *
- * @author 2dam
+ * @author Martin Valiente
  */
 public class UserRESTClient implements UserManager{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/CRUD-Server/webresources";
 
     public UserRESTClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();

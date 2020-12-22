@@ -9,6 +9,7 @@ import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import manager.MenuManager;
+import static reto2crud.Reto2CRUD.BASE_URI;
 
 /**
  * Jersey REST client generated for REST resource:MenuFacadeREST [menu]<br>
@@ -26,7 +27,6 @@ public class MenuRESTClient implements MenuManager{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/CRUD-Server/webresources";
 
     public MenuRESTClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
