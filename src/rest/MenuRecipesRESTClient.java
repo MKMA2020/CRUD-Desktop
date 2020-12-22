@@ -8,6 +8,7 @@ package rest;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import manager.MenuRecipeManager;
 
 /**
  * Jersey REST client generated for REST resource:Menu_RecipeFacadeREST
@@ -22,7 +23,7 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author Kerman
  */
-public class MenuRecipesRESTClient {
+public class MenuRecipesRESTClient implements MenuRecipeManager{
 
     private WebTarget webTarget;
     private Client client;
