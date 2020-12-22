@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package manager;
 
 /**
  *
  * @author 2dam
  */
-interface UserManager {
+public interface UserManager {
     
 }

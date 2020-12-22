@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client;
+package factory;
+
+import manager.UserManager;
+import rest.UserRESTClient;
 
 /**
  *
