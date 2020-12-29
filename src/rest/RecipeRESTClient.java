@@ -5,10 +5,10 @@
  */
 package rest;
 
-import client.*;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import static reto2crud.Reto2CRUD.BASE_URI;
 
 /**
  * Jersey REST client generated for REST resource:RecipeFacadeREST [recipe]<br>
@@ -26,7 +26,6 @@ public class RecipeRESTClient {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/CRUD-Server-dev_Entities/webresources";
 
     public RecipeRESTClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();

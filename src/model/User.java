@@ -1,5 +1,6 @@
 package model;
 
+import enumeration.UserType;
 import java.sql.Timestamp;
 import java.util.Set;
 
