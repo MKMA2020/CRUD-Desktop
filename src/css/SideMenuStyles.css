@@ -1,0 +1,50 @@
+/*
+Cascading Style Sheet fot the Side Menu on PocketChef Desktop app.
+*/
+/* 
+    Created on : 29-dic-2020, 18:35:43
+    Author     : Martin Valiente Ainz
+*/
+
+.sideMenuButton
+{
+    /* Default button color */
+    -fx-background-color : #fbf6f0;
+    
+    /* Button permanent attributes */
+    -fx-background-radius :  30 0 0 30;
+    -fx-alignment: BASELINE_LEFT;
+    -fx-graphic-text-gap: 10.0;
+}
+
+.sideMenuButton:hover
+{
+    /* Button color on hover */
+    -fx-background-color : #ffda77 ;
+}
+
+.sideMenuButton:pressed
+{
+    /* Button color when pressed */
+    -fx-background-color : #ffa45b ;
+}
+
+.sideMenuContainer
+{
+    /* Side menu background color */
+    -fx-background-color : #fbf6f0;
+    
+    /* Side menu text color */
+    -fx-text-fill: black;
+}
+
+.sideMenuLabel
+{    
+    /* Label font properties */
+    -fx-font-family: Helvetica;
+    -fx-font-size: 38;
+    -fx-font-style: normal;
+    -fx-font-weight: normal;
+        
+}
+
