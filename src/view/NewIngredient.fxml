@@ -18,14 +18,14 @@
             <children>
                 <HBox alignment="TOP_CENTER">
                     <children>
-                        <!-- Ingredient Name Text -->
+                        <!-- New Ingredient Text -->
                         <Label styleClass="newIngredientText" text="New ingredient">
                             <HBox.margin>
                                 <Insets left="40.0" right="20.0" />
                             </HBox.margin>
                         </Label>
                         
-                        <!-- Logo Image -->                
+                        <!-- Groceries Image -->                
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../resources/groceries.png" />
@@ -35,12 +35,12 @@
                             </VBox.margin>
                         </ImageView>
                     </children>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <VBox.margin>
-                  <Insets bottom="20.0" top="40.0" />
-               </VBox.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="40.0" />
+                    </VBox.margin>
                 </HBox>
                 <HBox alignment="TOP_CENTER">
                     <children>
@@ -56,13 +56,13 @@
                             </HBox.margin>
                         </TextField>
                     </children>
-               <padding>
-                  <Insets bottom="20.0" top="20.0" />
-               </padding>
+                    <padding>
+                        <Insets bottom="20.0" top="20.0" />
+                    </padding>
                 </HBox>
                 <HBox alignment="TOP_CENTER">
                     <children>
-                        <!-- Ingredient Name Text -->
+                        <!-- Ingredient Type Text -->
                         <Label styleClass="ingredientTypeText" text=" Type:">
                             <HBox.margin>
                                 <Insets left="40.0" right="20.0" />
@@ -74,46 +74,48 @@
                             </HBox.margin>
                         </ChoiceBox>
                     </children>
-               <padding>
-                  <Insets bottom="20.0" top="20.0" />
-               </padding>
+                    <padding>
+                        <Insets bottom="20.0" top="20.0" />
+                    </padding>
                 </HBox>  
                 <HBox alignment="TOP_CENTER">
                     <children>
+                        <!-- Cancel Button -->
                         <Button id="btnCancel" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Cancel">
-                    <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/not-found.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <padding>
-                        <Insets left="55.0" />
-                    </padding>
-                     <HBox.margin>
-                        <Insets left="20.0" right="10.0" />
-                     </HBox.margin>
-                </Button>
+                            <graphic>
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../resources/not-found.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="55.0" />
+                            </padding>
+                            <HBox.margin>
+                                <Insets left="20.0" right="10.0" />
+                            </HBox.margin>
+                        </Button>
+                        <!-- Create Button -->
                         <Button id="btnCreate" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Create">
-                    <graphic>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../resources/check-mark.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                    <padding>
-                        <Insets left="55.0" />
-                    </padding>
-                     <HBox.margin>
-                        <Insets left="10.0" right="20.0" />
-                     </HBox.margin>
-                </Button>
+                            <graphic>
+                                <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../resources/check-mark.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <padding>
+                                <Insets left="55.0" />
+                            </padding>
+                            <HBox.margin>
+                                <Insets left="10.0" right="20.0" />
+                            </HBox.margin>
+                        </Button>
                     </children>
-               <padding>
-                  <Insets bottom="20.0" top="20.0" />
-               </padding>
+                    <padding>
+                        <Insets bottom="20.0" top="20.0" />
+                    </padding>
                 </HBox>              
             </children>
         </VBox>
