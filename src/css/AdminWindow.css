@@ -1,0 +1,54 @@
+/*
+Stylesheet fot the user administration window on PocketChef Desktop app.
+Author: Aitor Garcia Rueda
+*/
+
+.tableColumn{
+	-fx-background-color: #ffa45b;
+	-fx-border-bottom-width: 2px;
+	-fx-border-color:black;
+	-fx-border-collapse: collapse;
+}
+
+.list-cell:even .list-cell:odd{
+	-fx-border-color: black;
+	-fx-border-width: 1px;
+	-fx-border-collapse: collapse;
+}
+
+.list-cell:odd{
+	-fx-background-color: #ffa45b;
+}
+
+.list-cell:even{
+	-fx-border-color: #fbf6f0;
+}
+
+#managerPane{
+	-fx-background-color : #fbf6f0;
+}
+
+#managerPane_headerText{
+	-fx-font-size:25;
+}
+
+#managerPane_generarInforme{
+	-fx-background-color: Transparent;
+	-fx-border-color: #2196f3;
+	-fx-border-width: 2px;
+}
+
+#managerPane_generarInforme:hover{
+	-fx-background-color: #ffa45b;
+	-fx-box-shadow: none;
+}
+
+#managerPane_generarInforme:pressed{
+	-fx-background-color: #ffa45b;
+	-fx-border-color: #ffa45b;
+	-fx-box-shadow: none;
+}
+
+#managerTable{
+	-fx-background-color: white;
+}

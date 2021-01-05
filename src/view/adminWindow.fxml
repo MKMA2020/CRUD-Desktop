@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SideMenuController">
+    <children>
+        <!-- Side menu container. Author: Martin Valiente Ainz -->
+        <VBox alignment="TOP_CENTER" layoutY="160.0" styleClass="sideMenuContainer" stylesheets="@../css/SideMenuStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                
+                <!-- Logo Image -->                
+                <ImageView fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../resources/recipe-book.png" />
+                    </image>
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="40.0" />
+                    </VBox.margin>
+                </ImageView>
+                <!-- Pocket Chef Text -->
+                <Label styleClass="sideMenuLabel" text="Pocket Chef">
+                    <VBox.margin>
+                        <Insets bottom="20.0" />
+                    </VBox.margin>
+                </Label>
+                 
+                <!-- My Recipes Button --> 
+                <Button id="btnMyRecipes" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Mis Recetas">
+                    <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/bake.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets left="40.0" />
+                    </padding>
+                </Button>
+                
+                <!-- Recipes Button -->
+                <Button id="btnRecipes" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Recetas">
+                    <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/recipe%20(1).png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets left="40.0" />
+                    </padding>
+                </Button>
+                
+                <!-- Menus Button -->
+                <Button id="btnMenus" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Menús">
+                    <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/menu%20(1).png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets left="40.0" />
+                    </padding>
+                </Button>
+                
+                <!-- My Profile Button -->
+                <Button id="btnProfile" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Mi perfil">
+                    <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/24.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets left="40.0" />
+                    </padding>
+                </Button>
+                
+				<!-- Manage Profiles Button -->
+                <Button id="btnProfile" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/Styles.css" text="Administrar perfiles">
+                    <graphic>
+                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/3.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets left="40.0" />
+                    </padding>
+                </Button>
+				
+                <!-- Exit Button -->
+                <Button id="btnExit" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Salir">
+                    <graphic>
+                        <ImageView id="btnExit" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../resources/log-out.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets left="40.0" />
+                    </padding>
+                </Button>
+            </children>
+        </VBox>
+		<!-- Window specific anchorPane. Author: Aitor Garcia Rueda -->
+		<AnchorPane fx:id="managerPane" layoutX="360.0" prefHeight="720.0" prefWidth="920.0" stylesheets="@../css/AdminWindow.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+			<children>
+            <Label fx:id="managerPane_headerText" layoutX="14.0" layoutY="14.0" text="Usuarios" AnchorPane.topAnchor="10.0" />
+            <TableView fx:id="managerTable" layoutX="2.0" layoutY="59.0" prefHeight="578.0" prefWidth="847.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+              <placeholder>
+				<Label text="No hay usuarios registrados" />
+			  </placeholder>
+			  <columns>
+                <TableColumn fx:id="managerTable_id" prefWidth="43.0" styleClass="tableColumn" text="Id" />
+                <TableColumn fx:id="managerTable_login" prefWidth="155.0" styleClass="tableColumn" text="Login" />
+                <TableColumn fx:id="managerTable_email" prefWidth="189.0" styleClass="tableColumn" text="Email" />
+                <TableColumn fx:id="managerTable_fullName" prefWidth="187.0" styleClass="tableColumn" text="Full Name" />
+                <TableColumn fx:id="managerTable_status" prefWidth="61.0" styleClass="tableColumn" text="Status" />
+                <TableColumn fx:id="managerTable_lastAccess" prefWidth="188.0" styleClass="tableColumn" text="Last Access" />
+                <TableColumn fx:id="managerTable_lastPwdChange" prefWidth="196.0" styleClass="tableColumn" text="Last Password Change" />
+              </columns>
+            </TableView>
+            <Button fx:id="managerPane_generarInforme" layoutX="868.0" layoutY="20.0" mnemonicParsing="false" text="Generar informe de usuarios" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
+			</children>
+		</AnchorPane>
+    </children>
+</AnchorPane>
