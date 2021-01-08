@@ -11,20 +11,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Recipe entity class
- * @author MArtin Gros
+ * @author Martin Gros
  */
+
 @XmlRootElement
-
 public class Recipe {
-
+    
 
     /**
      * ID of the Recipe.
      */
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
     private Long id;
 
     /**
@@ -40,7 +36,7 @@ public class Recipe {
     /**
      * kCal value of the Recipe.
      */
-    private float kCal;
+    private float kcal;
 
     /**
      * Type of the Recipe.
@@ -76,12 +72,12 @@ public class Recipe {
         this.steps = steps;
     }
 
-    public float getkCal() {
-        return kCal;
+    public float getKcal() {
+        return kcal;
     }
 
-    public void setkCal(float kCal) {
-        this.kCal = kCal;
+    public void setKcal(float kcal) {
+        this.kcal = kcal;
     }
 
     public RecipeType getType() {
@@ -95,6 +91,12 @@ public class Recipe {
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
+    
+        public void setIngredients(Set<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+    
+        
     @Override
     public int hashCode() {
         int hash = 0;

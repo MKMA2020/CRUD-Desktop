@@ -19,7 +19,7 @@
                 <HBox alignment="TOP_CENTER">
                     <children>
                         <!-- New Ingredient Text -->
-                        <Label styleClass="newIngredientText" text="New ingredient">
+                        <Label styleClass="newIngredientText" text="Nuevo ingrediente">
                             <HBox.margin>
                                 <Insets left="40.0" right="20.0" />
                             </HBox.margin>
@@ -45,7 +45,7 @@
                 <HBox alignment="TOP_CENTER">
                     <children>
                         <!-- Ingredient Name Text -->
-                        <Label styleClass="ingredientNameText" text="Name:">
+                        <Label styleClass="ingredientNameText" text="Nombre:">
                             <HBox.margin>
                                 <Insets left="40.0" right="20.0" />
                             </HBox.margin>
@@ -63,7 +63,7 @@
                 <HBox alignment="TOP_CENTER">
                     <children>
                         <!-- Ingredient Type Text -->
-                        <Label styleClass="ingredientTypeText" text=" Type:">
+                        <Label styleClass="ingredientTypeText" text="Tipo:">
                             <HBox.margin>
                                 <Insets left="40.0" right="20.0" />
                             </HBox.margin>
@@ -81,7 +81,7 @@
                 <HBox alignment="TOP_CENTER">
                     <children>
                         <!-- Cancel Button -->
-                        <Button id="btnCancel" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Cancel">
+                        <Button id="btnCancel" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Cancelar">
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -97,7 +97,7 @@
                             </HBox.margin>
                         </Button>
                         <!-- Create Button -->
-                        <Button id="btnCreate" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Create">
+                        <Button id="btnCreate" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Crear">
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
