@@ -94,6 +94,7 @@ public class NewIngredientController extends GlobalController {
         //accept button
         if (txtName.getText().trim().length() > this.INGREDIENT_NAME_MAX_LENGTH) {
             showWarning("La longitud máxima del Nombre es de 20 caracteres.");
+            showInformation("");
             btnCreate.setDisable(true);
         } //If text fields are empty disable accept buttton
         else if (txtName.getText().trim().isEmpty() || cbxType.getValue().toString().equalsIgnoreCase("")) {

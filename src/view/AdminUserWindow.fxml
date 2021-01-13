@@ -51,7 +51,7 @@
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../resources/recipe%20(1).png" />
+                                <Image url="@../resources/recipe.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -113,19 +113,17 @@
 				<Label text="No hay usuarios registrados" />
 			  </placeholder>
 			  <columns>
-                <TableColumn fx:id="tcl_id" prefWidth="43.0" styleClass="tableColumn" text="Id" />
-                <TableColumn fx:id="tcl_login" prefWidth="155.0" styleClass="tableColumn" text="Login" />
-                <TableColumn fx:id="tcl_email" prefWidth="189.0" styleClass="tableColumn" text="Email" />
-                <TableColumn fx:id="tcl_fullName" prefWidth="187.0" styleClass="tableColumn" text="Full Name" />
-                <TableColumn fx:id="tcl_status" prefWidth="61.0" styleClass="tableColumn" text="Status" />
-                <TableColumn fx:id="tcl_lastAccess" prefWidth="122.0" styleClass="tableColumn" text="Last Access" />
-                <TableColumn fx:id="tcl_lastPwdChange" prefWidth="136.0" styleClass="tableColumn" text="Last Password Change" />
+                <TableColumn fx:id="tclId" prefWidth="40.0" styleClass="tableColumn" text="Id" />
+                <TableColumn fx:id="tclLlogin" prefWidth="140.0" styleClass="tableColumn" text="Login" />
+                <TableColumn fx:id="tclEmail" prefWidth="192.0" styleClass="tableColumn" text="Email" />
+                <TableColumn fx:id="tclStatus" prefWidth="60.0" styleClass="tableColumn" text="Status" />
+                <TableColumn fx:id="tclLastAccess" prefWidth="160.0" styleClass="tableColumn" text="Último acceso" />
+                <TableColumn fx:id="tclResetPassword" prefWidth="100.0" styleClass="tableColumn" text="Reestablecer" />
+                <TableColumn fx:id="tclLastPasswordChange" prefWidth="200.0" styleClass="tableColumn" text="Último cambio de contraseña" />
               </columns>
             </TableView>
-            <Button fx:id="btn_generarInforme" layoutX="868.0" layoutY="20.0" mnemonicParsing="false" text="Generar informe de usuarios" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
-            <Button fx:id="btn_guardar" disable="true" layoutX="799.0" layoutY="669.0" mnemonicParsing="false" prefWidth="90.0" text="Guardar" />
-            <Button fx:id="btn_borrar" disable="true" layoutX="912.0" layoutY="669.0" mnemonicParsing="false" prefWidth="90.0" text="Borrar" />
-            <Button fx:id="btn_pg2" layoutX="917.0" layoutY="393.0" mnemonicParsing="false" prefWidth="90.0" styleClass="btn_link" text="Comentarios" />
+            <Button fx:id="btn_generarInforme" layoutX="868.0" layoutY="20.0" text="Generar informe de usuarios" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
+            <Button fx:id="btn_pg2" layoutX="917.0" layoutY="393.0" prefWidth="90.0" styleClass="btn_link" text="Comentarios" />
 			</children>
 		</AnchorPane>
     </children>

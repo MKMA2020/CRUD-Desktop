@@ -53,8 +53,9 @@ public class RecipeViewController extends GlobalController {
      * Recipe table data model.
      */
     private ObservableList<Recipe> recipes;
+    
 
-    @FXML
+    /*@FXML
     public void initialize() {
         LOGGER.info("Initializing Recipe Table.");
         tclTitle.setSortType(TableColumn.SortType.ASCENDING);
@@ -86,7 +87,7 @@ public class RecipeViewController extends GlobalController {
         //recipeTable.setOnMouseClicked(this::MouseClicked);
         recipeTable.getSelectionModel().selectedItemProperty().addListener(this::handleRecipeTableSelectionChanged);
 
-    }
+    }*/
 
     /*public void MouseClicked(MouseEvent event) {
         LOGGER.info(recipeTable.getSelectionModel().getSelectedItem().getName());
@@ -106,25 +107,26 @@ public class RecipeViewController extends GlobalController {
      *
      * @param root The Parent object representing root node of view graph.
      */
-    /* public void initStage(Parent root) {
+    public void initStage(Parent root) {
         Scene scene = new Scene(root);
         stage = new Stage();    
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setTitle("Recetas");
         stage.setResizable(false);
+        
+        //Create an obsrvable list for recipes table.
+        ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());
+        //Set table model.
+        recipeTable.setItems(allRecipes);
 
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
 
-        //Create an obsrvable list for recipes table.
-        //recipes = FXCollections.observableArrayList(Collection with recipes);
-        //Set table model.
-        recipeTable.setItems(recipes);
         //Show window.
         stage.show();
-    }*/
+    }
 
 }

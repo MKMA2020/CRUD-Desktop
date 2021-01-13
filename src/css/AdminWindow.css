@@ -38,9 +38,9 @@ Author: Aitor Garcia Rueda
 	-fx-border-width: 2px;
 }
 
-#btn_generarInforme, #btn_guardar, #btn_aceptar, .btn_link{
+#btn_generarInforme, #btn_actualizar, #btn_aceptar, .btn_link{
 	-fx-background-color: Transparent;
-	-fx-border-color: #2196f3;
+	-fx-border-color: #000000;
 	-fx-border-width: 2px;
 }
 

@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import manager.RecipeManager;
 
 /**
  *
@@ -92,5 +93,11 @@ class GlobalController {
      * Maximum Ingredient Name field length.
      */
     protected final int INGREDIENT_NAME_MAX_LENGTH = 20;
+    
+    protected RecipeManager recipeManager;
+    
+    public void setRecipesManager(RecipeManager recipeManager){
+        this.recipeManager=recipeManager;
+    }
 
 }
