@@ -1,0 +1,60 @@
+/*
+Stylesheet fot the user administration window on PocketChef Desktop app.
+Author: Aitor Garcia Rueda
+*/
+
+.tableColumn{
+	-fx-background-color: #ffa45b;
+	-fx-border-bottom-width: 2px;
+	-fx-border-color:black;
+	-fx-border-collapse: collapse;
+}
+
+.list-cell:even, .list-cell:odd{
+	-fx-border-color: black;
+	-fx-border-width: 1px;
+	-fx-border-collapse: collapse;
+}
+
+.list-cell:odd{
+	-fx-background-color: #ffa45b;
+}
+
+.list-cell:even{
+	-fx-border-color: #fbf6f0;
+}
+
+#managerPane{
+	-fx-background-color : #fbf6f0;
+}
+
+#lbl_headerText{
+	-fx-font-size:25;
+}
+
+#btn_borrar, #btn_rechazar{
+	-fx-background-color: Transparent;
+	-fx-border-color: #ffa45b;
+	-fx-border-width: 2px;
+}
+
+#btn_generarInforme, #btn_actualizar, #btn_aceptar, .btn_link{
+	-fx-background-color: Transparent;
+	-fx-border-color: #000000;
+	-fx-border-width: 2px;
+}
+
+#btn_generarInforme:hover, #btn_guardar:hover, #btn_recetas:hover, #btn_aceptar:hover, .btn_link:hover{
+	-fx-background-color: #ffa45b;
+	-fx-box-shadow: none;
+}
+
+#btn_generarInforme:pressed, #btn_guardar:pressed, #btn_cancelar:pressed, #btn_aceptar:pressed, .btn_link:pressed{
+	-fx-background-color: #ffa45b;
+	-fx-border-color: #ffa45b;
+	-fx-box-shadow: none;
+}
+
+#managerTable{
+	-fx-background-color: white;
+}

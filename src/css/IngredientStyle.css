@@ -1,0 +1,73 @@
+/*
+Cascading Style Sheet fot the New Ingredient Window on PocketChef Desktop app.
+*/
+/* 
+    Created on : 29-dic-2020, 23:46:48
+    Author     : Martin Valiente Ainz
+*/
+
+.IngredientContainer
+{   
+    /* Default background color */
+    -fx-background-color : #fbf6f0;
+        
+}
+
+.Button
+{
+    /* Default button color */
+    -fx-background-color : #fbf6f0;
+    
+    /* Button permanent attributes */
+    -fx-background-radius : 30;
+    -fx-alignment: BASELINE_LEFT;
+    -fx-graphic-text-gap: 10.0;
+}
+
+.Button:hover
+{
+    /* Button color on hover */
+    -fx-background-color : #ffda77;
+}
+
+.Button:pressed
+{
+    /* Button color when pressed */
+    -fx-background-color : #ffa45b;
+}
+
+
+.newIngredientText
+{    
+    /* Label font properties */
+    -fx-font-family: Helvetica;
+    -fx-font-size: 30;
+    -fx-font-style: normal;
+    -fx-font-weight: normal;
+        
+}
+
+
+.ingredientNameText
+{    
+    /* Label font properties */
+    -fx-font-family: Helvetica;
+    -fx-font-size: 20;
+    -fx-font-style: normal;
+    -fx-font-weight: normal;
+        
+}
+
+.ingredientTypeText
+{    
+    /* Label font properties */
+    -fx-font-family: Helvetica;
+    -fx-font-size: 20;
+    -fx-font-style: normal;
+    -fx-font-weight: normal;
+        
+}
+
+
+
+
