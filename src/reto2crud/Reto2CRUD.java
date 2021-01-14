@@ -5,6 +5,8 @@
  */
 package reto2crud;
 
+import controller.MenuViewController;
+import java.io.IOException;
 import controller.RecipeViewController;
 import java.util.Collection;
 import java.util.List;
@@ -33,11 +35,10 @@ public class Reto2CRUD extends Application {
     public static String BASE_URI;
     
     @Override
-    public void start(Stage stage) throws Exception {
-                       
-        
-        
-        //Load node graph from fxml file
+
+    public void start(Stage stage) throws IOException {
+      
+       //Load node graph from fxml file
         FXMLLoader loader=new FXMLLoader(
                 getClass().getResource("/view/RecipeView.fxml"));
         Parent root = (Parent)loader.load();
@@ -48,14 +49,14 @@ public class Reto2CRUD extends Application {
         primaryStageController.setStage(stage);
         //Initializes primary stage
         primaryStageController.initStage(root);
-        
-        }
+
+    }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+    
         // Config file at config Package.
         configFile  = ResourceBundle.getBundle("config.config");
         BASE_URI = configFile.getString("URL");
