@@ -5,7 +5,7 @@ import rest.UserRESTClient;
 
 /**
  *
- * @author 2dam
+ * @author Martin Valiente Ainz
  */
 public class UserManagerFACTORY {
     public static UserManager getUserManager(){
