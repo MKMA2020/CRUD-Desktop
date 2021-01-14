@@ -1,7 +1,7 @@
 package factory;
 
 import manager.MenuManager;
-import rest.MenuRESTClient;
+import manager.MenuManagerImplementation;
 
 
 /**
@@ -10,7 +10,7 @@ import rest.MenuRESTClient;
  */
 public class MenuManagerFACTORY {
     public static MenuManager getMenuManager(){
-        return new MenuRESTClient();
+        return new MenuManagerImplementation();
     }
     
 }
