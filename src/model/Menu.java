@@ -24,6 +24,11 @@ public class Menu implements Serializable {
      * Name of the Menu.
      */
     private String name;
+    
+    /**
+     * Short description of the menu
+     */
+    private String description;
 
     /**
      * Type of the menu.
@@ -64,6 +69,24 @@ public class Menu implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+   /**
+     * Gets the description of the menu
+     * @return description of menu
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Sets description for the menu    
+     * @param description of the menu
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
 
     /**
      * @return type of menu

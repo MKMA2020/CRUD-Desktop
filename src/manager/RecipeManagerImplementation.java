@@ -7,6 +7,7 @@ package manager;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.GenericType;
 import model.Recipe;
@@ -14,15 +15,19 @@ import rest.RecipeRESTClient;
 
 /**
  *
- * @author 2dam
+ * @author Martin Valiente Ainz
  */
 public class RecipeManagerImplementation implements RecipeManager {
 
     private RecipeRESTClient webClient;
     private static final Logger LOGGER = Logger.getLogger("PocketChefDesktop");
+    
+    public RecipeManagerImplementation(){
+        webClient = new RecipeRESTClient();
+    }
 
     @Override
-    public Collection<Recipe> getAllRecipes() {
+    public List<Recipe> getAllRecipes() {
         List<Recipe> recipes = null;
         try {
             LOGGER.info("RecipeManager: getAllRecipes()");
@@ -32,9 +37,21 @@ public class RecipeManagerImplementation implements RecipeManager {
             //recipes = (List<Recipe>) webClient.findAllRecipes(Recipe.class);
             
         } catch (Exception ex) {
-
+            LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return recipes;
+    }
+
+    @Override
+    public Recipe getRecipeById(String id) {
+        Recipe recipe = null;
+        try{
+            LOGGER.info("RecipeManager: getRecipeById()");
+            recipe = webClient.find(Recipe.class, id);
+        }catch(Exception ex){
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+        }
+        return recipe;
     }
 
 }

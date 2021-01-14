@@ -10,10 +10,12 @@ import model.Recipe;
 
 /**
  *
- * @author 2dam
+ * @author Martin Valiente Ainz
  */
 public interface RecipeManager {
     
     public Collection<Recipe> getAllRecipes();
+    
+    public Recipe getRecipeById(String id);
     
 }

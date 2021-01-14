@@ -8,6 +8,10 @@ package reto2crud;
 import controller.NewIngredientController;
 import controller.RecipeViewController;
 import controller.SignInController;
+import controller.MenuViewController;
+import java.io.IOException;
+import controller.RecipeViewController;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -20,6 +24,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import manager.RecipeManagerImplementation;
+import manager.IngredientManagerImplementation;
+import manager.RecipeManagerImplementation;
+import model.Ingredient;
 import model.Recipe;
 
 /**
@@ -32,10 +39,9 @@ public class Reto2CRUD extends Application {
     public static String BASE_URI;
     
     @Override
+
     public void start(Stage stage) throws Exception {
                        
-        
-        
         //Load node graph from fxml file
         FXMLLoader loader=new FXMLLoader(
                 getClass().getResource("/view/SignIn.fxml"));
@@ -43,6 +49,18 @@ public class Reto2CRUD extends Application {
         //Get controller for graph 
         SignInController primaryStageController=
                 ((SignInController)loader.getController());
+
+
+    public void start(Stage stage) throws IOException {
+      
+       //Load node graph from fxml file
+        FXMLLoader loader=new FXMLLoader(
+                getClass().getResource("/view/RecipeView.fxml"));
+        Parent root = (Parent)loader.load();
+        //Get controller for graph 
+        RecipeViewController primaryStageController=
+                ((RecipeViewController)loader.getController());
+
         //Set a reference for Stage
         primaryStageController.setStage(stage);
         //Initializes primary stage
@@ -54,15 +72,13 @@ public class Reto2CRUD extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         // Config file at config Package.
         configFile  = ResourceBundle.getBundle("config.config");
         BASE_URI = configFile.getString("URL");
         
         launch(args);
         
-        //RecipeManagerImplementation r = new RecipeManagerImplementation();
-        //List<Recipe> l=(List<Recipe>) r.getAllRecipes();
     }
     
 }
