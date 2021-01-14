@@ -5,6 +5,9 @@
  */
 package reto2crud;
 
+import controller.NewIngredientController;
+import controller.RecipeViewController;
+import controller.SignInController;
 import controller.MenuViewController;
 import java.io.IOException;
 import controller.RecipeViewController;
@@ -20,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import manager.RecipeManagerImplementation;
 import manager.IngredientManagerImplementation;
 import manager.RecipeManagerImplementation;
 import model.Ingredient;
@@ -36,6 +40,17 @@ public class Reto2CRUD extends Application {
     
     @Override
 
+    public void start(Stage stage) throws Exception {
+                       
+        //Load node graph from fxml file
+        FXMLLoader loader=new FXMLLoader(
+                getClass().getResource("/view/SignIn.fxml"));
+        Parent root = (Parent)loader.load();
+        //Get controller for graph 
+        SignInController primaryStageController=
+                ((SignInController)loader.getController());
+
+
     public void start(Stage stage) throws IOException {
       
        //Load node graph from fxml file
@@ -45,23 +60,25 @@ public class Reto2CRUD extends Application {
         //Get controller for graph 
         RecipeViewController primaryStageController=
                 ((RecipeViewController)loader.getController());
+
         //Set a reference for Stage
         primaryStageController.setStage(stage);
         //Initializes primary stage
         primaryStageController.initStage(root);
-
-    }
+        
+        }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-    
+
         // Config file at config Package.
         configFile  = ResourceBundle.getBundle("config.config");
         BASE_URI = configFile.getString("URL");
         
-        //launch(args);
+        launch(args);
+        
     }
     
 }
