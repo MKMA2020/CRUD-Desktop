@@ -5,29 +5,13 @@
  */
 package reto2crud;
 
-import controller.NewIngredientController;
-import controller.RecipeViewController;
-import controller.SignInController;
-import controller.MenuViewController;
 import java.io.IOException;
 import controller.RecipeViewController;
-import java.util.Collection;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import manager.RecipeManagerImplementation;
-import manager.IngredientManagerImplementation;
-import manager.RecipeManagerImplementation;
-import model.Ingredient;
-import model.Recipe;
 
 /**
  *
@@ -39,17 +23,6 @@ public class Reto2CRUD extends Application {
     public static String BASE_URI;
     
     @Override
-
-    public void start(Stage stage) throws Exception {
-                       
-        //Load node graph from fxml file
-        FXMLLoader loader=new FXMLLoader(
-                getClass().getResource("/view/SignIn.fxml"));
-        Parent root = (Parent)loader.load();
-        //Get controller for graph 
-        SignInController primaryStageController=
-                ((SignInController)loader.getController());
-
 
     public void start(Stage stage) throws IOException {
       
