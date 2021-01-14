@@ -1,0 +1,37 @@
+
+/* 
+
+    Author     : Martin Gros
+*/
+
+.Button
+{
+    /* Default button color */
+    -fx-background-color : #fbf6f0;
+}
+
+.Button:hover
+{
+    /* Button color on hover */
+    -fx-background-color : #ffda77;
+}
+
+.Button:pressed
+{
+    /* Button color when pressed */
+    -fx-background-color : f1d485;
+}
+
+
+.TextField
+{
+    /* Default button color */
+    -fx-background-color : #fbf6f0;
+}
+
+
+.TextField:hover
+{
+    /* Button color on hover */
+    -fx-background-color : #ffda77;
+}

@@ -59,13 +59,14 @@ public class NewIngredientController extends GlobalController {
         //Set window properties
         stage.setTitle("New Ingredient");
         stage.setResizable(false);
+        btnCancel.setDisable(true);
         //Set window's events handlers
-        stage.setOnShowing(this::handleWindowShowing);
+       // stage.setOnShowing(this::handleWindowShowing);
         //Set control events handlers (if not set by FXML)
-        txtName.textProperty().addListener(this::textChanged);
+       // txtName.textProperty().addListener(this::textChanged);
         // Set focus on txtName
-        txtName.requestFocus();
-        cbxType.setItems(FXCollections.observableArrayList(enumeration.IngredientType.values()));
+       // txtName.requestFocus();
+        //cbxType.setItems(FXCollections.observableArrayList(enumeration.IngredientType.values()));
         //cbxType.textProperty().addListener(this::textChanged);
 
         //Show primary window

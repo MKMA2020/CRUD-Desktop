@@ -5,7 +5,9 @@
  */
 package reto2crud;
 
+import controller.NewIngredientController;
 import controller.RecipeViewController;
+import controller.SignInController;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -36,11 +38,11 @@ public class Reto2CRUD extends Application {
         
         //Load node graph from fxml file
         FXMLLoader loader=new FXMLLoader(
-                getClass().getResource("/view/RecipeView.fxml"));
+                getClass().getResource("/view/SignIn.fxml"));
         Parent root = (Parent)loader.load();
         //Get controller for graph 
-        RecipeViewController primaryStageController=
-                ((RecipeViewController)loader.getController());
+        SignInController primaryStageController=
+                ((SignInController)loader.getController());
         //Set a reference for Stage
         primaryStageController.setStage(stage);
         //Initializes primary stage
