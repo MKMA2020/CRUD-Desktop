@@ -5,9 +5,10 @@
  */
 package reto2crud;
 
-import controller.AdminUserWindowController;
 import java.io.IOException;
 import controller.RecipeViewController;
+import controller.SignInController;
+import controller.SignUpController;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -29,11 +30,11 @@ public class Reto2CRUD extends Application {
       
        //Load node graph from fxml file
         FXMLLoader loader=new FXMLLoader(
-                getClass().getResource("/view/AdminUserWindow.fxml"));
+                getClass().getResource("/view/SignIn.fxml"));
         Parent root = (Parent)loader.load();
         //Get controller for graph 
-        AdminUserWindowController primaryStageController=
-                ((AdminUserWindowController)loader.getController());
+        SignInController primaryStageController=
+                ((SignInController)loader.getController());
 
         //Set a reference for Stage
         primaryStageController.setStage(stage);
@@ -56,3 +57,4 @@ public class Reto2CRUD extends Application {
     }
     
 }
+

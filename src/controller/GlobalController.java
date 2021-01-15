@@ -1,12 +1,11 @@
 package controller;
 
-import factory.UserManagerFACTORY;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import manager.RecipeManager;
-import manager.UserManager;
 
 /**
  *
@@ -49,6 +48,8 @@ class GlobalController {
      */
     protected void showError(String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnError");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -60,6 +61,8 @@ class GlobalController {
      */
     protected void showWarning(String msg) {
         Alert alert = new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnAlerta");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -71,6 +74,8 @@ class GlobalController {
      */
     protected void showInformation(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnInformation");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -101,4 +106,5 @@ class GlobalController {
     public UserManager getUserManager() {
         return UserManagerFACTORY.getUserManager();
     }
+
 }
