@@ -2,12 +2,15 @@ package model;
 
 import enumeration.UserType;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Information of a registered user.
  * @author Aitor Garcia
  */
+@XmlRootElement
 public class User {
 
     private static final long serialVersionUID = 1L;
@@ -45,13 +48,13 @@ public class User {
     /**
      * Last Access Timestamp of the User.
      */
-    private Timestamp lastAccess;
+    private Date lastAccess;
 
     /**
      * Last Password Change Timestamp of
      * the User.
      */
-    private Timestamp lastsPasswordChange;
+    private Date lastsPasswordChange;
     
     /**
      * Type of the user.
@@ -72,6 +75,11 @@ public class User {
      * Ingredient collection of the user.
      */
     private Set<Ingredient> ingredients;
+    
+    /**
+     * Reset password trigger for user.
+     */
+    private Boolean resetPassword;
 
     public Long getId() {
         return id;
@@ -97,11 +105,11 @@ public class User {
         return password;
     }
 
-    public Timestamp getLastAccess() {
+    public Date getLastAccess() {
         return lastAccess;
     }
 
-    public Timestamp getLastsPasswordChange() {
+    public Date getLastsPasswordChange() {
         return lastsPasswordChange;
     }
 
@@ -133,11 +141,11 @@ public class User {
         this.password = password;
     }
 
-    public void setLastAccess(Timestamp lastAccess) {
+    public void setLastAccess(Date lastAccess) {
         this.lastAccess = lastAccess;
     }
 
-    public void setLastsPasswordChange(Timestamp lastsPasswordChange) {
+    public void setLastsPasswordChange(Date lastsPasswordChange) {
         this.lastsPasswordChange = lastsPasswordChange;
     }
 
@@ -168,7 +176,15 @@ public class User {
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-    
+
+    public Boolean getResetPassword() {
+        return resetPassword;
+    }
+
+    public void setResetPassword(Boolean resetPassword) {
+        this.resetPassword = resetPassword;
+    }
+        
     @Override
     public int hashCode() {
         int hash = 0;

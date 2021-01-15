@@ -13,7 +13,7 @@ import manager.IngredientManager;
  * @author Martin Valiente Ainz
  */
 public class IngredientManagerFACTORY {
-    public static IngredientManager getUserManager(){
+    public static IngredientManager getIngredientManager(){
         return new IngredientManagerImplementation();
     }
     

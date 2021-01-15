@@ -8,6 +8,7 @@ package rest;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import manager.UserManager;
 import static reto2crud.Reto2CRUD.BASE_URI;
 
@@ -23,7 +24,7 @@ import static reto2crud.Reto2CRUD.BASE_URI;
  *
  * @author Martin Valiente
  */
-public class UserRESTClient implements UserManager{
+public class UserRESTClient {
 
     private WebTarget webTarget;
     private Client client;
@@ -59,7 +60,7 @@ public class UserRESTClient implements UserManager{
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
-    public <T> T findAll(Class<T> responseType) throws ClientErrorException {
+    public <T> T findAll(GenericType<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
@@ -67,7 +68,7 @@ public class UserRESTClient implements UserManager{
     public void remove(String id) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
-
+    
     public <T> T findByType(Class<T> responseType, String type) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("type/{0}", new Object[]{type}));
