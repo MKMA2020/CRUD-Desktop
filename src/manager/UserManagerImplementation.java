@@ -87,7 +87,11 @@ public class UserManagerImplementation implements UserManager {
         }
         return users;
     }
-    
+    /**
+     * This method assigns false to all user
+     * @param users
+     * @return 
+     */
     private List<User> loadResetField(List<User> users){
         for (User e:users)
             e.setResetPassword(Boolean.FALSE);
