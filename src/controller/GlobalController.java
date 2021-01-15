@@ -103,8 +103,8 @@ class GlobalController {
 
     protected RecipeManager recipeManager;
 
-    public void setRecipesManager(RecipeManager recipeManager) {
-        this.recipeManager = recipeManager;
+    public UserManager getUserManager() {
+        return UserManagerFACTORY.getUserManager();
     }
 
 }

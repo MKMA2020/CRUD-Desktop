@@ -1,6 +1,7 @@
 package factory;
 
 import manager.UserManager;
+import manager.UserManagerImplementation;
 import rest.UserRESTClient;
 
 /**
@@ -9,7 +10,7 @@ import rest.UserRESTClient;
  */
 public class UserManagerFACTORY {
     public static UserManager getUserManager(){
-        return new UserRESTClient();
+        return new UserManagerImplementation();
     }
     
 }

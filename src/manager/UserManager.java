@@ -5,10 +5,29 @@
  */
 package manager;
 
+import enumeration.UserType;
+import java.util.List;
+import model.User;
+
 /**
  *
- * @author 2dam
+ * @author Martin Valiente Ainz
  */
 public interface UserManager {
+   
+    public void create(User user);
     
+    public User find(Long id);
+    
+    public void edit(User user);
+    
+    public void remove(Long id);
+    
+    public User login(String login, String password);
+    
+    public User findByName(String fullName);
+       
+    public List<User> findAll();
+    
+    public List<User> findByType(UserType Type);
 }
