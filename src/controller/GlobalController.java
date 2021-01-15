@@ -2,6 +2,7 @@ package controller;
 
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import manager.RecipeManager;
@@ -47,6 +48,8 @@ class GlobalController {
      */
     protected void showError(String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnError");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -58,6 +61,8 @@ class GlobalController {
      */
     protected void showWarning(String msg) {
         Alert alert = new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnAlerta");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -69,6 +74,8 @@ class GlobalController {
      */
     protected void showInformation(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnInformation");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -93,11 +100,11 @@ class GlobalController {
      * Maximum Ingredient Name field length.
      */
     protected final int INGREDIENT_NAME_MAX_LENGTH = 20;
-    
+
     protected RecipeManager recipeManager;
-    
-    public void setRecipesManager(RecipeManager recipeManager){
-        this.recipeManager=recipeManager;
+
+    public void setRecipesManager(RecipeManager recipeManager) {
+        this.recipeManager = recipeManager;
     }
 
 }

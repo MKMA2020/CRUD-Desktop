@@ -49,7 +49,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </PasswordField>
-            <Button fx:id="SignInBtn" layoutX="190.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Iniciar Sesiòn">
+            <Button fx:id="SignInBtn" onAction="#handleButtonSignIn" layoutX="190.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Iniciar Sesiòn">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -61,7 +61,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="SignInBtnSignUp" layoutX="334.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Registrarme">
+            <Button fx:id="SignInBtnSignUp" onAction="#handleButtonSignUp" layoutX="334.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Registrarme">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
