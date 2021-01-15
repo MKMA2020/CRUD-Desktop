@@ -49,7 +49,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </PasswordField>
-            <Button fx:id="SignUpBtnBack" layoutX="204.0" layoutY="358.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Atras">
+            <Button fx:id="SignUpBtnBack" onAction="#handleButtonBack" layoutX="204.0" layoutY="358.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Atras">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

@@ -5,6 +5,7 @@
  */
 package reto2crud;
 
+import controller.AdminUserWindowController;
 import java.io.IOException;
 import controller.RecipeViewController;
 import controller.SignInController;
@@ -38,8 +39,10 @@ public class Reto2CRUD extends Application {
 
         //Set a reference for Stage
         primaryStageController.setStage(stage);
+        
         //Initializes primary stage
         primaryStageController.initStage(root);
+        
         
         }
 

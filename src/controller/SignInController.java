@@ -26,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import manager.UserManager;
 import model.Recipe;
 import model.User;
 
@@ -67,32 +68,16 @@ public class SignInController extends GlobalController {
      * @param event event used
      * @throws IOException when there are input/output errors.
      */
-
     @FXML
     private void handleButtonSignUp(ActionEvent event) throws IOException {
         start_signup(stage);
     }
+
     @FXML
     private void handleButtonSignIn(ActionEvent event) throws IOException {
-        boolean error = false;
-        LOGGER.log(Level.INFO, "Attempt to sign in started");
-        
-        if (this.SignInUsername.getText().trim().length() < 5){            
-            showWarning("El nombre de usuario es muy corto");
-            error=true;            
-        }
-        if (this.SignInUsername.getText().trim().length() > 20){            
-            showWarning("El nombre de usuario es demasiado largo");
-            error=true;            
-        }
-        if (!error){
-            User user = new User();
-            user.setLogin(SignInBtn.getText());
-            user.setPassword(SignInPWD.getText());
-        }
-    
-    }
+        signIn();
 
+    }
 
     @Override
     protected void showError(String msg) {
@@ -102,6 +87,7 @@ public class SignInController extends GlobalController {
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
         stage = new Stage();
+
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setTitle("Iniciar Sesion");
@@ -118,7 +104,6 @@ public class SignInController extends GlobalController {
      * When the window's first launched, sets the logIn button to disabled and
      * adds 2 tooltips.
      */
-
     private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Beginning LoginController::handleWindowShowing");
         //Aceptar button is disabled.
@@ -135,7 +120,6 @@ public class SignInController extends GlobalController {
      *
      * @param obv parameter used to observe the text fields.
      */
-
     private void textchanged(Observable obv) {
 
         if (this.SignInUsername.getText().trim().equals("") || this.SignInPWD.getText().trim().equals("")) {
@@ -145,12 +129,34 @@ public class SignInController extends GlobalController {
         }
 
     }
+
     private void start_signup(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignUp.fxml"));
         Parent root = (Parent) loader.load();
         SignUpController controller = (loader.getController());
         controller.setStage(primaryStage);
         controller.initStage(root);
+    }
+
+    private void signIn() {
+        boolean error = false;
+        LOGGER.log(Level.INFO, "Attempt to sign in started");
+
+        if (this.SignInUsername.getText().trim().length() < 5) {
+            showWarning("El nombre de usuario es muy corto");
+            error = true;
+        }
+        if (this.SignInUsername.getText().trim().length() > 20) {
+            showWarning("El nombre de usuario es demasiado largo");
+            error = true;
+        }
+        if (!error) {
+            User user = new User();
+            user.setLogin(SignInBtn.getText());
+            user.setPassword(SignInPWD.getText());
+            getUserManager().login(SignInUsername.getText(), SignInPWD.getText());
+
+        }
     }
 
 }

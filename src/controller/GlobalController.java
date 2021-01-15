@@ -1,11 +1,15 @@
+
+
 package controller;
 
+import factory.UserManagerFACTORY;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import manager.RecipeManager;
+import manager.UserManager;
 
 /**
  *
@@ -103,7 +107,7 @@ class GlobalController {
 
     protected RecipeManager recipeManager;
 
-    public UserManager getUserManager() {
+    public static UserManager getUserManager() {
         return UserManagerFACTORY.getUserManager();
     }
 
