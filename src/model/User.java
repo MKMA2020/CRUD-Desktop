@@ -16,6 +16,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class User {
 
     private static final long serialVersionUID = 1L;
+    
+    public User(){
+    this.status = new SimpleBooleanProperty();
+    this.resetPassword = new SimpleBooleanProperty();
+    }
 
     /**
      * ID of the User.

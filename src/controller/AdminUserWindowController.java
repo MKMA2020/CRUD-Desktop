@@ -1,29 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.util.Date;
 import java.util.logging.Level;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Callback;
 import model.User;
 
 /**
@@ -98,18 +88,8 @@ public class AdminUserWindowController extends GlobalController {
 
         tclAdminStatus.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminStatus));
         tclAdminResetPassword.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminResetPassword));
-        tclAdminStatus.setOnEditCommit(this::tclAdminStatusOnEditCommit);
 
-        tclAdminResetPassword.setCellFactory(CheckBoxTableCell.forTableColumn(tclAdminResetPassword));
-        tclAdminResetPassword.setOnEditCommit((CellEditEvent<User, Boolean> t) -> {
-            // GET EDITED USER
-            User user = ((User) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-            // UPDATE EDITED VALUE
-            user.setResetPassword(t.getNewValue());
-            // SHOW UPDATED VALUE
-            LOGGER.log(Level.INFO, user.getLogin() + " updated.");
 
-        });
 
         //Set factories for cell values in users table columns.
         tclAdminId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -124,15 +104,6 @@ public class AdminUserWindowController extends GlobalController {
         stage.show();
     }
 
-    private void tclAdminStatusOnEditCommit(CellEditEvent<User, Boolean> t) {
-        // GET EDITED USER
-        User user = ((User) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-        // UPDATE EDITED VALUE
-        user.setStatus(t.getNewValue());
-        // SHOW UPDATED VALUE
-        LOGGER.log(Level.INFO, user.getLogin() + " updated.");
-    }
-
     /**
      * Method implements actions on WINDOW_SHOWING event.
      *
@@ -142,7 +113,12 @@ public class AdminUserWindowController extends GlobalController {
         //Create an obsrvable list for recipes table.
         ObservableList<User> allUsers = FXCollections.observableArrayList(getUserManager().findAll());
         allUsers.forEach(user -> user.statusProperty().addListener((observable, oldValue, newValue) -> {
-            LOGGER.log(Level.INFO, "Status property changed: New value {0}", oldValue.toString());
+            LOGGER.log(Level.INFO, "Status property changed: New value {0}", newValue.toString());
+            LOGGER.log(Level.INFO, "User modified: {0}", user.getLogin());
+        }));
+        
+        allUsers.forEach(user -> user.resetPasswordProperty().addListener((observable, oldValue, newValue) -> {
+            LOGGER.log(Level.INFO, "resetPassword property changed: New value {0}", newValue.toString());
             LOGGER.log(Level.INFO, "User modified: {0}", user.getLogin());
         }));
 
