@@ -31,11 +31,11 @@ public class Reto2CRUD extends Application {
       
        //Load node graph from fxml file
         FXMLLoader loader=new FXMLLoader(
-                getClass().getResource("/view/SignIn.fxml"));
+                getClass().getResource("/view/SignUp.fxml"));
         Parent root = (Parent)loader.load();
         //Get controller for graph 
-        SignInController primaryStageController=
-                ((SignInController)loader.getController());
+        SignUpController primaryStageController=
+                ((SignUpController)loader.getController());
 
         //Set a reference for Stage
         primaryStageController.setStage(stage);

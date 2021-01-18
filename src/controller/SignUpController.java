@@ -7,6 +7,7 @@ package controller;
 
 import static controller.GlobalController.LOGGER;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,12 +32,14 @@ import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import model.Recipe;
 import model.User;
+import security.Ciphering;
 
 /**
  *
- * @author 2dam
+ * @author Martin Gros
  */
-public class SignUpController extends GlobalController{
+public class SignUpController extends GlobalController {
+
     /**
      * Textfield for the user
      */
@@ -77,17 +80,11 @@ public class SignUpController extends GlobalController{
     private void handleButtonBack(ActionEvent event) throws IOException {
         start_SignIn(stage);
     }
+
     @FXML
     private void handleButtonSignUp(ActionEvent event) throws IOException {
         SignUp();
     }
-    
-    
-    
-   
-    
-    
-    
     
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
@@ -103,16 +100,14 @@ public class SignUpController extends GlobalController{
         SignUpEmail.textProperty().addListener(this::textChanged);
         SignUpFN.textProperty().addListener(this::textChanged);
         
-        
         stage.show();
         
     }
-     
+
     /**
      * When the window's first launched, sets the logIn button to disabled and
      * adds 2 tooltips.
      */
-
     private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Beginning LoginController::handleWindowShowing");
         //Default texts
@@ -132,59 +127,74 @@ public class SignUpController extends GlobalController{
         SignUpEmail.setTooltip(new Tooltip("E-mail en formato valido :)"));
         SignUpFN.setTooltip(new Tooltip("Nombre y apellido"));
     }
+
     /**
      * Method to launch back the sign in window
+     *
      * @param stage
-     * @throws IOException 
+     * @throws IOException
      */
-
+    
     private void start_SignIn(Stage stage) throws IOException {
-     //It gets the FXML of the sign-in window
-     //Load node graph from fxml file
-        FXMLLoader loader=new FXMLLoader(
+        //It gets the FXML of the sign-in window
+        //Load node graph from fxml file
+        FXMLLoader loader = new FXMLLoader(
                 getClass().getResource("/view/SignIn.fxml"));
-        Parent root = (Parent)loader.load();
+        Parent root = (Parent) loader.load();
         //Get controller for graph 
-        SignInController primaryStageController=
-                ((SignInController)loader.getController());
+        SignInController primaryStageController
+                = ((SignInController) loader.getController());
 
         //Set a reference for Stage
         primaryStageController.setStage(stage);
         //Initializes primary stage
         primaryStageController.initStage(root);
         stage.close();
-        }
+    }
+
     private void SignUp() {
-        boolean error = validate();
+        boolean existe = validate();
         String alertError = null;
         boolean alertNeeded = false;
-        User user= new User();
+        User user = new User();
+        Ciphering encrypter = new Ciphering();
+        
         List<User> listadeUsuarios = getUserManager().findAll();
-       
-        if (!error) {
-            
-            
-            
+        for (int i = 0; i < listadeUsuarios.size(); i++) {
+            if (listadeUsuarios.get(i).getLogin().contentEquals(SignUpUsername.getText())) {
+                existe = true;
+                break;
+            }
         }
-               
+        
+        if (!existe) {
+            user.setEmail(SignUpEmail.getText());
+            user.setFullName(SignUpFN.getText());
+            //user.setPassword(Arrays.toString(encrypter.cifrarTexto(SignUpPWD.getText())));
+            user.setPassword(encrypter.cifrarTexto(SignUpPWD.getText()));
+            System.out.println(user.getPassword());
+            user.setLogin(SignUpUsername.getText());
+            getUserManager().create(user);
             user.setLogin(SignUpUsername.getText());
             user.setPassword(SignUpPWD.getText());
             user.setEmail(SignUpEmail.getText());
             user.setFullName(SignUpFN.getText());
             
             getUserManager().create(user);
-                SignUpBtnBack.setText("Signed Up");
-                SignUpBtnBack.setDisable(true);
+            SignUpBtn.setText("Signed Up");
+            SignUpBtn.setDisable(true);
             
-
+        } else {
+            showWarning("El usuario ya existe");
             
-
         }
         
-    
+    }
+
     /**
      * Method that checks all the time the various fields
-     * @param observable 
+     *
+     * @param observable
      */
     private void textChanged(Observable observable) {
         if (SignUpUsername.getText().trim().equals("") || SignUpPWD.getText().trim().equals("")
@@ -195,9 +205,7 @@ public class SignUpController extends GlobalController{
             SignUpBtn.setDisable(false);
         }
     }
-
     
-
     private boolean validate() {
         boolean error = false;
         String alertList = "";
@@ -239,16 +247,17 @@ public class SignUpController extends GlobalController{
             aceptar.setId("Aceptar");
             listAllAlerts.showAndWait();
         }
-
+        
         return error;
     }
+
     /**
      * This method receives a password and checks if it meets the requirements.
      *
      * @param s the password to check
      * @return a boolean telling if the password is valid
      */
-
+    
     private boolean isValidPass(String pwd) {
         boolean valid = true;
         //Checks if it has any numbers
@@ -271,6 +280,7 @@ public class SignUpController extends GlobalController{
         }
         return valid;
     }
+
     /**
      * This method receives an email and checks if it is valid using a Regular
      * Expression
