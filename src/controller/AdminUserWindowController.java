@@ -96,43 +96,43 @@ public class AdminUserWindowController extends GlobalController {
 
         managerTable.setEditable(true);
 
-        tclAdminStatus.setCellFactory(CheckBoxTableCell.forTableColumn(tclAdminStatus));
+        tclAdminStatus.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminStatus));
+        tclAdminResetPassword.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminResetPassword));
         tclAdminStatus.setOnEditCommit(this::tclAdminStatusOnEditCommit);
-        
+
         tclAdminResetPassword.setCellFactory(CheckBoxTableCell.forTableColumn(tclAdminResetPassword));
         tclAdminResetPassword.setOnEditCommit((CellEditEvent<User, Boolean> t) -> {
-                    // GET EDITED USER
-                    User user= ((User) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                    // UPDATE EDITED VALUE
-                    user.setResetPassword(t.getNewValue());
-                    // SHOW UPDATED VALUE
-                    LOGGER.log(Level.INFO, user.getLogin() + " updated.");
-                                      
-                });
-        
-        
+            // GET EDITED USER
+            User user = ((User) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+            // UPDATE EDITED VALUE
+            user.setResetPassword(t.getNewValue());
+            // SHOW UPDATED VALUE
+            LOGGER.log(Level.INFO, user.getLogin() + " updated.");
+
+        });
+
         //Set factories for cell values in users table columns.
         tclAdminId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tclAdminLogin.setCellValueFactory(new PropertyValueFactory<>("login"));
         tclAdminEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        tclAdminStatus.setCellValueFactory(new PropertyValueFactory<User,Boolean>("status"));
+        tclAdminStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
         tclAdminLastAccess.setCellValueFactory(new PropertyValueFactory<>("lastAccess"));
-        tclAdminResetPassword.setCellValueFactory(new PropertyValueFactory<User,Boolean>("resetPassword"));
+        tclAdminResetPassword.setCellValueFactory(new PropertyValueFactory<>("resetPassword"));
         tclAdminLastPasswordChange.setCellValueFactory(new PropertyValueFactory<>("lastsPasswordChange"));
-        
+
         //Show window.
         stage.show();
     }
 
-    private void tclAdminStatusOnEditCommit(CellEditEvent<User, Boolean> t){
-                     // GET EDITED USER
-                    User user= ((User) t.getTableView().getItems().get(t.getTablePosition().getRow()));
-                    // UPDATE EDITED VALUE
-                    user.setStatus(t.getNewValue());
-                    // SHOW UPDATED VALUE
-                    LOGGER.log(Level.INFO, user.getLogin() + " updated.");
+    private void tclAdminStatusOnEditCommit(CellEditEvent<User, Boolean> t) {
+        // GET EDITED USER
+        User user = ((User) t.getTableView().getItems().get(t.getTablePosition().getRow()));
+        // UPDATE EDITED VALUE
+        user.setStatus(t.getNewValue());
+        // SHOW UPDATED VALUE
+        LOGGER.log(Level.INFO, user.getLogin() + " updated.");
     }
-    
+
     /**
      * Method implements actions on WINDOW_SHOWING event.
      *
@@ -141,6 +141,11 @@ public class AdminUserWindowController extends GlobalController {
     private void handleWindowShowing(WindowEvent event) {
         //Create an obsrvable list for recipes table.
         ObservableList<User> allUsers = FXCollections.observableArrayList(getUserManager().findAll());
+        allUsers.forEach(user -> user.statusProperty().addListener((observable, oldValue, newValue) -> {
+            LOGGER.log(Level.INFO, "Status property changed: New value {0}", oldValue.toString());
+            LOGGER.log(Level.INFO, "User modified: {0}", user.getLogin());
+        }));
+
         //Set table model.
         managerTable.setItems(allUsers);
     }
