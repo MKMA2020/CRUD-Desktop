@@ -29,7 +29,7 @@ public class Ciphering {
     public byte[] getPublicFileKey() throws IOException {
 
         InputStream keyfis = Ciphering.class.getClassLoader()
-                .getResourceAsStream("Public.key");
+                .getResourceAsStream("security/Public.key");
        
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -47,6 +47,7 @@ public class Ciphering {
     public String cifrarTexto(String mensaje) {
         byte[] encodedMessage = null;
         Base32 base = new Base32();
+        String encodedHexMessage="";
         try {
             // Public Key loaded from a relative path (keys are placed inside the project)
             byte fileKey[] = getPublicFileKey();
@@ -61,6 +62,7 @@ public class Ciphering {
             cipher.init(Cipher.ENCRYPT_MODE, publicKey);
             encodedMessage = cipher.doFinal(mensaje.getBytes());
             //encodedMessage = base.encode(encodedMessage);
+            encodedHexMessage = toHexadecimal(encodedMessage);
             
             
             
@@ -68,7 +70,7 @@ public class Ciphering {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return DatatypeConverter.printHexBinary(encodedMessage);
+        return encodedHexMessage;
     }
 
     /**
@@ -116,6 +118,18 @@ public class Ciphering {
             e.printStackTrace();
         }
         return ret;
+    }
+    // Convierte Array de Bytes en hexadecimal
+    private static String toHexadecimal(byte[] resumen) {
+        String HEX = "";
+        for (int i = 0; i < resumen.length; i++) {
+            String h = Integer.toHexString(resumen[i] & 0xFF);
+            if (h.length() == 1) {
+                HEX += "0";
+            }
+            HEX += h;
+        }
+        return HEX.toUpperCase();
     }
 
 }

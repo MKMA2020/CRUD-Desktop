@@ -29,6 +29,7 @@ import javafx.stage.WindowEvent;
 import manager.UserManager;
 import model.Recipe;
 import model.User;
+import security.Ciphering;
 
 /**
  * This class is the controller for the sign-in window. It has the methods
@@ -140,6 +141,7 @@ public class SignInController extends GlobalController {
 
     private void signIn() {
         boolean error = false;
+        Ciphering encrypter = new Ciphering();
         LOGGER.log(Level.INFO, "Attempt to sign in started");
 
         if (this.SignInUsername.getText().trim().length() < 5) {
@@ -153,8 +155,9 @@ public class SignInController extends GlobalController {
         if (!error) {
             User user = new User();
             user.setLogin(SignInBtn.getText());
-            user.setPassword(SignInPWD.getText());
-            getUserManager().login(SignInUsername.getText(), SignInPWD.getText());
+            user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
+            
+            getUserManager().login(SignInUsername.getText(), user.getPassword());
 
         }
     }

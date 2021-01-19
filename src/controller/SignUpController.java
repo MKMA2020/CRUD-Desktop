@@ -168,15 +168,14 @@ public class SignUpController extends GlobalController {
         }
         
         if (!existe) {
-            user.setEmail(SignUpEmail.getText());
-            user.setFullName(SignUpFN.getText());
+           
             //user.setPassword(Arrays.toString(encrypter.cifrarTexto(SignUpPWD.getText())));
+            
+            
+            user.setLogin(SignUpUsername.getText());
+            System.out.println(SignUpPWD.getText());
             user.setPassword(encrypter.cifrarTexto(SignUpPWD.getText()));
             System.out.println(user.getPassword());
-            user.setLogin(SignUpUsername.getText());
-            getUserManager().create(user);
-            user.setLogin(SignUpUsername.getText());
-            user.setPassword(SignUpPWD.getText());
             user.setEmail(SignUpEmail.getText());
             user.setFullName(SignUpFN.getText());
             
