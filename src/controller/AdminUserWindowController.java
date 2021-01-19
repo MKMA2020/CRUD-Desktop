@@ -72,7 +72,11 @@ public class AdminUserWindowController extends GlobalController {
      */
     @FXML
     TableColumn<User, Date> tclAdminLastPasswordChange;
-
+    
+    /**
+     * 
+     * @param root 
+     */
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
 
@@ -88,8 +92,6 @@ public class AdminUserWindowController extends GlobalController {
 
         tclAdminStatus.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminStatus));
         tclAdminResetPassword.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminResetPassword));
-
-
 
         //Set factories for cell values in users table columns.
         tclAdminId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -112,15 +114,30 @@ public class AdminUserWindowController extends GlobalController {
     private void handleWindowShowing(WindowEvent event) {
         //Create an obsrvable list for recipes table.
         ObservableList<User> allUsers = FXCollections.observableArrayList(getUserManager().findAll());
+        
+        // Status Listeners
         allUsers.forEach(user -> user.statusProperty().addListener((observable, oldValue, newValue) -> {
-            LOGGER.log(Level.INFO, "Status property changed: New value {0}", newValue.toString());
-            LOGGER.log(Level.INFO, "User modified: {0}", user.getLogin());
+            LOGGER.log(Level.INFO, "Setting {0} status to user: {1}", new Object[]{user.getStatus().toString(), user.getLogin()});
+            user.setStatus(newValue);            
+            getUserManager().edit(user);
+
         }));
         
-        allUsers.forEach(user -> user.resetPasswordProperty().addListener((observable, oldValue, newValue) -> {
-            LOGGER.log(Level.INFO, "resetPassword property changed: New value {0}", newValue.toString());
-            LOGGER.log(Level.INFO, "User modified: {0}", user.getLogin());
-        }));
+        // ResetPassword Listeners
+        allUsers.forEach(user -> {
+            user.resetPasswordProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue == Boolean.TRUE) {
+                    LOGGER.log(Level.INFO, "Resetting password to user: {0}", user.getLogin());
+                    getUserManager().resetPassword(user.getLogin(), user.getEmail());
+                    // Refresh LastPasswordChange from the server
+                    user.setLastsPasswordChange(getUserManager().find(user.getId()).getLastsPasswordChange());
+                    // Refresh Table to see the new date.
+                    managerTable.refresh();
+                } else {
+                    LOGGER.log(Level.INFO, "Password alredy reset to user: {0}", user.getLogin());
+                }
+            });
+        });
 
         //Set table model.
         managerTable.setItems(allUsers);

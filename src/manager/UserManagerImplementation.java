@@ -42,12 +42,24 @@ public class UserManagerImplementation implements UserManager {
 
     @Override
     public User find(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = null;
+        try {
+            LOGGER.info("Find User");
+            user= webClient.find(User.class, id.toString());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Find User failed: {0}", ex.getMessage());
+        }
+        return user;
     }
 
     @Override
     public void edit(User user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            LOGGER.log(Level.INFO, "Edit User");
+            webClient.edit(user, user.getId().toString());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Edit User failed: {0}", ex.getMessage());
+        }
     }
 
     @Override
@@ -57,7 +69,6 @@ public class UserManagerImplementation implements UserManager {
 
     @Override
     public User login(String login, String password) {
-
         User user = null;
         try {
             LOGGER.log(Level.INFO, "Login User");
@@ -88,9 +99,9 @@ public class UserManagerImplementation implements UserManager {
         return users;
     }
     /**
-     * This method assigns false to all user
-     * @param users
-     * @return 
+     * This method assigns false to resetPassword field on all Users
+     * @param users the user collection
+     * @return the user collection with resetPassword field
      */
     private List<User> loadResetField(List<User> users){
         for (User e:users)
@@ -101,6 +112,16 @@ public class UserManagerImplementation implements UserManager {
     @Override
     public List<User> findByType(UserType Type) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public void resetPassword(String login, String email){
+        try {
+            LOGGER.log(Level.INFO, "Reset password to: {0}", login);
+            webClient.resetPassword(login, email);
+        }catch(Exception ex){
+            LOGGER.log(Level.SEVERE, "ResetPassword to {0} failed: {1}", new Object[]{login, ex.getMessage()});
+        }
     }
 
 }
