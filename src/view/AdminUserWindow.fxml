@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SideMenuController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/8.0.231" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AdminUserWindowController">
     <children>
         <!-- Side menu container. Author: Martin Valiente Ainz -->
         <VBox alignment="TOP_CENTER" layoutY="160.0" styleClass="sideMenuContainer" stylesheets="@../css/SideMenuStyles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -65,7 +65,7 @@
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../resources/menu%20(1).png" />
+                                <Image url="@../resources/menu.png" />
                             </image>
                         </ImageView>
                     </graphic>
@@ -74,7 +74,7 @@
                     </padding>
                 </Button>
                 
-				<!-- Manage Profiles Button -->
+                <!-- Manage Profiles Button -->
                 <Button id="btnProfile" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/Styles.css" text="Administrar">
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
@@ -103,28 +103,26 @@
                 </Button>
             </children>
         </VBox>
-		<!-- Window specific anchorPane. Author: Aitor Garcia Rueda -->
-		<AnchorPane fx:id="managerPane" layoutX="360.0" prefHeight="720.0" prefWidth="920.0" stylesheets="@../css/AdminWindow.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-			<children>
-            <Button fx:id="btn_pg1" layoutX="917.0" layoutY="294.0" mnemonicParsing="false" prefWidth="90.0" styleClass="btn_link" text="Recetas" />
-            <Label fx:id="lbl_headerText" layoutX="14.0" layoutY="14.0" text="Usuarios" AnchorPane.topAnchor="10.0" />
-            <TableView fx:id="managerTable" layoutX="2.0" layoutY="59.0" prefHeight="636.0" prefWidth="1020.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="60.0">
-              <placeholder>
-				<Label text="No hay usuarios registrados" />
-			  </placeholder>
-			  <columns>
-                <TableColumn fx:id="tclId" prefWidth="40.0" styleClass="tableColumn" text="Id" />
-                <TableColumn fx:id="tclLlogin" prefWidth="140.0" styleClass="tableColumn" text="Login" />
-                <TableColumn fx:id="tclEmail" prefWidth="192.0" styleClass="tableColumn" text="Email" />
-                <TableColumn fx:id="tclStatus" prefWidth="60.0" styleClass="tableColumn" text="Status" />
-                <TableColumn fx:id="tclLastAccess" prefWidth="160.0" styleClass="tableColumn" text="Último acceso" />
-                <TableColumn fx:id="tclResetPassword" prefWidth="100.0" styleClass="tableColumn" text="Reestablecer" />
-                <TableColumn fx:id="tclLastPasswordChange" prefWidth="200.0" styleClass="tableColumn" text="Último cambio de contraseña" />
-              </columns>
-            </TableView>
-            <Button fx:id="btn_generarInforme" layoutX="868.0" layoutY="20.0" text="Generar informe de usuarios" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
-            <Button fx:id="btn_pg2" layoutX="917.0" layoutY="393.0" prefWidth="90.0" styleClass="btn_link" text="Comentarios" />
-			</children>
-		</AnchorPane>
+        <!-- Window specific anchorPane. Author: Aitor Garcia Rueda -->
+        <AnchorPane fx:id="managerPane" layoutX="360.0" prefHeight="720.0" prefWidth="920.0" stylesheets="@../css/AdminWindow.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label fx:id="lbl_headerText" layoutX="14.0" layoutY="14.0" text="Usuarios" AnchorPane.topAnchor="10.0" />
+                <TableView fx:id="managerTable" layoutX="2.0" layoutY="59.0" prefHeight="636.0" prefWidth="1020.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="60.0">
+                    <placeholder>
+                        <Label text="No hay usuarios registrados" />
+                    </placeholder>
+                    <columns>
+                        <TableColumn fx:id="tclAdminId" prefWidth="40.0" styleClass="tableColumn" text="Id" />
+                        <TableColumn fx:id="tclAdminLogin" prefWidth="140.0" styleClass="tableColumn" text="Login" />
+                        <TableColumn fx:id="tclAdminEmail" prefWidth="192.0" styleClass="tableColumn" text="Email" />
+                        <TableColumn fx:id="tclAdminStatus" prefWidth="60.0" styleClass="tableColumn" text="Status" />
+                        <TableColumn fx:id="tclAdminLastAccess" prefWidth="160.0" styleClass="tableColumn" text="Último acceso" />
+                        <TableColumn fx:id="tclAdminResetPassword" prefWidth="100.0" styleClass="tableColumn" text="Reestablecer" />
+                        <TableColumn fx:id="tclAdminLastPasswordChange" prefWidth="200.0" styleClass="tableColumn" text="Último cambio de contraseña" />
+                    </columns>
+                </TableView>
+                <Button fx:id="btnGenerarInforme" layoutX="868.0" layoutY="20.0" text="Generar informe de usuarios" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="15.0" />
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>

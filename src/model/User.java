@@ -2,15 +2,25 @@ package model;
 
 import enumeration.UserType;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Set;
+import javafx.beans.property.SimpleBooleanProperty;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Information of a registered user.
- * @author Aitor Garcia
+ *
+ * @author Martin Valiente
  */
+@XmlRootElement
 public class User {
 
     private static final long serialVersionUID = 1L;
+    
+    public User(){
+    this.status = new SimpleBooleanProperty();
+    this.resetPassword = new SimpleBooleanProperty();
+    }
 
     /**
      * ID of the User.
@@ -35,7 +45,7 @@ public class User {
     /**
      * Status (Active or Inactive) of the User.
      */
-    private Boolean status;
+    private SimpleBooleanProperty status;
 
     /**
      * Password of the User.
@@ -45,33 +55,37 @@ public class User {
     /**
      * Last Access Timestamp of the User.
      */
-    private Timestamp lastAccess;
+    private Date lastAccess;
 
     /**
-     * Last Password Change Timestamp of
-     * the User.
+     * Last Password Change Timestamp of the User.
      */
-    private Timestamp lastsPasswordChange;
-    
+    private Date lastsPasswordChange;
+
     /**
      * Type of the user.
      */
     private UserType type;
-    
+
     /**
      * Recipe collection of the user.
      */
     private Set<Recipe> recipes;
-    
+
     /**
      * Menu collection of the user.
      */
     private Set<Menu> menus;
-    
+
     /**
      * Ingredient collection of the user.
      */
     private Set<Ingredient> ingredients;
+
+    /**
+     * Reset password trigger for user.
+     */
+    private SimpleBooleanProperty resetPassword;
 
     public Long getId() {
         return id;
@@ -90,18 +104,18 @@ public class User {
     }
 
     public Boolean getStatus() {
-        return status;
+        return status.get();
     }
 
     public String getPassword() {
         return password;
     }
 
-    public Timestamp getLastAccess() {
+    public Date getLastAccess() {
         return lastAccess;
     }
 
-    public Timestamp getLastsPasswordChange() {
+    public Date getLastsPasswordChange() {
         return lastsPasswordChange;
     }
 
@@ -126,25 +140,25 @@ public class User {
     }
 
     public void setStatus(Boolean status) {
-        this.status = status;
+        this.status.set(status);
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setLastAccess(Timestamp lastAccess) {
+    public void setLastAccess(Date lastAccess) {
         this.lastAccess = lastAccess;
     }
 
-    public void setLastsPasswordChange(Timestamp lastsPasswordChange) {
+    public void setLastsPasswordChange(Date lastsPasswordChange) {
         this.lastsPasswordChange = lastsPasswordChange;
     }
 
     public void setType(UserType type) {
         this.type = type;
     }
-    
+
     public Set<Recipe> getRecipes() {
         return recipes;
     }
@@ -152,7 +166,7 @@ public class User {
     public void setRecipes(Set<Recipe> recipes) {
         this.recipes = recipes;
     }
-    
+
     public Set<Menu> getMenus() {
         return menus;
     }
@@ -168,7 +182,27 @@ public class User {
     public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
+
+    public Boolean getResetPassword() {
+        return this.resetPassword.get();
+    }
+
+    public void setResetPassword(Boolean resetPassword) {
+        this.resetPassword.set(resetPassword);
+    }
     
+    //These methods are mandatory for the TableCell and TableView
+    //to be able to observe the ObservableValue for changes
+    //(see javadoc for PropertyValueFactory). 
+    //Finally this allows the table to show the value of the field
+    //as the state of the checkbox.
+    public SimpleBooleanProperty resetPasswordProperty(){
+        return this.resetPassword;
+    }
+    public SimpleBooleanProperty statusProperty(){
+        return this.status;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
