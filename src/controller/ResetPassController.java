@@ -88,7 +88,6 @@ public class ResetPassController extends GlobalController {
 
         //TODO ¿Reusar stage anterior?
         stage = new Stage();
-        //TODO ¿Modal?
         stage.setScene(scene);
         stage.setTitle("Restablecer contraseña");
         stage.setResizable(false);

@@ -110,11 +110,20 @@ public class RecipeViewController extends GlobalController {
             //If there is a row selected
             LOGGER.info("Evento disparado");
             LOGGER.info(recipeTable.getSelectionModel().getSelectedItem().getName());
+            btnDetailRecipe.setDisable(false);
         } else {
-            //If there is not a row selected 
-
+            btnDetailRecipe.setDisable(true);
         }
     }
+    
+    public void createNewRecipe(){
+        
+    }
+    
+    public void handleDetailRecipe(){
+        
+    }
+    
     /**
      * InitStage Method for Recipes window.
      *
@@ -126,6 +135,8 @@ public class RecipeViewController extends GlobalController {
         stage.setScene(scene);
         stage.setTitle("Recetas");
         stage.setResizable(false);
+        
+        btnDetailRecipe.setDisable(true);
         
         //Create an obsrvable list for recipes table.
         ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());

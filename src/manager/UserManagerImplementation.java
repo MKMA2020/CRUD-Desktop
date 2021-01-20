@@ -15,7 +15,7 @@ import rest.UserRESTClient;
 
 /**
  *
- * @author Martin Valiente Ainz
+ * @author Martin Valiente Ainz & Aitor Garcia
  */
 public class UserManagerImplementation implements UserManager {
 
@@ -45,7 +45,7 @@ public class UserManagerImplementation implements UserManager {
         User user = null;
         try {
             LOGGER.info("Find User");
-            user= webClient.find(User.class, id.toString());
+            user = webClient.find(User.class, id.toString());
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Find User failed: {0}", ex.getMessage());
         }
@@ -64,8 +64,12 @@ public class UserManagerImplementation implements UserManager {
 
     @Override
     public void remove(Long id) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            LOGGER.info("Remove User");
+            webClient.remove(id.toString());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Remove User failed: {0}", ex.getMessage());
+        }
     }
 
     @Override
@@ -82,8 +86,14 @@ public class UserManagerImplementation implements UserManager {
 
     @Override
     public User findByName(String fullName) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User user = null;
+        try {
+            LOGGER.log(Level.INFO, "Find users by name");
+            user = webClient.findByFN(User.class, fullName);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Find users by name failed: {0}", ex.getMessage());
+        }
+        return user;
     }
 
     @Override
@@ -94,35 +104,44 @@ public class UserManagerImplementation implements UserManager {
             users = webClient.findAll(new GenericType<List<User>>() {
             });
             users = loadResetField(users);
-            
+
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Find All Users failed: {0}", ex.getMessage());
         }
         return users;
     }
+
     /**
      * This method assigns false to resetPassword field on all Users
+     *
      * @param users the user collection
      * @return the user collection with resetPassword field
      */
-    private List<User> loadResetField(List<User> users){
-        for (User e:users)
+    private List<User> loadResetField(List<User> users) {
+        for (User e : users) {
             e.setResetPassword(Boolean.FALSE);
+        }
         return users;
     }
 
     @Override
-    public List<User> findByType(UserType Type) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<User> findByType(UserType type) {
+        List<User> users = null;
+        try {
+            LOGGER.log(Level.INFO, "FindUserByType");
+            users = webClient.findByType(new GenericType<List<User>>() {}, type.toString());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Find Users by type failed: {0}", ex.getMessage());
+        }
+        return users;
     }
-    
+
     @Override
-    public void resetPassword(String login, String email){
+    public void resetPassword(String login, String email) {
         try {
             LOGGER.log(Level.INFO, "Reset password to: {0}", login);
             webClient.resetPassword(login, email);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "ResetPassword to {0} failed: {1}", new Object[]{login, ex.getMessage()});
         }
     }
