@@ -109,8 +109,6 @@ public class RecipeViewController extends GlobalController {
      */
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        stage = new Stage();    
-        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setTitle("Recetas");
         stage.setResizable(false);

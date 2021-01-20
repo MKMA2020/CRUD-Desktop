@@ -3,6 +3,7 @@
 package controller;
 
 import factory.UserManagerFACTORY;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -18,9 +19,6 @@ import manager.UserManager;
  */
 class GlobalController {
     
-    @FXML
-    Button btnMyRecipes;
-
     protected static final Logger LOGGER = Logger.getLogger("controller");
 
     /**

@@ -11,8 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.User;
 
@@ -21,6 +19,9 @@ import model.User;
  * @author Martin Valiente Ainz
  */
 public class AdminUserWindowController extends GlobalController {
+    
+    @FXML
+    private SideMenuController sideMenuController;
 
     /**
      * TableView that will contain the information about users.
@@ -78,10 +79,13 @@ public class AdminUserWindowController extends GlobalController {
      * @param root 
      */
     public void initStage(Parent root) {
+        
+        // Load Stage into SideMenu
+        sideMenuController.setStage(stage);
+        // Load Menu Components
+        sideMenuController.initStage();
+        
         Scene scene = new Scene(root);
-
-        stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
         stage.setTitle("Administrar");
         stage.setResizable(false);
@@ -101,7 +105,7 @@ public class AdminUserWindowController extends GlobalController {
         tclAdminLastAccess.setCellValueFactory(new PropertyValueFactory<>("lastAccess"));
         tclAdminResetPassword.setCellValueFactory(new PropertyValueFactory<>("resetPassword"));
         tclAdminLastPasswordChange.setCellValueFactory(new PropertyValueFactory<>("lastsPasswordChange"));
-
+        
         //Show window.
         stage.show();
     }

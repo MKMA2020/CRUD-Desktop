@@ -149,7 +149,7 @@ public class SignUpController extends GlobalController {
         primaryStageController.setStage(stage);
         //Initializes primary stage
         primaryStageController.initStage(root);
-        stage.close();
+        //stage.close();
     }
 
     private void SignUp() {

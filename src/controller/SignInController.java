@@ -80,16 +80,9 @@ public class SignInController extends GlobalController {
 
     }
 
-    @Override
-    protected void showError(String msg) {
-        super.showError(msg); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        stage = new Stage();
-
-        stage.initModality(Modality.APPLICATION_MODAL);
+        
         stage.setScene(scene);
         stage.setTitle("Iniciar Sesion");
         stage.setResizable(false);

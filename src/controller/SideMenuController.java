@@ -1,65 +1,123 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.io.IOException;
 import java.util.logging.Level;
-import javafx.event.ActionEvent;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.stage.Stage;
 
 /**
  *
  * @author Martin Valiente Ainz
  */
-public class SideMenuController extends GlobalController{
-    
+public class SideMenuController extends GlobalController {
+
     @FXML
     private Button btnShowMyRecipes;
-    
+
     @FXML
     private Button btnShowRecipes;
-    
+
     @FXML
     private Button btnShowMenus;
-    
+
     @FXML
     private Button btnShowAdmin;
-    
+
     @FXML
     private Button btnExit;
-    
-    @FXML  
-    public void initialize() {
-        
+
+    public void initStage() {
+
         LOGGER.log(Level.INFO, "Initialising SideMenu Buttons.");
-        
-        //btnShowMyRecipes.setOnAction((event) -> {
+
+        btnShowMyRecipes.setOnAction((event) -> {
+            LOGGER.log(Level.INFO, "BtnShowMyRecipes Clicked.");
             
-        //});
-        
-       // btnShowRecipes.setOnAction((event) -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            RecipeViewController controller = (loader.getController());
+            controller.setStage(stage);
+            controller.initStage(root);
+        });
+
+        btnShowRecipes.setOnAction((event) -> {
+            LOGGER.log(Level.INFO, "BtnShowRecipes Clicked.");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            RecipeViewController controller = (loader.getController());
+            controller.setStage(stage);
+            controller.initStage(root);
+        });
+
+        btnShowMenus.setOnAction((event) -> {
+            LOGGER.log(Level.INFO, "BtnShowMenus Clicked.");
             
-        //});
-        
-       // btnShowMenus.setOnAction((event) -> {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ListaMenus.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //Get controller for graph 
+            MenuViewController controller = ((MenuViewController) loader.getController());
+            //Set a reference for Stage
+            controller.setStage(stage);
+            //Initializes primary stage
+            controller.initStage(root);
+        });
+
+        btnShowAdmin.setOnAction((event) -> {
+            LOGGER.log(Level.INFO, "BtnShowAdmin Clicked.");
             
-        //});
-        
-        //btnShowAdmin.setOnAction((event) -> {
-            
-        //});
-        
-        //btnExit.setOnAction((event) -> {
-            
-        //});
-        
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminUserWindow.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //Get controller for graph 
+            AdminUserWindowController primaryStageController = ((AdminUserWindowController) loader.getController());
+            //Set a reference for Stage
+            primaryStageController.setStage(stage);
+            //Initializes primary stage
+            primaryStageController.initStage(root);
+        });
+
+        btnExit.setOnAction((event) -> {
+            LOGGER.log(Level.INFO, "BtnExit Clicked.");
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+            Parent root = null;
+            try {
+                root = (Parent) loader.load();
+            } catch (IOException ex) {
+                Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //Get controller for graph 
+            SignInController primaryStageController = ((SignInController) loader.getController());
+            //Set a reference for Stage
+            primaryStageController.setStage(stage);
+            //Initializes primary stage
+            primaryStageController.initStage(root);
+        });
+
         LOGGER.log(Level.INFO, "Finished Initialising SideMenu Buttons.");
-    }  
+    }
 }
