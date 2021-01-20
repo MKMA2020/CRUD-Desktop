@@ -64,6 +64,7 @@ public class UserManagerImplementation implements UserManager {
 
     @Override
     public void remove(Long id) {
+        //TODO
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -81,6 +82,7 @@ public class UserManagerImplementation implements UserManager {
 
     @Override
     public User findByName(String fullName) {
+        //TODO
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -111,6 +113,7 @@ public class UserManagerImplementation implements UserManager {
 
     @Override
     public List<User> findByType(UserType Type) {
+        //TODO
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
