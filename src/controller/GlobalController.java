@@ -4,6 +4,7 @@ package controller;
 
 import factory.UserManagerFACTORY;
 import java.util.logging.Logger;
+import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -16,6 +17,9 @@ import manager.UserManager;
  * @author MartinValiente
  */
 class GlobalController {
+    
+    @FXML
+    Button btnMyRecipes;
 
     protected static final Logger LOGGER = Logger.getLogger("controller");
 
