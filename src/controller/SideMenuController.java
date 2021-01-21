@@ -5,30 +5,66 @@
  */
 package controller;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
+import javax.validation.Path.Node;
 
 /**
  *
  * @author Martin Valiente Ainz
  */
-public class SideMenuController implements Initializable{
+public class SideMenuController extends GlobalController{
     
     @FXML
-    private Label label;
+    private Button btnMyRecipes;
     
     @FXML
-    private void handleButtonAction(ActionEvent event) {
-        System.out.println("You clicked me!");
-        label.setText("Hello World!");
+    private Button btnRecipes;
+    
+    @FXML
+    private Button btnMenus;
+    
+    @FXML
+    private Button btnAdmin;
+    
+    @FXML
+    private Button btnExit;
+    
+    @FXML
+    private void handleButtonMyRecipes (ActionEvent event) throws IOException {
+     
     }
     
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }  
+    @FXML
+    private void handleButtonRecipes (ActionEvent event) {
+        
+    }
+    
+    @FXML
+    private void handleButtonMenus (ActionEvent event) {
+        
+    }
+    
+    @FXML
+    private void handleButtonAdmin (ActionEvent event) {
+        
+    }
+    
+    @FXML
+    private void handleButtonExit (ActionEvent event) {
+        
+    }
+    
+   
+   
 }

@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="AnchorPane" maxHeight="708.0" maxWidth="895.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="895.0" stylesheets="@../css/IngredientStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewIngredientController">
+<AnchorPane id="AnchorPane" maxHeight="708.0" maxWidth="895.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="895.0" stylesheets="@../css/IngredientStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewMenuController">
     <children>
         <!-- Side menu container. Author: Martin Valiente Ainz -->
         <VBox alignment="TOP_CENTER" layoutY="160.0" prefHeight="594.0" prefWidth="895.0" styleClass="IngredientContainer" stylesheets="@../css/IngredientStyle.css" AnchorPane.bottomAnchor="-7.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

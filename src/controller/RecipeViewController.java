@@ -115,16 +115,6 @@ public class RecipeViewController extends GlobalController {
         stage.setTitle("Recetas");
         stage.setResizable(false);
         
-        //Create an obsrvable list for recipes table.
-        ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());
-        //Set table model.
-        recipeTable.setItems(allRecipes);
-
-        //Set factories for cell values in users table columns.
-        tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
-
         //Show window.
         stage.show();
     }
