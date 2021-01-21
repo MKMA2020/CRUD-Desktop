@@ -1,18 +1,13 @@
 package controller;
 
-import factory.MenuManagerFACTORY;
-import factory.RecipeManagerFACTORY;
-import java.io.IOException;
+import factory.UserManagerFACTORY;
 import java.util.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
-import manager.MenuManager;
 import manager.RecipeManager;
+import manager.UserManager;
 
 /**
  *
@@ -55,6 +50,8 @@ class GlobalController {
      */
     protected void showError(String msg) {
         Alert alert = new Alert(Alert.AlertType.ERROR, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnError");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -66,6 +63,8 @@ class GlobalController {
      */
     protected void showWarning(String msg) {
         Alert alert = new Alert(Alert.AlertType.WARNING, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnAlerta");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -77,6 +76,8 @@ class GlobalController {
      */
     protected void showInformation(String msg) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, msg, ButtonType.OK);
+        Button okButton = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
+        okButton.setId("btnInformation");
         //CSS HAS TO BE ADDED
         alert.showAndWait();
     }
@@ -101,25 +102,11 @@ class GlobalController {
      * Maximum Ingredient Name field length.
      */
     protected final int INGREDIENT_NAME_MAX_LENGTH = 20;
-    
+
     protected RecipeManager recipeManager;
-    protected MenuManager menuManager;
-    
-    public RecipeManager getRecipesManager() {
-        return RecipeManagerFACTORY.getRecipeManager();
-    }
-    
-    public MenuManager getMenuManager() {
-       return MenuManagerFACTORY.getMenuManager();
-    }
-    
-    @FXML
-    private void handleButtonRecipes (ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/NewMenu.fxml"));
-        Parent root = (Parent) loader.load();
-        NewMenuController controller = (loader.getController());
-        controller.setStage(stage);
-        controller.initStage(root);
+
+    public static UserManager getUserManager() {
+        return UserManagerFACTORY.getUserManager();
     }
 
 }
