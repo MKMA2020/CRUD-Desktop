@@ -29,7 +29,7 @@ public interface UserManager {
        
     public List<User> findAll();
     
-    public List<User> findByType(UserType Type);
+    public List<User> findByType(UserType type);
     
     public void resetPassword(String login, String email);
 }

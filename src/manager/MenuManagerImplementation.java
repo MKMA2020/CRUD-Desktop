@@ -43,7 +43,7 @@ public class MenuManagerImplementation implements MenuManager{
     public List<Menu> findByType(MenuType type) {
         List<Menu> menus = null;
         try {
-            LOGGER.log(Level.INFO, "Finding every menu of {0} type", type.toString());
+            LOGGER.log(Level.INFO, "Finding every menu of {0} type", type);
             menus = webClient.findByType(new GenericType<List<Menu>>() {}, type.toString());
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Error while finding: {0}", ex);

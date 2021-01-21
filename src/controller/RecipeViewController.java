@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,7 +21,7 @@ import model.Recipe;
 
 /**
  *
- * @author Martin Valiente Ainz
+ * @author Martin Valiente Ainz & Aitor Garcia
  */
 public class RecipeViewController extends GlobalController {
 
@@ -48,6 +49,18 @@ public class RecipeViewController extends GlobalController {
      */
     @FXML
     public TableColumn<Recipe, Integer> tclKcal;
+    
+    /**
+     * Button used to create a new recipe.
+     */
+    @FXML
+    public Button btnNewRecipe;
+    
+    /**
+     * Button that leads to the selected recipe.
+     */
+    @FXML
+    public Button btnDetailRecipe;
 
     /**
      * Recipe table data model.
@@ -97,11 +110,20 @@ public class RecipeViewController extends GlobalController {
             //If there is a row selected
             LOGGER.info("Evento disparado");
             LOGGER.info(recipeTable.getSelectionModel().getSelectedItem().getName());
+            btnDetailRecipe.setDisable(false);
         } else {
-            //If there is not a row selected 
-
+            btnDetailRecipe.setDisable(true);
         }
     }
+    
+    public void createNewRecipe(){
+        
+    }
+    
+    public void handleDetailRecipe(){
+        
+    }
+    
     /**
      * InitStage Method for Recipes window.
      *
@@ -109,9 +131,12 @@ public class RecipeViewController extends GlobalController {
      */
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
+        stage = new Stage();    
         stage.setScene(scene);
         stage.setTitle("Recetas");
         stage.setResizable(false);
+        
+        btnDetailRecipe.setDisable(true);
         
         //Create an obsrvable list for recipes table.
         ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());

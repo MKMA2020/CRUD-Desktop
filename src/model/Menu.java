@@ -51,7 +51,7 @@ public class Menu implements Serializable {
      * Sets id of menu
      * @param id of menu
      */
-    public void setId_menu(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

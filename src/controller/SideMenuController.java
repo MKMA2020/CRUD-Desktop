@@ -120,4 +120,3 @@ public class SideMenuController extends GlobalController {
 
         LOGGER.log(Level.INFO, "Finished Initialising SideMenu Buttons.");
     }
-}

@@ -19,31 +19,30 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" maxHeight="894.0" maxWidth="480.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="894.0" prefWidth="480.0" stylesheets="@../css/IngredientStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.NewIngredientController">
+<AnchorPane id="AnchorPane" maxHeight="894.0" maxWidth="480.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="846.0" prefWidth="480.0" stylesheets="@../css/IngredientStyle.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AddRecipeController">
     <children>
         <!-- Side menu container. Author: Martin Valiente Ainz -->
-        <VBox alignment="TOP_CENTER" layoutY="-51.0" prefHeight="638.0" prefWidth="480.0" styleClass="IngredientContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="TOP_CENTER" layoutY="-51.0" prefHeight="846.0" prefWidth="480.0" styleClass="IngredientContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-            <MenuBar fx:id="MenuBarRecipe" style="-fx-background-color: aee6e6;">
+            <MenuBar fx:id="menuBarRecipe" style="-fx-background-color: aee6e6;">
               <menus>
-                <Menu fx:id="MenuRecipe" mnemonicParsing="false" text="Recetas">
+                <Menu fx:id="menuRecipe" mnemonicParsing="false" text="Recetas">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Nueva Receta" />
-                        <MenuItem mnemonicParsing="false" text="Borrar Receta" />
+                    <MenuItem fx:id="menuItemNewRecipe" mnemonicParsing="false" text="Nueva Receta" />
+                        <MenuItem fx:id="menuItemDeleteRecipe" mnemonicParsing="false" text="Borrar Receta" />
                   </items>
                 </Menu>
-                <Menu fx:id="MenuRecipeVolvera" mnemonicParsing="false" text="Volver A">
+                <Menu fx:id="menuRecipeVolvera" mnemonicParsing="false" text="Volver A">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Mis Recetas" />
-                        <MenuItem mnemonicParsing="false" text="Recetas" />
-                        <MenuItem mnemonicParsing="false" text="Menús" />
+                    <MenuItem fx:id="menuItemMisRecetas" mnemonicParsing="false" text="Mis Recetas" />
+                        <MenuItem fx:id="menuItemRecetas" mnemonicParsing="false" text="Recetas" />
+                        <MenuItem fx:id="menuItemMenus" mnemonicParsing="false" text="Menús" />
                   </items>
                 </Menu>
-                <Menu fx:id="MenuRecipeSalir" mnemonicParsing="false" text="Salir">
+                <Menu fx:id="menuRecipeSalir" mnemonicParsing="false" text="Salir">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Salir" />
+                    <MenuItem fx:id="menuItemExit" mnemonicParsing="false" text="Salir" />
                   </items>
                 </Menu>
               </menus>
@@ -60,7 +59,7 @@
                         <!-- Groceries Image -->                
                         <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@resources/recipe%20(1).png" />
+                                <Image url="@../resources/recipe%20(1).png" />
                             </image>
                             <VBox.margin>
                                 <Insets bottom="20.0" top="40.0" />
@@ -98,7 +97,7 @@
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <TextArea fx:id="txtRecipeSteps" prefHeight="200.0" prefWidth="200.0">
+                  <TextArea fx:id="txtareaRecipeSteps" prefHeight="200.0" prefWidth="200.0" promptText="Escribe los pasos a seguir para la elaboracion de la receta...">
                      <HBox.margin>
                         <Insets left="20.0" right="40.0" />
                      </HBox.margin>
@@ -134,7 +133,7 @@
                                 <Insets left="40.0" right="20.0" />
                             </HBox.margin>
                         </Label>
-                        <ChoiceBox fx:id="txtRecipeType" prefWidth="200.0">
+                        <ChoiceBox fx:id="choiceRecipeType" prefWidth="200.0">
                             <HBox.margin>
                                 <Insets left="20.0" right="40.0" />
                             </HBox.margin>
@@ -144,31 +143,43 @@
                   <Insets bottom="40.0" top="20.0" />
                </padding>
                 </HBox>
-            <HBox alignment="TOP_CENTER">
+            <HBox alignment="TOP_CENTER" prefHeight="221.0" prefWidth="480.0">
                <children>
                   <Label prefHeight="30.0" prefWidth="125.0" styleClass="ingredientTypeText" text="Ingredientes:">
                      <HBox.margin>
                         <Insets right="25.0" />
                      </HBox.margin>
                   </Label>
-                  <ScrollPane prefHeight="200.0" prefWidth="200.0">
+                  <ScrollPane fx:id="tableScrollPane" prefHeight="200.0" prefWidth="200.0">
                      <content>
-                        <TableView fx:id="txtRecipeIngredientTable" editable="true" prefHeight="200.0" prefWidth="189.0">
+                        <TableView fx:id="recipeIngredientTable" editable="true" prefHeight="132.0" prefWidth="189.0">
                           <columns>
-                            <TableColumn prefWidth="103.0" text="Ingrediente" />
-                            <TableColumn prefWidth="96.0" text="Tipo" />
+                            <TableColumn fx:id="tableColumnIngredient" prefWidth="103.0" text="Ingrediente" />
+                            <TableColumn fx:id="tableColumnType" prefWidth="96.0" text="Tipo" />
                           </columns>
                         </TableView>
                      </content>
                   </ScrollPane>
-                  <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="36.0" styleClass="Button" stylesheets="@css/RecipeStyle.css" textAlignment="CENTER">
+                  <Button fx:id="addRow" onAction="#handleButtonAddRow" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="36.0" styleClass="Button" stylesheets="@../css/RecipeStyle1.css" textAlignment="CENTER">
                      <effect>
                         <DropShadow height="9.14" radius="3.3275" width="6.17" />
                      </effect>
                      <graphic>
                         <ImageView fx:id="btnRecipeAddTableRow" fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@resources/left-arrow.png" />
+                              <Image url="@../resources/left-arrow.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="deleteRow" onAction="#handleButtonDeleteRow" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="36.0" styleClass="Button" stylesheets="@../css/RecipeStyle1.css" textAlignment="CENTER">
+                     <effect>
+                        <DropShadow height="9.14" radius="3.3275" width="6.17" />
+                     </effect>
+                     <graphic>
+                        <ImageView fx:id="btnRecipeAddTableRow1" fitHeight="24.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../resources/not-found.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -177,27 +188,15 @@
                <padding>
                   <Insets bottom="40.0" top="20.0" />
                </padding>
-            </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="56.0" prefWidth="480.0">
-               <children>
-                  <Button mnemonicParsing="false" prefHeight="23.0" prefWidth="325.0" styleClass="Button" stylesheets="@css/RecipeStyle.css" text="No encuentras el ingrediente que buscas? Haz click aquí!" underline="true">
-                     <font>
-                        <Font name="Arial" size="12.0" />
-                     </font>
-                  </Button>
-               </children>
-               <padding>
-                  <Insets bottom="40.0" top="20.0" />
-               </padding>
             </HBox>  
-                <HBox alignment="TOP_CENTER" prefHeight="166.0" prefWidth="480.0">
+                <HBox alignment="TOP_CENTER" prefHeight="32.0" prefWidth="480.0">
                     <children>
                         <!-- Cancel Button -->
-                        <Button id="btnCancel" fx:id="BtnCancelAddRecipe" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@css/RecipeStyle.css" text="Cancelar">
+                        <Button id="btnCancel" fx:id="btnCancelAddRecipe" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/RecipeStyle1.css" text="Cancelar">
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@resources/not-found.png" />
+                                        <Image url="@../resources/not-found.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -209,11 +208,11 @@
                             </HBox.margin>
                         </Button>
                         <!-- Create Button -->
-                        <Button id="btnCreate" fx:id="BtnAddRecipe" prefHeight="49.0" prefWidth="262.0" styleClass="Button" text="Añadir">
+                        <Button id="btnCreate" fx:id="btnAddRecipe" prefHeight="49.0" prefWidth="262.0" styleClass="Button" text="Añadir">
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@resources/check-mark.png" />
+                                        <Image url="@../resources/check-mark.png" />
                                     </image>
                                 </ImageView>
                             </graphic>
@@ -225,7 +224,7 @@
                             </HBox.margin>
                      <stylesheets>
                         <URL value="@../css/IngredientStyle.css" />
-                        <URL value="@css/RecipeStyle.css" />
+                        <URL value="@../Desktop/ventanas/css/RecipeStyle1.css" />
                      </stylesheets>
                         </Button>
                     </children>
@@ -235,8 +234,8 @@
                 </HBox>              
             </children>
          <stylesheets>
-            <URL value="@../css/IngredientStyle.css" />
-            <URL value="@css/RecipeStyle.css" />
+            <URL value="@../css/RecipeStyle1.css" />
+            <URL value="@../css/RecipeStyle1.css" />
          </stylesheets>
         </VBox>
     </children>
