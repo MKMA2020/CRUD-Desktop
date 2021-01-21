@@ -15,7 +15,7 @@
         
         <!-- Side menu container. Author: Martin Valiente Ainz -->
         
-            <fx:include source="SideMenu.fxml"/>
+            <fx:include fx:id="sideMenu" source="SideMenu.fxml"/>
             
         
         <!-- Window specific anchorPane. Author: Aitor Garcia Rueda -->

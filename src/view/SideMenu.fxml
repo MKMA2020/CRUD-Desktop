@@ -31,7 +31,7 @@
                 </Label>
                  
                 <!-- My Recipes Button --> 
-                <Button id="btnMyRecipes" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Mis Recetas">
+                <Button fx:id="btnShowMyRecipes" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Mis Recetas">
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -45,7 +45,7 @@
                 </Button>
                 
                 <!-- Recipes Button -->
-                <Button id="btnRecipes" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Recetas">
+                <Button fx:id="btnShowRecipes" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Recetas">
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -59,7 +59,7 @@
                 </Button>
                 
                 <!-- Menus Button -->
-                <Button id="btnMenus" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Menús">
+                <Button fx:id="btnShowMenus" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Menús">
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -73,7 +73,7 @@
                 </Button>
                 
                 <!-- My Profile Button -->
-                <Button id="btnProfile" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Mi perfil">
+                <Button fx:id="btnShowAdmin" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Mi perfil">
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -87,7 +87,7 @@
                 </Button>
                 
                 <!-- Exit Button -->
-                <Button id="btnExit" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Salir">
+                <Button fx:id="btnExit" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Salir">
                     <graphic>
                         <ImageView id="btnExit" fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>
