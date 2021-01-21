@@ -16,6 +16,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
@@ -25,6 +26,7 @@ public class Reto2CRUD extends Application {
     
     public static ResourceBundle configFile;
     public static String BASE_URI;
+    private static User user;
     
     @Override
 
@@ -57,6 +59,16 @@ public class Reto2CRUD extends Application {
         launch(args);
         
     }
+
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        Reto2CRUD.user = user;
+    }
+
+    
     
 }
 

@@ -1,10 +1,9 @@
 package controller;
 
-import static controller.GlobalController.LOGGER;
 import enumeration.RecipeType;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,8 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import model.Recipe;
+import reto2crud.Reto2CRUD;
 
 /**
  *
@@ -52,15 +51,30 @@ public class RecipeViewController extends GlobalController {
     @FXML
     public Button btnNewRecipe;
     
+    /**
+     * Button used to get into an specific recipe.
+     */
+    @FXML
+    public Button btnDetailRecipe;
+    
+    /**
+     * Button used to remove a recipe.
+     */
+    @FXML
+    public Button btnRemoveRecipe;
 
+     @FXML
+    private SideMenuController sideMenuController;
+    
     /**
      * Recipe table data model.
      */
     private ObservableList<Recipe> recipes;
     
-    
-    @FXML
-    private SideMenuController sideMenuController;
+    /**
+     * This will decide whether or not to search the recipes by user
+     */
+    Boolean personal = null;
     
 
     /*@FXML
@@ -99,17 +113,16 @@ public class RecipeViewController extends GlobalController {
 
     /*public void MouseClicked(MouseEvent event) {
         LOGGER.info(recipeTable.getSelectionModel().getSelectedItem().getName());
-    }*/  
-    public void createNewRecipe(){
-        
-    }
-    
+    }*/
     /**
      * InitStage Method for Recipes window.
      *
      * @param root The Parent object representing root node of view graph.
+     * @param personal This will decide whether or not to search the recipes by user.
      */
-    public void initStage(Parent root) {
+    public void initStage(Parent root, Boolean personal) {
+        
+        
         
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
@@ -119,10 +132,21 @@ public class RecipeViewController extends GlobalController {
         stage.setTitle("Recetas");
         stage.setResizable(false);
         
+        btnDetailRecipe.setDisable(true);
+        btnRemoveRecipe.setDisable(true);
         //Create an obsrvable list for recipes table.
-        ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());
+        ObservableList<Recipe> recipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
+        if(personal){
+            stage.setTitle("Mis recetas");
+            //Recipe filtering.
+            for(Recipe recipe: recipes){
+                if(!(recipe.getUser().equals(Reto2CRUD.getUser()))){
+                    recipes.remove(recipe);
+                }
+            }
+        }
         //Set table model.
-        recipeTable.setItems(allRecipes);
+            recipeTable.setItems(recipes);
 
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -132,5 +156,34 @@ public class RecipeViewController extends GlobalController {
         //Show window.
         stage.show();
     }
-
+    
+    
+    /**
+     * Leads to the recipe creation screen.
+     */
+    public void createNewRecipe(ActionEvent event){
+        
+    }
+    
+    /**
+     * Leads to the selected recipe.
+     */
+    public void goToRecipe(ActionEvent event){
+        
+    }
+    
+    public void handleDetailRecipeButton(ActionEvent event){
+        recipeTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if(newSelection != null){
+                btnDetailRecipe.setDisable(false);
+                if(personal)
+                    btnRemoveRecipe.setDisable(false);
+                LOGGER.info("Recipe chosen");
+            }else{
+                btnDetailRecipe.setDisable(true);
+                btnRemoveRecipe.setDisable(true);
+                LOGGER.info("Recipe unchosen");
+            }
+        });
+    }
 }

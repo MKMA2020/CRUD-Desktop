@@ -36,7 +36,7 @@ public class Recipe {
     /**
      * kCal value of the Recipe.
      */
-    private float kcal;
+    private float kCal;
 
     /**
      * Type of the Recipe.
@@ -47,6 +47,11 @@ public class Recipe {
      * Ingredient collection of the recipe.
      */
     private Set<Ingredient> ingredients;
+    
+    /**
+     * Creator of the recipe.
+     */
+    private User user;
     
     public Long getId() {
         return id;
@@ -73,11 +78,11 @@ public class Recipe {
     }
 
     public float getKcal() {
-        return kcal;
+        return kCal;
     }
 
-    public void setKcal(float kcal) {
-        this.kcal = kcal;
+    public void setKcal(float kCal) {
+        this.kCal = kCal;
     }
 
     public RecipeType getType() {
@@ -95,7 +100,15 @@ public class Recipe {
         public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-    
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+        
         
     @Override
     public int hashCode() {

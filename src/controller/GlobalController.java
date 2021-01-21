@@ -1,6 +1,7 @@
 package controller;
 
 import factory.MenuManagerFACTORY;
+import factory.RecipeManagerFACTORY;
 import factory.UserManagerFACTORY;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -107,7 +108,6 @@ class GlobalController {
      */
     protected final int INGREDIENT_NAME_MAX_LENGTH = 20;
 
-    protected RecipeManager recipeManager;
 
     public static UserManager getUserManager() {
         return UserManagerFACTORY.getUserManager();
@@ -115,6 +115,10 @@ class GlobalController {
     
     public static MenuManager getMenuManager() {
         return MenuManagerFACTORY.getMenuManager();
+    }
+    
+    public static RecipeManager getRecipeManager() {
+        return RecipeManagerFACTORY.getRecipeManager();
     }
 
 }
