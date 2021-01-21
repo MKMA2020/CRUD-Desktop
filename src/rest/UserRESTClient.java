@@ -69,7 +69,7 @@ public class UserRESTClient {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
     
-    public <T> T findByType(Class<T> responseType, String type) throws ClientErrorException {
+    public <T> T findByType(GenericType<T> responseType, String type) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("type/{0}", new Object[]{type}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
