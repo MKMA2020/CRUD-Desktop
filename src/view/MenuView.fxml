@@ -14,7 +14,7 @@
 
 <AnchorPane fx:id="windowMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MenuViewController">
     <children>
-      <fx:include source="SideMenu.fxml" />
+      <fx:include fx:id="sideMenu" source="SideMenu.fxml" />
       <TableView fx:id="menuTable" layoutX="262.0" layoutY="75.0" prefHeight="590.0" prefWidth="1001.0" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="262.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="75.0">
          <columns>
             <TableColumn fx:id="clmnMenuName" prefWidth="339.0" style="-fx-background-color: #ffa45b;" text="Menú" />

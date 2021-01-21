@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.stage.Stage;
 
 /**
  *
@@ -67,7 +66,7 @@ public class SideMenuController extends GlobalController {
         btnShowMenus.setOnAction((event) -> {
             LOGGER.log(Level.INFO, "BtnShowMenus Clicked.");
             
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ListaMenus.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuView.fxml"));
             Parent root = null;
             try {
                 root = (Parent) loader.load();
@@ -120,3 +119,4 @@ public class SideMenuController extends GlobalController {
 
         LOGGER.log(Level.INFO, "Finished Initialising SideMenu Buttons.");
     }
+}

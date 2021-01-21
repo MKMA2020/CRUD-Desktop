@@ -106,7 +106,6 @@ public class MenuViewController extends GlobalController {
         //STAGE PROPERTIES
         //Initializes the stage and sets its attributes.
         Scene scene = new Scene(root);
-        stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Lista de menús");
         stage.setResizable(false);

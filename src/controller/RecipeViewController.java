@@ -2,11 +2,9 @@ package controller;
 
 import static controller.GlobalController.LOGGER;
 import enumeration.RecipeType;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,8 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Recipe;
 
@@ -24,7 +20,7 @@ import model.Recipe;
  * @author Martin Valiente Ainz & Aitor Garcia
  */
 public class RecipeViewController extends GlobalController {
-
+    
     /**
      * TableView that will contain the information about recipes.
      */
@@ -56,16 +52,15 @@ public class RecipeViewController extends GlobalController {
     @FXML
     public Button btnNewRecipe;
     
-    /**
-     * Button that leads to the selected recipe.
-     */
-    @FXML
-    public Button btnDetailRecipe;
 
     /**
      * Recipe table data model.
      */
     private ObservableList<Recipe> recipes;
+    
+    
+    @FXML
+    private SideMenuController sideMenuController;
     
 
     /*@FXML
@@ -104,23 +99,8 @@ public class RecipeViewController extends GlobalController {
 
     /*public void MouseClicked(MouseEvent event) {
         LOGGER.info(recipeTable.getSelectionModel().getSelectedItem().getName());
-    }*/
-    public void handleRecipeTableSelectionChanged(ObservableValue observable, Object oldValue, Object newValue) {
-        if (newValue != null) {
-            //If there is a row selected
-            LOGGER.info("Evento disparado");
-            LOGGER.info(recipeTable.getSelectionModel().getSelectedItem().getName());
-            btnDetailRecipe.setDisable(false);
-        } else {
-            btnDetailRecipe.setDisable(true);
-        }
-    }
-    
+    }*/  
     public void createNewRecipe(){
-        
-    }
-    
-    public void handleDetailRecipe(){
         
     }
     
@@ -130,13 +110,14 @@ public class RecipeViewController extends GlobalController {
      * @param root The Parent object representing root node of view graph.
      */
     public void initStage(Parent root) {
+        
+        sideMenuController.setStage(stage);
+        sideMenuController.initStage();
+        
         Scene scene = new Scene(root);
-        stage = new Stage();    
         stage.setScene(scene);
         stage.setTitle("Recetas");
         stage.setResizable(false);
-        
-        btnDetailRecipe.setDisable(true);
         
         //Create an obsrvable list for recipes table.
         ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());

@@ -1,5 +1,6 @@
 package controller;
 
+import factory.MenuManagerFACTORY;
 import factory.UserManagerFACTORY;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import manager.MenuManager;
 import manager.RecipeManager;
 import manager.UserManager;
 
@@ -109,6 +111,10 @@ class GlobalController {
 
     public static UserManager getUserManager() {
         return UserManagerFACTORY.getUserManager();
+    }
+    
+    public static MenuManager getMenuManager() {
+        return MenuManagerFACTORY.getMenuManager();
     }
 
 }
