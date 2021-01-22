@@ -5,8 +5,6 @@ import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,7 +17,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.WindowEvent;
-import javafx.util.Callback;
 import model.User;
 
 /**
@@ -89,16 +86,6 @@ public class AdminUserWindowController extends GlobalController {
     private Button btnUserListGenerateForm;
 
     /**
-     * MenuItem that will reset the password of the selected user.
-     */
-    //@FXML
-    //private MenuItem mniReset;
-    /**
-     * MenuItem that will enable or disable the selected user.
-     */
-    //@FXML
-    //private MenuItem mniDisable;
-    /**
      *
      * @param root
      */
@@ -129,18 +116,8 @@ public class AdminUserWindowController extends GlobalController {
         tclAdminLastAccess.setCellValueFactory(new PropertyValueFactory<>("lastAccess"));
         tclAdminResetPassword.setCellValueFactory(new PropertyValueFactory<>("resetPassword"));
         tclAdminLastPasswordChange.setCellValueFactory(new PropertyValueFactory<>("lastsPasswordChange"));
-        /*
-        mniReset.setOnAction((ActionEvent e) -> {
-            System.out.println("Opening Database Connection...");
-        });
 
-        mniReset.setOnAction((ActionEvent event) -> {
-            System.out.println("Menu item 1");
-            Object item = managerTable.getSelectionModel().getSelectedItem();
-            System.out.println("Selected item: " + item);
-        });
-         */
-
+        // ContextMenu for rows on Table.
         managerTable.setRowFactory((TableView<User> tableView) -> {
             TableRow<User> row = new TableRow<>();
             ContextMenu rowMenu = new ContextMenu();
