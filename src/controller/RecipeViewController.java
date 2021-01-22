@@ -2,9 +2,12 @@ package controller;
 
 import enumeration.RecipeType;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -128,6 +131,7 @@ public class RecipeViewController extends GlobalController {
         
         
         this.personal = personal;
+        
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
         
@@ -138,21 +142,23 @@ public class RecipeViewController extends GlobalController {
         
         btnDetailRecipe.setDisable(true);
         btnRemoveRecipe.setDisable(true);
-        //Create an obsrvable list for recipes table.
-        ObservableList<Recipe> recipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
-        if(personal){
-            stage.setTitle("Mis recetas");
-            //Recipe filtering.
-            for(Recipe recipe: recipes){
-                if(!(recipe.getUser().equals(Reto2CRUD.getUser()))){
-                    recipes.remove(recipe);
-                }
-            }
-        }
         //Set table model.
-            recipeTable.setItems(recipes);
+        recipeTable.setItems(fillTable());
             
-        
+        EventHandler<ActionEvent> newRecipeEvent;
+        newRecipeEvent = new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    createNewRecipe(event);
+                    recipeTable.setItems(fillTable());
+                } catch (IOException ex) {
+                    new RecipeViewController().showError("Error trying to create a recipe.");
+                }
+            }  
+        };
+            
+        btnNewRecipe.setOnAction(newRecipeEvent);
 
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -198,5 +204,20 @@ public class RecipeViewController extends GlobalController {
                 LOGGER.info("Recipe unchosen");
             }
         });
+    }
+
+    private ObservableList<Recipe> fillTable() {
+        //Create and fill the table.
+        ObservableList<Recipe> recipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
+        if(personal){
+            stage.setTitle("Mis recetas");
+            //Recipe filtering.
+            for(Recipe recipe: recipes){
+                if(!(recipe.getUser().equals(Reto2CRUD.getUser()))){
+                    recipes.remove(recipe);
+                }
+            }
+        }
+        return recipes;
     }
 }
