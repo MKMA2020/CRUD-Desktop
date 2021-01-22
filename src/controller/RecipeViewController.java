@@ -1,16 +1,20 @@
 package controller;
 
 import enumeration.RecipeType;
+import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.Recipe;
 import reto2crud.Reto2CRUD;
 
@@ -123,7 +127,7 @@ public class RecipeViewController extends GlobalController {
     public void initStage(Parent root, Boolean personal) {
         
         
-        
+        this.personal = personal;
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
         
@@ -147,6 +151,8 @@ public class RecipeViewController extends GlobalController {
         }
         //Set table model.
             recipeTable.setItems(recipes);
+            
+        
 
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -161,8 +167,15 @@ public class RecipeViewController extends GlobalController {
     /**
      * Leads to the recipe creation screen.
      */
-    public void createNewRecipe(ActionEvent event){
-        
+    public void createNewRecipe(ActionEvent event) throws IOException{
+        //TODO Test
+        Stage newRecipeDialog = new Stage();
+        Parent root = FXMLLoader.load(
+                AddRecipeController.class.getResource("Add_Recipe.fxml"));
+        newRecipeDialog.setScene(new Scene(root));
+        newRecipeDialog.initOwner(stage);
+        newRecipeDialog.initModality(Modality.APPLICATION_MODAL);
+        newRecipeDialog.showAndWait();
     }
     
     /**
