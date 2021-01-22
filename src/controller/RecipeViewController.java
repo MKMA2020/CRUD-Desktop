@@ -140,38 +140,60 @@ public class RecipeViewController extends GlobalController {
         stage.setTitle("Recetas");
         stage.setResizable(false);
         
-        btnDetailRecipe.setDisable(true);
-        btnRemoveRecipe.setDisable(true);
+        btnDetailRecipe.setVisible(false);
+        btnRemoveRecipe.setVisible(false);
         //Set table model.
         recipeTable.setItems(fillTable());
-            
-        EventHandler<ActionEvent> newRecipeEvent;
-        newRecipeEvent = new EventHandler<ActionEvent>(){
+        
+        //Set factories for cell values in users table columns.
+        tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
+
+        
+        recipeTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if(newSelection != null){
+                btnDetailRecipe.setVisible(true);
+                if(personal)
+                    btnRemoveRecipe.setVisible(true);
+                LOGGER.info("Recipe chosen");
+            }else{
+                btnDetailRecipe.setVisible(false);
+                btnRemoveRecipe.setVisible(false);
+                LOGGER.info("Recipe unchosen");
+            }
+        });
+        
+        btnDetailRecipe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 try {
                     createNewRecipe(event);
                     recipeTable.setItems(fillTable());
                 } catch (IOException ex) {
-                    new RecipeViewController().showError("Error trying to create a recipe.");
+                    showError("Error trying to create a recipe.");
                 }
-            }  
-        };
-            
-        btnNewRecipe.setOnAction(newRecipeEvent);
-
-        //Set factories for cell values in users table columns.
-        tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
-
+            }
+        });
+        
+        btnRemoveRecipe.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event){
+                try{
+                    deleteRecipe(event);
+                }catch(Exception ex){
+                    showError("Error trying to delete a recipe.");
+                }
+            }
+        });
+        
         //Show window.
         stage.show();
     }
-    
-    
+
     /**
      * Leads to the recipe creation screen.
+     * @param event
      */
     public void createNewRecipe(ActionEvent event) throws IOException{
         //TODO Test
@@ -185,27 +207,20 @@ public class RecipeViewController extends GlobalController {
     }
     
     /**
-     * Leads to the selected recipe.
+     * Deletes the selected recipe after asking for confirmation.
+     * @param event 
      */
-    public void goToRecipe(ActionEvent event){
-        
+    private void deleteRecipe(ActionEvent event) {
+        Boolean confirmation = null;
+        confirmation = showConfirmation("¿Estás seguro de que deseas eliminar esta receta?");
+        if(confirmation){
+            LOGGER.info("Removing recipe.");
+            getUserManager().remove(recipeTable.getSelectionModel().getSelectedItem().getId());
+        }else{
+            LOGGER.info("Recipe removal cancelled.");
+        }
     }
     
-    public void handleDetailRecipeButton(ActionEvent event){
-        recipeTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if(newSelection != null){
-                btnDetailRecipe.setDisable(false);
-                if(personal)
-                    btnRemoveRecipe.setDisable(false);
-                LOGGER.info("Recipe chosen");
-            }else{
-                btnDetailRecipe.setDisable(true);
-                btnRemoveRecipe.setDisable(true);
-                LOGGER.info("Recipe unchosen");
-            }
-        });
-    }
-
     private ObservableList<Recipe> fillTable() {
         //Create and fill the table.
         ObservableList<Recipe> recipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
