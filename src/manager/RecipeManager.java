@@ -17,6 +17,8 @@ public interface RecipeManager {
     public Collection<Recipe> getAllRecipes();
     
     public Recipe getRecipeById(String id);
+    
+    public void create (Recipe recipe);
    
     
 }

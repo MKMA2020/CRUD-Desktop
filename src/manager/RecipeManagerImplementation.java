@@ -54,4 +54,14 @@ public class RecipeManagerImplementation implements RecipeManager {
         return recipe;
     }
 
+    @Override
+    public void create(Recipe recipe) {
+        try {
+            LOGGER.info("Create Recipe");
+            webClient.create(recipe);
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Create Recipe failed: {0}", ex.getMessage());
+        }
+    }
+
 }

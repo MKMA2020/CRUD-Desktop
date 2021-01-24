@@ -29,7 +29,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.ws.rs.core.GenericType;
 import model.Recipe;
 import model.User;
 import security.Ciphering;

@@ -10,7 +10,9 @@ import enumeration.IngredientType;
 import enumeration.RecipeType;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.Observable;
@@ -42,6 +44,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import jdk.nashorn.internal.ir.CatchNode;
 import model.Ingredient;
+import model.Recipe;
 
 /**
  *
@@ -181,6 +184,8 @@ public class AddRecipeController extends GlobalController {
     Boolean tableisselected = false;
     String name = null;
     String choiceSelection = null;
+    RecipeType selection = null;
+    Ingredient selectedItem = null;
 
     public void initStage(Parent root) {
 
@@ -214,6 +219,7 @@ public class AddRecipeController extends GlobalController {
         choiceRecipeType.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
             try {
                 choiceSelection = newValue.toString();
+                selection=(RecipeType) newValue;
             } catch (Exception e) {
                 //  Block of code to handle errors
             }
@@ -226,7 +232,7 @@ public class AddRecipeController extends GlobalController {
             }
 
         });
-        //activarboton();
+        //activarboton();*/
         stage.show();
 
     }
@@ -254,7 +260,6 @@ public class AddRecipeController extends GlobalController {
         //factory for the cell
         //tableColumnIngredient.setCellFactory(ComboBoxTableCell.forTableColumn(getNames(usedIngredients)));
         tableColumnIngredient.setCellFactory(ChoiceBoxTableCell.forTableColumn(usedNameIngredientsObservableList));
-        
 
         //tableColumnType.setCellFactory(TextFieldTableCell.forTableColumn());
         //Sets a listener for the chosen row
@@ -271,22 +276,17 @@ public class AddRecipeController extends GlobalController {
         });
 
         //In order to save the changes we need to do this
-
-        
         tableColumnIngredient.setOnEditCommit(data -> {
             data.getRowValue().setName(data.getNewValue());
-            IngredientType hola =findtypebyname(data.getRowValue().getName());
+            IngredientType hola = findtypebyname(data.getRowValue().getName());
             data.getRowValue().setType(hola);
             recipeIngredientTable.refresh();
-            name=data.getNewValue();
-            System.out.println(name);         
-            
-            
+            name = data.getNewValue();
+            System.out.println(name);
+
         });
- /*tableColumnType.setOnEditCommit(data -> {
-            data.getRowValue().setType(IngredientType.Additive);
-        });*/
         deleteRow.setFocusTraversable(false);
+
         //buttons on actions
         addRow.setOnAction(e -> {
             Ingredient selectedItem = new Ingredient();
@@ -294,8 +294,69 @@ public class AddRecipeController extends GlobalController {
             activarboton();
         });
         deleteRow.setOnAction(e -> {
-            Ingredient selectedItem = recipeIngredientTable.getSelectionModel().getSelectedItem();
+            selectedItem = recipeIngredientTable.getSelectionModel().getSelectedItem();
             recipeIngredientTable.getItems().remove(selectedItem);
+            System.out.println("removing " + selectedItem.getName());
+            activarboton();
+        });
+        /**
+         * On button action to add a recipe. Mind that observablelists are turned into arraylist for proper indexation.
+         * A third arraylist is created witht the table ingredienta, since the ingredients used on the table lack of id, so the server crashes
+         */
+        btnAddRecipe.setOnAction(e -> {
+            //Getting all the table ingredients and putting them into a list.
+            List<Ingredient> listadefNames = recipeIngredientTable.getSelectionModel().getTableView().getItems();
+            //Converting the list into an arrayList
+            ArrayList<Ingredient> arrayListUSEDNAMES;
+            if (listadefNames instanceof ArrayList<?>) {
+                arrayListUSEDNAMES = (ArrayList<Ingredient>) listadefNames;
+            } else {
+                arrayListUSEDNAMES = new ArrayList<>(listadefNames);
+            }
+            for (int x=0; x<arrayListUSEDNAMES.size();x++){
+                System.out.println(arrayListUSEDNAMES.get(x).getName());
+            }
+            //Converting usedingredients List into arraylist too for avoiding indexation error just in case.
+            ArrayList<Ingredient> fullIngredients;
+            if (listadefNames instanceof ArrayList<?>) {
+                fullIngredients = (ArrayList<Ingredient>) usedIngredients;
+            } else {
+                fullIngredients = new ArrayList<>(usedIngredients);
+            }
+            for (int x=0; x<fullIngredients.size();x++){
+                System.out.println(fullIngredients.get(x).getName());
+            }
+            Ingredient aux = null;
+            //This will be the definitive list that will be sent to the server
+            ArrayList<Ingredient> listadefFullIngredients = new ArrayList<Ingredient>();
+            for (int i = 0; i < fullIngredients.size(); i++) {
+                for(int j = 0; j<arrayListUSEDNAMES.size();j++){
+                    if(fullIngredients.get(i).getName().equalsIgnoreCase(arrayListUSEDNAMES.get(j).getName())){
+                        aux = new Ingredient();
+                        aux = fullIngredients.get(i);
+                        listadefFullIngredients.add(aux);
+                    }
+                }
+            }
+
+                
+            for (int x=0; x<listadefFullIngredients.size();x++){
+                System.out.println("Ingredientes a enviar: "+listadefFullIngredients.get(x).getName());
+            }
+
+            
+
+            Recipe recipe = new Recipe();
+
+            recipe.setName(txtRecipeName.getText());
+            recipe.setKcal(Float.parseFloat(txtRecipeKCal.getText()));
+            recipe.setSteps(txtareaRecipeSteps.getText());
+            recipe.setType(selection);
+
+            Set<Ingredient> foo = new HashSet<Ingredient>(listadefFullIngredients);
+
+            recipe.setIngredients(foo);
+            getrecipeManager().create(recipe);
             activarboton();
         });
         btnCancelAddRecipe.setOnAction(e -> {
@@ -373,7 +434,7 @@ public class AddRecipeController extends GlobalController {
         tableisselected = true;
         if (newValue != null) {
             String name = newValue.toString();
-            
+
             //int i=getid(name);
             //tableColumnType.setCellValueFactory(TextFieldTableCell.forTableColumn(IngredientType.Additive));
             System.out.println(name);
@@ -416,7 +477,6 @@ public class AddRecipeController extends GlobalController {
 
     private void choiboxType() {
         choiceRecipeType.getItems().addAll(RecipeType.values());
-
 
     }
 

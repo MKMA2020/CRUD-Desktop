@@ -59,6 +59,11 @@ public class SignInController extends GlobalController {
      */
     @FXML
     private Button SignInBtnSignUp;
+    /**
+     * Button to launch de reset pwd window
+     */
+    @FXML
+    private Button SignInBtnResetPwd;
 
     /**
      * Button to go to the reset up
@@ -106,6 +111,13 @@ public class SignInController extends GlobalController {
         SignInBtn.setDisable(true);
         SignInBtnSignUp.setTooltip(new Tooltip("Click to sign up!"));
         SignInBtn.setTooltip(new Tooltip("Click to log in!"));
+        SignInBtnResetPwd.setOnAction(e -> {
+            try {
+                start_resetPWD(stage);
+            } catch (IOException ex) {
+                Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });;
     }
 
     /**
@@ -131,6 +143,13 @@ public class SignInController extends GlobalController {
         controller.setStage(primaryStage);
         controller.initStage(root);
     }
+    private void start_resetPWD(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ResetPass.fxml"));
+        Parent root = (Parent) loader.load();
+        ResetPassController controller = (loader.getController());
+        controller.setStage(primaryStage);
+        controller.initStage(root);
+    }
 
     private void signIn() {
         boolean error = false;
@@ -150,7 +169,11 @@ public class SignInController extends GlobalController {
             user.setLogin(SignInBtn.getText());
             user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
             
-            getUserManager().login(SignInUsername.getText(), user.getPassword());
+            user=getUserManager().login(SignInUsername.getText(), user.getPassword());
+            if(user==null){
+                showWarning("Nombre de usuario o contraseñas erroneas");
+                
+            }
 
         }
     }

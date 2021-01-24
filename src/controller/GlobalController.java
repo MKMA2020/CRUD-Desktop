@@ -115,6 +115,9 @@ class GlobalController {
     public static IngredientManager getIngredientManager(){
         return IngredientManagerFACTORY.getIngredientManager();
     }
+    public static RecipeManager getrecipeManager(){
+        return RecipeManagerFACTORY.getRecipeManager();
+    }
 
     public static UserManager getUserManager() {
         return UserManagerFACTORY.getUserManager();
