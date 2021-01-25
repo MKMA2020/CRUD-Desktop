@@ -2,8 +2,6 @@ package controller;
 
 import enumeration.RecipeType;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -50,7 +48,7 @@ public class RecipeViewController extends GlobalController {
      * recipe.
      */
     @FXML
-    public TableColumn<Recipe, Integer> tclKcal;
+    public TableColumn<Recipe, Float> tclKcal;
     
     /**
      * Button used to create a new recipe.
@@ -70,45 +68,7 @@ public class RecipeViewController extends GlobalController {
      * This will decide whether or not to search the recipes by user
      */
     Boolean personal = null;
-    
 
-    /*@FXML
-    public void initialize() {
-        LOGGER.info("Initializing Recipe Table.");
-        tclTitle.setSortType(TableColumn.SortType.ASCENDING);
-        tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
-        tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
-
-        Recipe recipe = new Recipe();
-        recipe.setName("Lentejas");
-        recipe.setType(RecipeType.Main);
-        recipe.setKcal(150);
-
-        Recipe recipe2 = new Recipe();
-        recipe2.setName("Patatas Fritas");
-        recipe2.setType(RecipeType.Snack);
-        recipe2.setKcal(500);
-
-        Recipe recipe3 = new Recipe();
-        recipe3.setName("Helado");
-        recipe3.setType(RecipeType.Dessert);
-        recipe3.setKcal(80);
-
-        LOGGER.info("Loading Recipes.");
-        recipeTable.getItems().add(recipe);
-        recipeTable.getItems().add(recipe2);
-        recipeTable.getItems().add(recipe3);
-
-        // LISTENER PARA LA TABLA
-        //recipeTable.setOnMouseClicked(this::MouseClicked);
-        recipeTable.getSelectionModel().selectedItemProperty().addListener(this::handleRecipeTableSelectionChanged);
-
-    }*/
-
-    /*public void MouseClicked(MouseEvent event) {
-        LOGGER.info(recipeTable.getSelectionModel().getSelectedItem().getName());
-    }*/
     /**
      * InitStage Method for Recipes window.
      *
@@ -128,13 +88,13 @@ public class RecipeViewController extends GlobalController {
         stage.setTitle("Recetas");
         stage.setResizable(false);
         
-        //Set table model.
-        recipeTable.setItems(fillTable());
-        
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
+        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kCal"));
+        
+        //Set table model.
+        recipeTable.setItems(fillTable());
         
         btnNewRecipe.setOnAction(new EventHandler<ActionEvent>(){
             @Override
@@ -170,7 +130,8 @@ public class RecipeViewController extends GlobalController {
     
     private ObservableList<Recipe> fillTable() {
         //Create and fill the table.
-        ObservableList<Recipe> recipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
+        ObservableList<Recipe> recipes =
+                FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
         if(personal){
             stage.setTitle("Mis recetas");
             //Recipe filtering.

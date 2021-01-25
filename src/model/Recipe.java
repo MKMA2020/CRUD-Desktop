@@ -7,16 +7,16 @@ package model;
 
 import enumeration.RecipeType;
 import java.util.Set;
+import javafx.beans.property.SimpleFloatProperty;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Recipe entity class
+ *
  * @author Martin Gros
  */
-
 @XmlRootElement
 public class Recipe {
-    
 
     /**
      * ID of the Recipe.
@@ -36,7 +36,7 @@ public class Recipe {
     /**
      * kCal value of the Recipe.
      */
-    private float kCal;
+    private SimpleFloatProperty kCal;
 
     /**
      * Type of the Recipe.
@@ -47,12 +47,12 @@ public class Recipe {
      * Ingredient collection of the recipe.
      */
     private Set<Ingredient> ingredients;
-    
+
     /**
      * Creator of the recipe.
      */
     private User user;
-    
+
     public Long getId() {
         return id;
     }
@@ -77,12 +77,13 @@ public class Recipe {
         this.steps = steps;
     }
 
-    public float getKcal() {
-        return kCal;
+    //@XmlElement(name="kCal")
+    public Float getkCal() {
+        return kCal.get();
     }
 
-    public void setKcal(float kCal) {
-        this.kCal = kCal;
+    public void setkCal(Float kCal) {
+        this.kCal.set(kCal);
     }
 
     public RecipeType getType() {
@@ -96,8 +97,8 @@ public class Recipe {
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
-    
-        public void setIngredients(Set<Ingredient> ingredients) {
+
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
@@ -108,8 +109,7 @@ public class Recipe {
     public void setUser(User user) {
         this.user = user;
     }
-        
-        
+
     @Override
     public int hashCode() {
         int hash = 0;

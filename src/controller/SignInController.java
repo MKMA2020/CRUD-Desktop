@@ -29,6 +29,7 @@ import javafx.stage.WindowEvent;
 import manager.UserManager;
 import model.Recipe;
 import model.User;
+import reto2crud.Reto2CRUD;
 import security.Ciphering;
 
 /**
@@ -132,7 +133,7 @@ public class SignInController extends GlobalController {
         controller.initStage(root);
     }
 
-    private void signIn() {
+    private void signIn() throws IOException {
         boolean error = false;
         Ciphering encrypter = new Ciphering();
         LOGGER.log(Level.INFO, "Attempt to sign in started");
@@ -150,8 +151,16 @@ public class SignInController extends GlobalController {
             user.setLogin(SignInBtn.getText());
             user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
             
-            getUserManager().login(SignInUsername.getText(), user.getPassword());
+            Reto2CRUD.setUser(getUserManager().login(SignInUsername.getText(), user.getPassword()));
 
+            Parent root;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
+            root = loader.load();
+            RecipeViewController controller = loader.getController();
+            Stage RecipeView = new Stage();
+            controller.setStage(RecipeView);
+            controller.initStage(root, false);
+            this.stage.close();
         }
     }
 
