@@ -149,7 +149,7 @@ public class SignInController extends GlobalController {
         controller.setStage(primaryStage);
         controller.initStage(root);
     }
-  
+
     private void start_resetPWD(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ResetPass.fxml"));
         Parent root = (Parent) loader.load();
@@ -181,22 +181,22 @@ public class SignInController extends GlobalController {
                 user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
 
                 user = getUserManager().login(SignInUsername.getText(), user.getPassword());
-
+                System.out.println("controller.SignInController.signIn()");
+                start_app(stage);
             } catch (TimeoutException e) {
                 showWarning("Error en la conexion con la base de datos");
             } catch (IncorrectCredentialsException e) {
                 showWarning("Nombre de usuario o contraseñas erroneas");
             }
-        }else {
-                    System.out.println("controller.SignInController.signIn()");
-                    start_app(stage);
-      }
+        } else {
+
+        }
     }
 
     private void start_app(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminUserWindowController.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
         Parent root = (Parent) loader.load();
-        ResetPassController controller = (loader.getController());
+        RecipeViewController controller = (loader.getController());
         controller.setStage(primaryStage);
         controller.initStage(root);
     }
