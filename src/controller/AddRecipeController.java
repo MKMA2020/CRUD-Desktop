@@ -8,6 +8,7 @@ package controller;
 import static controller.GlobalController.LOGGER;
 import enumeration.IngredientType;
 import enumeration.RecipeType;
+import exception.RecordExistsException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -45,6 +46,7 @@ import javafx.stage.WindowEvent;
 import jdk.nashorn.internal.ir.CatchNode;
 import model.Ingredient;
 import model.Recipe;
+import reto2crud.Reto2CRUD;
 
 /**
  *
@@ -186,6 +188,7 @@ public class AddRecipeController extends GlobalController {
     String choiceSelection = null;
     RecipeType selection = null;
     Ingredient selectedItem = null;
+    Boolean startError = false;
 
     public void initStage(Parent root) {
 
@@ -197,44 +200,52 @@ public class AddRecipeController extends GlobalController {
         stage.setResizable(false);
         btnAddRecipe.setDisable(true);
         //load all ingredients into the observable arraylist
-
-        usedIngredients = FXCollections.observableArrayList(getIngredientManager().findAll());
-        List<String> usedNameIngredients = new ArrayList<String>();
-        List<IngredientType> usedTypeIngredients = new ArrayList<IngredientType>();
-        for (Ingredient e : usedIngredients) {
-            usedNameIngredients.add(e.getName());
-            usedTypeIngredients.add(e.getType());
+        try {
+            usedIngredients = FXCollections.observableArrayList(getIngredientManager().findAll());
+        } catch (Exception e) {
+            //  Block of code to handle errors
+            startError = true;
         }
-        usedNameIngredientsObservableList = FXCollections.observableArrayList(usedNameIngredients);
-        ObservableList<IngredientType> usedNameTypeObservableList = FXCollections.observableArrayList(usedTypeIngredients);
-        //Set window's events handlers
-        stage.setOnShowing(this::handleWindowShowing);
-        //listeners for the imputs
-
-        recipeIngredientTable.getSelectionModel().getTableView().getItems().size();
-        txtRecipeName.textProperty().addListener((this::textchanged));
-        txtRecipeKCal.textProperty().addListener((this::textchanged));
-        txtareaRecipeSteps.textProperty().addListener((this::textchanged));
-
-        choiceRecipeType.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
-            try {
-                choiceSelection = newValue.toString();
-                selection=(RecipeType) newValue;
-            } catch (Exception e) {
-                //  Block of code to handle errors
+        if (!startError) {
+            List<String> usedNameIngredients = new ArrayList<String>();
+            List<IngredientType> usedTypeIngredients = new ArrayList<IngredientType>();
+            for (Ingredient e : usedIngredients) {
+                usedNameIngredients.add(e.getName());
+                usedTypeIngredients.add(e.getType());
             }
-            if (newValue != oldValue) {
-                activarboton();
+            usedNameIngredientsObservableList = FXCollections.observableArrayList(usedNameIngredients);
+            ObservableList<IngredientType> usedNameTypeObservableList = FXCollections.observableArrayList(usedTypeIngredients);
+            //Set window's events handlers
+            stage.setOnShowing(this::handleWindowShowing);
+            //listeners for the imputs
 
-                System.out.println(newValue);
-                // btnAddRecipe.setDisable(false);
-                //btnAddRecipe.setDisable(false);
-            }
+            recipeIngredientTable.getSelectionModel().getTableView().getItems().size();
+            txtRecipeName.textProperty().addListener((this::textchanged));
+            txtRecipeKCal.textProperty().addListener((this::textchanged));
+            txtareaRecipeSteps.textProperty().addListener((this::textchanged));
 
-        });
-        //activarboton();*/
-        stage.show();
+            choiceRecipeType.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+                try {
+                    choiceSelection = newValue.toString();
+                    selection = (RecipeType) newValue;
+                } catch (Exception e) {
+                    //  Block of code to handle errors
+                }
+                if (newValue != oldValue) {
+                    activarboton();
 
+                    System.out.println(newValue);
+                    // btnAddRecipe.setDisable(false);
+                    //btnAddRecipe.setDisable(false);
+                }
+
+            });
+            //activarboton();*/
+            stage.show();
+
+        } else {
+            LOGGER.warning("Critical error, server is off.");
+        }
     }
 
     /**
@@ -300,10 +311,13 @@ public class AddRecipeController extends GlobalController {
             activarboton();
         });
         /**
-         * On button action to add a recipe. Mind that observablelists are turned into arraylist for proper indexation.
-         * A third arraylist is created witht the table ingredienta, since the ingredients used on the table lack of id, so the server crashes
+         * On button action to add a recipe. Mind that observablelists are
+         * turned into arraylist for proper indexation. A third arraylist is
+         * created witht the table ingredienta, since the ingredients used on
+         * the table lack of id, so the server crashes
          */
         btnAddRecipe.setOnAction(e -> {
+            boolean seEnVia=true;
             //Getting all the table ingredients and putting them into a list.
             List<Ingredient> listadefNames = recipeIngredientTable.getSelectionModel().getTableView().getItems();
             //Converting the list into an arrayList
@@ -313,7 +327,7 @@ public class AddRecipeController extends GlobalController {
             } else {
                 arrayListUSEDNAMES = new ArrayList<>(listadefNames);
             }
-            for (int x=0; x<arrayListUSEDNAMES.size();x++){
+            for (int x = 0; x < arrayListUSEDNAMES.size(); x++) {
                 System.out.println(arrayListUSEDNAMES.get(x).getName());
             }
             //Converting usedingredients List into arraylist too for avoiding indexation error just in case.
@@ -323,15 +337,15 @@ public class AddRecipeController extends GlobalController {
             } else {
                 fullIngredients = new ArrayList<>(usedIngredients);
             }
-            for (int x=0; x<fullIngredients.size();x++){
+            for (int x = 0; x < fullIngredients.size(); x++) {
                 System.out.println(fullIngredients.get(x).getName());
             }
             Ingredient aux = null;
             //This will be the definitive list that will be sent to the server
             ArrayList<Ingredient> listadefFullIngredients = new ArrayList<Ingredient>();
             for (int i = 0; i < fullIngredients.size(); i++) {
-                for(int j = 0; j<arrayListUSEDNAMES.size();j++){
-                    if(fullIngredients.get(i).getName().equalsIgnoreCase(arrayListUSEDNAMES.get(j).getName())){
+                for (int j = 0; j < arrayListUSEDNAMES.size(); j++) {
+                    if (fullIngredients.get(i).getName().equalsIgnoreCase(arrayListUSEDNAMES.get(j).getName())) {
                         aux = new Ingredient();
                         aux = fullIngredients.get(i);
                         listadefFullIngredients.add(aux);
@@ -339,25 +353,34 @@ public class AddRecipeController extends GlobalController {
                 }
             }
 
-                
-            for (int x=0; x<listadefFullIngredients.size();x++){
-                System.out.println("Ingredientes a enviar: "+listadefFullIngredients.get(x).getName());
+            for (int x = 0; x < listadefFullIngredients.size(); x++) {
+                System.out.println("Ingredientes a enviar: " + listadefFullIngredients.get(x).getName());
             }
-
-            
 
             Recipe recipe = new Recipe();
 
             recipe.setName(txtRecipeName.getText());
+            try{
             recipe.setKcal(Float.parseFloat(txtRecipeKCal.getText()));
+            } catch (NumberFormatException ex) {
+                    showError("Las calorias deben ser un numero!");
+                    seEnVia=false;
+                }
             recipe.setSteps(txtareaRecipeSteps.getText());
             recipe.setType(selection);
 
             Set<Ingredient> foo = new HashSet<Ingredient>(listadefFullIngredients);
 
             recipe.setIngredients(foo);
+            //USER NEEDS TO BE SET
+            recipe.setUser(null);
+            recipe.setVerified(true);
+            if(seEnVia){
             getrecipeManager().create(recipe);
-            activarboton();
+            btnAddRecipe.setDisable(true);
+            btnAddRecipe.setText("Añadida!");
+            }
+            //activarboton();
         });
         btnCancelAddRecipe.setOnAction(e -> {
             stage.close();
@@ -372,8 +395,10 @@ public class AddRecipeController extends GlobalController {
             txtareaRecipeSteps.setText("");
             choiceRecipeType.getItems().removeAll(RecipeType.values());
             recipeIngredientTable.getSelectionModel().getTableView().getItems().clear();
+            btnAddRecipe.setText("Añadir");
 
             choiboxType();
+            activarboton();
         });
         menuItemSaveRecipe.setOnAction(e -> {
             stage.close();

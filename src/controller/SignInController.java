@@ -6,6 +6,8 @@
 package controller;
 
 import static controller.GlobalController.LOGGER;
+import exception.DatabaseException;
+import exception.IncorrectCredentialsException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -80,14 +82,14 @@ public class SignInController extends GlobalController {
     }
 
     @FXML
-    private void handleButtonSignIn(ActionEvent event) throws IOException {
+    private void handleButtonSignIn(ActionEvent event) throws IOException, IncorrectCredentialsException, DatabaseException {
         signIn();
 
     }
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.setTitle("Iniciar Sesion");
         stage.setResizable(false);
@@ -143,6 +145,7 @@ public class SignInController extends GlobalController {
         controller.setStage(primaryStage);
         controller.initStage(root);
     }
+
     private void start_resetPWD(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ResetPass.fxml"));
         Parent root = (Parent) loader.load();
@@ -151,8 +154,10 @@ public class SignInController extends GlobalController {
         controller.initStage(root);
     }
 
-    private void signIn() {
+    private void signIn() throws IncorrectCredentialsException, DatabaseException, IOException {
         boolean error = false;
+        boolean errordb = false;
+        User user = new User();
         Ciphering encrypter = new Ciphering();
         LOGGER.log(Level.INFO, "Attempt to sign in started");
 
@@ -165,17 +170,41 @@ public class SignInController extends GlobalController {
             error = true;
         }
         if (!error) {
-            User user = new User();
-            user.setLogin(SignInBtn.getText());
-            user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
-            
-            user=getUserManager().login(SignInUsername.getText(), user.getPassword());
-            if(user==null){
-                showWarning("Nombre de usuario o contraseñas erroneas");
+            try {
+
+                user.setLogin(SignInBtn.getText());
+                user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
                 
+                user = getUserManager().login(SignInUsername.getText(), user.getPassword());
+            } catch (Exception e) {
+                errordb = true;
+                throw new DatabaseException();
+            }
+            if (errordb) {
+                showWarning("Error en la conexion con la base de datos");
+            } else {
+                if (user == null) {
+                    try {
+                        showWarning("Nombre de usuario o contraseñas erroneas");
+                    } catch (Exception e) {
+                        throw new IncorrectCredentialsException();
+                    }
+
+                } else {
+                    System.out.println("controller.SignInController.signIn()");
+                    start_app(stage);
+                }
             }
 
         }
+    }
+
+    private void start_app(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/AdminUserWindowController.fxml"));
+        Parent root = (Parent) loader.load();
+        ResetPassController controller = (loader.getController());
+        controller.setStage(primaryStage);
+        controller.initStage(root);
     }
 
 }
