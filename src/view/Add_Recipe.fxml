@@ -30,7 +30,7 @@
                 <Menu fx:id="menuRecipe" mnemonicParsing="false" text="Recetas">
                   <items>
                     <MenuItem fx:id="menuItemNewRecipe" mnemonicParsing="false" text="Nueva Receta" />
-                        <MenuItem fx:id="menuItemDeleteRecipe" mnemonicParsing="false" text="Borrar Receta" />
+                        <MenuItem fx:id="menuItemSaveRecipe" mnemonicParsing="false" text="Guardar Receta" />
                   </items>
                 </Menu>
                 <Menu fx:id="menuRecipeVolvera" mnemonicParsing="false" text="Volver A">

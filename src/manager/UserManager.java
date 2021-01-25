@@ -6,6 +6,8 @@
 package manager;
 
 import enumeration.UserType;
+import exception.IncorrectCredentialsException;
+import exception.TimeoutException;
 import java.util.List;
 import model.User;
 
@@ -23,11 +25,11 @@ public interface UserManager {
     
     public void remove(Long id);
     
-    public User login(String login, String password);
+    public User login(String login, String password)throws IncorrectCredentialsException, TimeoutException;
     
     public User findByName(String fullName);
        
-    public List<User> findAll();
+    public List<User> findAll()throws TimeoutException;
     
     public List<User> findByType(UserType type);
     

@@ -109,6 +109,6 @@ public class Ingredient implements Serializable {
     //TODO Check whether commentary is necessary.
     @Override
     public String toString() {
-        return "mkma.entity.Ingredient[ id=" + id + " ]";
+        return getName();
     }
 }

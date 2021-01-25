@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package manager;
 
-import enumeration.RecipeType;
+import exception.TimeoutException;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,7 +23,7 @@ public class RecipeManagerImplementation implements RecipeManager {
     }
 
     @Override
-    public List<Recipe> getAllRecipes() {
+    public List<Recipe> getAllRecipes() throws TimeoutException {
         List<Recipe> recipes = null;
         try {
             LOGGER.info("RecipeManager: getAllRecipes()");
@@ -39,6 +34,8 @@ public class RecipeManagerImplementation implements RecipeManager {
             
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, ex.getMessage());
+            throw new TimeoutException();
+            
         }
         return recipes;
     }
@@ -54,19 +51,15 @@ public class RecipeManagerImplementation implements RecipeManager {
         }
         return recipe;
     }
-    
+
     @Override
-    public List<Recipe> getRecipesByType(RecipeType type) {
-        List<Recipe> recipes = null;
+    public void create(Recipe recipe) {
         try {
-            LOGGER.info("RecipeManager: getRecipesByType()");
-            
-            recipes = webClient.findRecipesByType(new GenericType<List<Recipe>>() {}, type.toString());
-            
+            LOGGER.info("Create Recipe");
+            webClient.create(recipe);
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, ex.getMessage());
+            LOGGER.log(Level.SEVERE, "Create Recipe failed: {0}", ex.getMessage());
         }
-        return recipes;
     }
 
 }
