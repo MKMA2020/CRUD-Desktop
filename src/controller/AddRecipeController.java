@@ -29,6 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -127,7 +128,7 @@ public class AddRecipeController extends GlobalController {
      */
 
     @FXML
-    private ChoiceBox choiceRecipeType;
+    private ComboBox choiceRecipeType;
 
     /**
      * TableView for the table of ingredients
@@ -304,9 +305,21 @@ public class AddRecipeController extends GlobalController {
             activarboton();
         });
         deleteRow.setOnAction(e -> {
-            selectedItem = recipeIngredientTable.getSelectionModel().getSelectedItem();
-            recipeIngredientTable.getItems().remove(selectedItem);
+            try{
+                selectedItem = recipeIngredientTable.getSelectionModel().getSelectedItem();
+                recipeIngredientTable.getItems().remove(selectedItem);
+                System.out.println("removing " + selectedItem.getName());
+                
+            }catch(NullPointerException ex){
+                
+                recipeIngredientTable.getItems().remove(selectedItem);
+            }
+            
+            
+                
             System.out.println("removing " + selectedItem.getName());
+            
+
             activarboton();
         });
         /**
@@ -361,17 +374,17 @@ public class AddRecipeController extends GlobalController {
             recipe.setName(txtRecipeName.getText());
             try {
                 recipe.setKcal(Float.parseFloat(txtRecipeKCal.getText()));
-            
-            recipe.setSteps(txtareaRecipeSteps.getText());
-            recipe.setType(selection);
 
-            Set<Ingredient> foo = new HashSet<Ingredient>(listadefFullIngredients);
+                recipe.setSteps(txtareaRecipeSteps.getText());
+                recipe.setType(selection);
 
-            recipe.setIngredients(foo);
-            //USER NEEDS TO BE SET
-            recipe.setUser(null);
-            recipe.setVerified(true);
-            
+                Set<Ingredient> foo = new HashSet<Ingredient>(listadefFullIngredients);
+
+                recipe.setIngredients(foo);
+                //USER NEEDS TO BE SET
+                recipe.setUser(null);
+                recipe.setVerified(true);
+
                 getrecipeManager().create(recipe);
                 btnAddRecipe.setDisable(true);
                 btnAddRecipe.setText("Añadida!");
@@ -500,7 +513,7 @@ public class AddRecipeController extends GlobalController {
     }
 
     private void choiboxType() {
-        choiceRecipeType.getItems().addAll((Object[])RecipeType.values());
+        choiceRecipeType.getItems().addAll((Object[]) RecipeType.values());
 
     }
 
