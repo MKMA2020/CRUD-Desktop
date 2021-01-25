@@ -392,7 +392,7 @@ public class AddRecipeController extends GlobalController {
             txtRecipeName.setText("");
             txtRecipeKCal.setText("");
             txtareaRecipeSteps.setText("");
-            choiceRecipeType.getItems().removeAll(RecipeType.values());
+            choiceRecipeType.getItems().clear();
             recipeIngredientTable.getSelectionModel().getTableView().getItems().clear();
             btnAddRecipe.setText("Añadir");
 
@@ -500,7 +500,7 @@ public class AddRecipeController extends GlobalController {
     }
 
     private void choiboxType() {
-        choiceRecipeType.getItems().addAll(RecipeType.values());
+        choiceRecipeType.getItems().addAll((Object[])RecipeType.values());
 
     }
 
