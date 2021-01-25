@@ -1,5 +1,6 @@
 package controller;
 
+import exception.TimeoutException;
 import java.util.Date;
 import java.util.logging.Level;
 import javafx.collections.FXCollections;
@@ -90,7 +91,7 @@ public class AdminUserWindowController extends GlobalController {
         stage.setTitle("Administrar");
         stage.setResizable(false);
 
-        stage.setOnShowing(this::handleWindowShowing);
+        //stage.setOnShowing(this::handleWindowShowing);
 
         managerTable.setEditable(true);
 
@@ -115,7 +116,7 @@ public class AdminUserWindowController extends GlobalController {
      *
      * @param event The window event
      */
-    private void handleWindowShowing(WindowEvent event) {
+    private void handleWindowShowing(WindowEvent event) throws TimeoutException {
         //Create an obsrvable list for recipes table.
         ObservableList<User> allUsers = FXCollections.observableArrayList(getUserManager().findAll());
         

@@ -110,7 +110,9 @@ public class RecipeViewController extends GlobalController {
      * @param root The Parent object representing root node of view graph.
      */
     public void initStage(Parent root) {
-        
+        try{
+            
+       
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
         
@@ -131,6 +133,9 @@ public class RecipeViewController extends GlobalController {
 
         //Show window.
         stage.show();
+         }catch(Exception e){
+             showWarning(e.getMessage());
+         }
     }
 
 }
