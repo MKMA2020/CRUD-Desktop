@@ -57,18 +57,6 @@ public class RecipeViewController extends GlobalController {
      */
     @FXML
     public Button btnNewRecipe;
-    
-    /**
-     * Button used to get into an specific recipe.
-     */
-    @FXML
-    public Button btnDetailRecipe;
-    
-    /**
-     * Button used to remove a recipe.
-     */
-    @FXML
-    public Button btnRemoveRecipe;
 
      @FXML
     private SideMenuController sideMenuController;
@@ -140,8 +128,6 @@ public class RecipeViewController extends GlobalController {
         stage.setTitle("Recetas");
         stage.setResizable(false);
         
-        btnDetailRecipe.setVisible(false);
-        btnRemoveRecipe.setVisible(false);
         //Set table model.
         recipeTable.setItems(fillTable());
         
@@ -149,40 +135,14 @@ public class RecipeViewController extends GlobalController {
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
-
         
-        recipeTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if(newSelection != null){
-                btnDetailRecipe.setVisible(true);
-                if(personal)
-                    btnRemoveRecipe.setVisible(true);
-                LOGGER.info("Recipe chosen");
-            }else{
-                btnDetailRecipe.setVisible(false);
-                btnRemoveRecipe.setVisible(false);
-                LOGGER.info("Recipe unchosen");
-            }
-        });
-        
-        btnDetailRecipe.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    createNewRecipe(event);
-                    recipeTable.setItems(fillTable());
-                } catch (IOException ex) {
-                    showError("Error trying to create a recipe.");
-                }
-            }
-        });
-        
-        btnRemoveRecipe.setOnAction(new EventHandler<ActionEvent>(){
+        btnNewRecipe.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event){
                 try{
-                    deleteRecipe(event);
+                    createNewRecipe(event);
                 }catch(Exception ex){
-                    showError("Error trying to delete a recipe.");
+                    showError("Error trying to create a recipe.");
                 }
             }
         });
@@ -196,29 +156,16 @@ public class RecipeViewController extends GlobalController {
      * @param event
      */
     public void createNewRecipe(ActionEvent event) throws IOException{
-        //TODO Test
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Add_Recipe.fxml"));
+        root = loader.load();
+        AddRecipeController controller = loader.getController();
         Stage newRecipeDialog = new Stage();
-        Parent root = FXMLLoader.load(
-                AddRecipeController.class.getResource("Add_Recipe.fxml"));
-        newRecipeDialog.setScene(new Scene(root));
-        newRecipeDialog.initOwner(stage);
         newRecipeDialog.initModality(Modality.APPLICATION_MODAL);
-        newRecipeDialog.showAndWait();
-    }
-    
-    /**
-     * Deletes the selected recipe after asking for confirmation.
-     * @param event 
-     */
-    private void deleteRecipe(ActionEvent event) {
-        Boolean confirmation = null;
-        confirmation = showConfirmation("¿Estás seguro de que deseas eliminar esta receta?");
-        if(confirmation){
-            LOGGER.info("Removing recipe.");
-            getUserManager().remove(recipeTable.getSelectionModel().getSelectedItem().getId());
-        }else{
-            LOGGER.info("Recipe removal cancelled.");
-        }
+        newRecipeDialog.setAlwaysOnTop(true);
+        controller.setStage(newRecipeDialog);
+        controller.initStage(root);
+        //TODO wait until the window gets closed and refresh.
     }
     
     private ObservableList<Recipe> fillTable() {
@@ -228,7 +175,7 @@ public class RecipeViewController extends GlobalController {
             stage.setTitle("Mis recetas");
             //Recipe filtering.
             for(Recipe recipe: recipes){
-                if(!(recipe.getUser().equals(Reto2CRUD.getUser()))){
+                if(!(recipe.getUser().getId().equals(Reto2CRUD.getUser().getId()))){
                     recipes.remove(recipe);
                 }
             }

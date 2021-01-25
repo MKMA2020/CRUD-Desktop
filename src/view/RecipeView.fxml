@@ -42,31 +42,5 @@
                 <Tooltip text="Crear nueva receta" />
             </tooltip>
         </Button>
-        <!-- Detailed recipe button -->
-        <Button fx:id="btnDetailRecipe" prefHeight="80" prefWidth="80" styleClass="NewRecipeButton" stylesheets="@../css/RecipeViewStyle.css" AnchorPane.bottomAnchor="130.0" AnchorPane.rightAnchor="30.0">
-            <graphic>
-                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../resources/details.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-            <tooltip>
-                <Tooltip text="Ver detalles de la receta" />
-            </tooltip>
-        </Button>
-        <!-- Detailed recipe button -->
-        <Button fx:id="btnRemoveRecipe" prefHeight="80" prefWidth="80" styleClass="NewRecipeButton" stylesheets="@../css/RecipeViewStyle.css" AnchorPane.bottomAnchor="230.0" AnchorPane.rightAnchor="30.0">
-            <graphic>
-                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../resources/delete.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-            <tooltip>
-                <Tooltip text="Borrar receta" />
-            </tooltip>
-        </Button>
     </children>
 </AnchorPane>

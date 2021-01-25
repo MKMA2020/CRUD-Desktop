@@ -1,8 +1,13 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -11,6 +16,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import model.User;
 
 /**
  *
@@ -70,12 +78,34 @@ public class ResetPassController extends GlobalController {
             windowError = true;
         }
         if(!windowError){
-            //TODO Comprobar que El usuario existe y reiniciar la contraseña
+            Boolean found = false;
+            List<User> userList = getUserManager().findAll();
+            for (User user : userList) {
+                if((user.getLogin().equals(txtUserName.getText()) && (user.getEmail().equals(txtEmail.getText())))){
+                    getUserManager().resetPassword(txtUserName.getText(), txtEmail.getText());
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                JOptionPane optionPane = new JOptionPane("User not found.", JOptionPane.ERROR_MESSAGE);    
+                    JDialog dialog = optionPane.createDialog("Failure");
+                    dialog.setAlwaysOnTop(true);
+                    dialog.setVisible(true);
+                    LOGGER.severe("Finding user for password reset: Failed.");
+            }
         }
     }
 
-    private void handleButtonBack(ActionEvent event) {
-
+    private void handleButtonBack(ActionEvent event) throws IOException {
+        Parent root;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+        root = loader.load();
+        SignInController controller = loader.getController();
+        Stage stage = new Stage();
+        controller.setStage(stage);
+        controller.initStage(root);
+        this.stage.close();
     }
 
     /**
@@ -86,7 +116,6 @@ public class ResetPassController extends GlobalController {
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
 
-        //TODO ¿Reusar stage anterior?
         stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Restablecer contraseña");
@@ -97,6 +126,33 @@ public class ResetPassController extends GlobalController {
         txtUserName.requestFocus();
         //TODO fill with information?
 
+        BtnConfirm.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    handleButtonReset(event);
+                } catch (IOException ex) {
+                    JOptionPane optionPane = new JOptionPane("There has been an error trying to reset your password.", JOptionPane.ERROR_MESSAGE);    
+                    JDialog dialog = optionPane.createDialog("Failure");
+                    dialog.setAlwaysOnTop(true);
+                    dialog.setVisible(true);
+                    LOGGER.severe("There has been an error trying to reset your password.");
+                }
+            } 
+        });
+        
+        BtnGoBack.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    handleButtonBack(event);
+                } catch (IOException ex) {
+                    LOGGER.severe("Error going back.");
+                }
+            }
+            
+        });
+        
         stage.show();
     }
 
