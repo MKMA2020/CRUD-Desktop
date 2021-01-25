@@ -1,6 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package manager;
 
 import enumeration.IngredientType;
+import exception.TimeoutException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -70,7 +76,7 @@ public class IngredientManagerImplementation implements IngredientManager {
     }
 
     @Override
-    public List<Ingredient> findAll() {
+    public List<Ingredient> findAll() throws TimeoutException {
         List<Ingredient> ingredients = null;
         try {
             LOGGER.log(Level.INFO, "Find All Ingredients");
@@ -78,6 +84,8 @@ public class IngredientManagerImplementation implements IngredientManager {
             });
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Find All Ingredients failed: {0}", ex.getMessage());
+            throw new TimeoutException();
+            
         }
         return ingredients;
     }

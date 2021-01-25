@@ -11,12 +11,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Recipe entity class
+ *
  * @author Martin Gros
  */
-
 @XmlRootElement
 public class Recipe {
-    
 
     /**
      * ID of the Recipe.
@@ -47,7 +46,35 @@ public class Recipe {
      * Ingredient collection of the recipe.
      */
     private Set<Ingredient> ingredients;
+    /**
+     * Author of the recipe
+     */
+    private User user;
+    /**
+     * Recipe verified
+     */
+    private Boolean verified;
+
     
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    /**
+     * Author of the recipe
+     */
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+
     public Long getId() {
         return id;
     }
@@ -91,12 +118,11 @@ public class Recipe {
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
-    
-        public void setIngredients(Set<Ingredient> ingredients) {
+
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-    
-        
+
     @Override
     public int hashCode() {
         int hash = 0;
