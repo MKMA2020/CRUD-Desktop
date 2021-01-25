@@ -94,7 +94,7 @@ public class ResetPassController extends GlobalController {
 
         stage.setOnShowing(this::handleWindowShowing);
         //Set focus on the username text field.
-        txtUserName.requestFocus();
+        //txtUserName.requestFocus();
         //TODO fill with information?
 
         stage.show();
