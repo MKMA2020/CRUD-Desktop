@@ -132,7 +132,7 @@ public class SignInController extends GlobalController {
         controller.initStage(root);
     }
 
-    private void signIn() {
+    private void signIn() throws IOException {
         boolean error = false;
         Ciphering encrypter = new Ciphering();
         LOGGER.log(Level.INFO, "Attempt to sign in started");
@@ -150,7 +150,13 @@ public class SignInController extends GlobalController {
             user.setLogin(SignInBtn.getText());
             user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
             
-            getUserManager().login(SignInUsername.getText(), user.getPassword());
+            user = getUserManager().login(SignInUsername.getText(), user.getPassword());
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
+            Parent root = (Parent) loader.load();
+            RecipeViewController controller = (loader.getController());
+            controller.setStage(stage);
+            controller.initStage(root);
 
         }
     }

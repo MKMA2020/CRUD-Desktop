@@ -119,6 +119,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "mkma.entity.Recipe[ id=" + id + " ]";
+        return this.name;
     }
 }

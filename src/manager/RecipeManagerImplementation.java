@@ -5,6 +5,7 @@
  */
 package manager;
 
+import enumeration.RecipeType;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -52,6 +53,20 @@ public class RecipeManagerImplementation implements RecipeManager {
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
         return recipe;
+    }
+    
+    @Override
+    public List<Recipe> getRecipesByType(RecipeType type) {
+        List<Recipe> recipes = null;
+        try {
+            LOGGER.info("RecipeManager: getRecipesByType()");
+            
+            recipes = webClient.findRecipesByType(new GenericType<List<Recipe>>() {}, type.toString());
+            
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+        }
+        return recipes;
     }
 
 }

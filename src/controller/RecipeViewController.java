@@ -120,7 +120,7 @@ public class RecipeViewController extends GlobalController {
         stage.setResizable(false);
         
         //Create an obsrvable list for recipes table.
-        ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());
+        ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
         //Set table model.
         recipeTable.setItems(allRecipes);
 
