@@ -7,6 +7,8 @@ package controller;
 
 import static controller.GlobalController.LOGGER;
 import exception.DatabaseException;
+import exception.IncorrectCredentialsException;
+import exception.TimeoutException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,7 +85,7 @@ public class SignUpController extends GlobalController {
     }
 
     @FXML
-    private void handleButtonSignUp(ActionEvent event) throws IOException, DatabaseException {
+    private void handleButtonSignUp(ActionEvent event) throws IOException, DatabaseException, IncorrectCredentialsException {
         SignUp();
     }
 
@@ -152,7 +154,7 @@ public class SignUpController extends GlobalController {
         //stage.close();
     }
 
-    private void SignUp() throws DatabaseException {
+    private void SignUp() {
         boolean existe = false;
         boolean error = validate();
         String alertError = null;
@@ -163,47 +165,37 @@ public class SignUpController extends GlobalController {
 
         try {
             listadeUsuarios = (ArrayList<User>) getUserManager().findAll();
-        } catch (Exception e) {
-            throw new DatabaseException();
+        } catch (TimeoutException e) {
+            showWarning("Error en la base de datos, por favor prueba mas tarde.");
+            error = true;
         }
-        try{
-        if (listadeUsuarios!=null) {
+
+        
             for (int i = 0; i < listadeUsuarios.size(); i++) {
                 if (listadeUsuarios.get(i).getLogin().contentEquals(SignUpUsername.getText())) {
                     existe = true;
                     break;
                 }
             }
-        }
-        else{
-            error=true;
-        }
-        } catch (Exception e) {
-            throw new DatabaseException();
-        }
+       
 
         if (!existe && !error) {
 
             //user.setPassword(Arrays.toString(encrypter.cifrarTexto(SignUpPWD.getText())));
-            try {
+            user.setLogin(SignUpUsername.getText());
+            System.out.println(SignUpPWD.getText());
+            user.setPassword(encrypter.cifrarTexto(SignUpPWD.getText()));
+            System.out.println(user.getPassword());
+            user.setEmail(SignUpEmail.getText());
+            user.setFullName(SignUpFN.getText());
 
-                user.setLogin(SignUpUsername.getText());
-                System.out.println(SignUpPWD.getText());
-                user.setPassword(encrypter.cifrarTexto(SignUpPWD.getText()));
-                System.out.println(user.getPassword());
-                user.setEmail(SignUpEmail.getText());
-                user.setFullName(SignUpFN.getText());
-
-                getUserManager().create(user);
-                SignUpBtn.setText("Signed Up");
-                SignUpBtn.setDisable(true);
-            } catch (Exception e) {
-                throw new DatabaseException();
-            }
+            getUserManager().create(user);
+            SignUpBtn.setText("Signed Up");
+            SignUpBtn.setDisable(true);
 
         } else {
-            if(existe){
-            showWarning("El usuario ya existe");
+            if (existe) {
+                showWarning("El usuario ya existe");
             }
 
         }

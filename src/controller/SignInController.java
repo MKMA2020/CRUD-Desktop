@@ -8,7 +8,9 @@ package controller;
 import static controller.GlobalController.LOGGER;
 import exception.DatabaseException;
 import exception.IncorrectCredentialsException;
+import exception.TimeoutException;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.Observable;
@@ -28,6 +30,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.servlet.UnavailableException;
+import javax.ws.rs.ForbiddenException;
 import manager.UserManager;
 import model.Recipe;
 import model.User;
@@ -154,7 +158,7 @@ public class SignInController extends GlobalController {
         controller.initStage(root);
     }
 
-    private void signIn() throws IncorrectCredentialsException, DatabaseException, IOException {
+    private void signIn() throws IOException, IncorrectCredentialsException {
         boolean error = false;
         boolean errordb = false;
         User user = new User();
@@ -170,33 +174,39 @@ public class SignInController extends GlobalController {
             error = true;
         }
         if (!error) {
+            //Try and catch in order to avoid a database no response error.
             try {
 
                 user.setLogin(SignInBtn.getText());
                 user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
-                
-                user = getUserManager().login(SignInUsername.getText(), user.getPassword());
-            } catch (Exception e) {
-                errordb = true;
-                throw new DatabaseException();
-            }
-            if (errordb) {
-                showWarning("Error en la conexion con la base de datos");
-            } else {
-                if (user == null) {
-                    try {
-                        showWarning("Nombre de usuario o contraseñas erroneas");
-                    } catch (Exception e) {
-                        throw new IncorrectCredentialsException();
-                    }
 
-                } else {
+                user = getUserManager().login(SignInUsername.getText(), user.getPassword());
+
+            } catch (TimeoutException e) {
+                showWarning("Error en la conexion con la base de datos");
+
+            
+            } catch (IncorrectCredentialsException e) {
+                showWarning("Nombre de usuario o contraseñas erroneas");
+
+            }
+            
+            
+
+
+        }else {
+                
+
+                    
+
+                
                     System.out.println("controller.SignInController.signIn()");
                     start_app(stage);
-                }
+                
             }
 
-        }
+        
+
     }
 
     private void start_app(Stage primaryStage) throws IOException {

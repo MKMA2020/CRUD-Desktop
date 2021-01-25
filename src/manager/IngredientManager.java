@@ -6,6 +6,7 @@
 package manager;
 
 import enumeration.IngredientType;
+import exception.TimeoutException;
 import java.util.List;
 import model.Ingredient;
 
@@ -23,7 +24,7 @@ public interface IngredientManager {
     
     public void remove(Long id);
        
-    public List<Ingredient> findAll();
+    public List<Ingredient> findAll()throws TimeoutException;
     
     public List<Ingredient> findAllByType(IngredientType type);
     

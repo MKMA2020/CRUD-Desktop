@@ -5,6 +5,7 @@
  */
 package manager;
 
+import exception.TimeoutException;
 import java.util.Collection;
 import model.Recipe;
 
@@ -14,7 +15,7 @@ import model.Recipe;
  */
 public interface RecipeManager {
     
-    public Collection<Recipe> getAllRecipes();
+    public Collection<Recipe> getAllRecipes()throws TimeoutException;
     
     public Recipe getRecipeById(String id);
     

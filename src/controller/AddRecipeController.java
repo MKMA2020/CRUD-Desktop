@@ -9,6 +9,7 @@ import static controller.GlobalController.LOGGER;
 import enumeration.IngredientType;
 import enumeration.RecipeType;
 import exception.RecordExistsException;
+import exception.TimeoutException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -202,11 +203,7 @@ public class AddRecipeController extends GlobalController {
         //load all ingredients into the observable arraylist
         try {
             usedIngredients = FXCollections.observableArrayList(getIngredientManager().findAll());
-        } catch (Exception e) {
-            //  Block of code to handle errors
-            startError = true;
-        }
-        if (!startError) {
+
             List<String> usedNameIngredients = new ArrayList<String>();
             List<IngredientType> usedTypeIngredients = new ArrayList<IngredientType>();
             for (Ingredient e : usedIngredients) {
@@ -242,10 +239,12 @@ public class AddRecipeController extends GlobalController {
             });
             //activarboton();*/
             stage.show();
-
-        } else {
+        } catch (TimeoutException e) {
+            showWarning("Error en la base de datos, por favor prueba mas tarde.");
             LOGGER.warning("Critical error, server is off.");
+
         }
+
     }
 
     /**
@@ -317,7 +316,7 @@ public class AddRecipeController extends GlobalController {
          * the table lack of id, so the server crashes
          */
         btnAddRecipe.setOnAction(e -> {
-            boolean seEnVia=true;
+            boolean seEnVia = true;
             //Getting all the table ingredients and putting them into a list.
             List<Ingredient> listadefNames = recipeIngredientTable.getSelectionModel().getTableView().getItems();
             //Converting the list into an arrayList
@@ -360,12 +359,9 @@ public class AddRecipeController extends GlobalController {
             Recipe recipe = new Recipe();
 
             recipe.setName(txtRecipeName.getText());
-            try{
-            recipe.setKcal(Float.parseFloat(txtRecipeKCal.getText()));
-            } catch (NumberFormatException ex) {
-                    showError("Las calorias deben ser un numero!");
-                    seEnVia=false;
-                }
+            try {
+                recipe.setKcal(Float.parseFloat(txtRecipeKCal.getText()));
+            
             recipe.setSteps(txtareaRecipeSteps.getText());
             recipe.setType(selection);
 
@@ -375,10 +371,13 @@ public class AddRecipeController extends GlobalController {
             //USER NEEDS TO BE SET
             recipe.setUser(null);
             recipe.setVerified(true);
-            if(seEnVia){
-            getrecipeManager().create(recipe);
-            btnAddRecipe.setDisable(true);
-            btnAddRecipe.setText("Añadida!");
+            
+                getrecipeManager().create(recipe);
+                btnAddRecipe.setDisable(true);
+                btnAddRecipe.setText("Añadida!");
+            } catch (NumberFormatException ex) {
+                showError("Las calorias deben ser un numero!");
+                seEnVia = false;
             }
             //activarboton();
         });
