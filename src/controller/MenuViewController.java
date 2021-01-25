@@ -202,13 +202,21 @@ public class MenuViewController extends GlobalController {
         NewMenuController controller = (loader.getController());
         controller.setStage(stage);
         controller.initStage(root);
+        everyMenu = FXCollections.observableArrayList(getMenuManager().findAll());
+        menuTable.setItems(everyMenu);
+        menuTable.refresh();
+        
     }
 
     @FXML
     private void deleteMenu(ActionEvent event) {      
-        getMenuManager().delete(menuTable.getSelectionModel().getSelectedItem().getId());
-        everyMenu.remove(menuTable.getSelectionModel().getSelectedItem());
-        menuTable.refresh();
+        try {
+           getMenuManager().delete(menuTable.getSelectionModel().getSelectedItem().getId());
+           everyMenu.remove(menuTable.getSelectionModel().getSelectedItem());
+           menuTable.refresh(); 
+        } catch (NullPointerException ex) {
+            showError("No hay menú seleccionado!");
+        }
     }
     
     private void updateMenuDescription(CellEditEvent <Menu,String> t) {
