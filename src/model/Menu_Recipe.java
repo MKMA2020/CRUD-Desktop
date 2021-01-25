@@ -29,6 +29,18 @@ public class Menu_Recipe implements Serializable {
      * Type of the recipe.
      */
     private Menu_recipeType type;
+    
+    private Menu menus;
+
+    public Menu_Recipe(Object selectedItem, Menu_recipeType menu_recipeType, Menu menu) {
+        this.recipes = (Recipe) selectedItem;
+        this.type = menu_recipeType;
+        this.menus = menu;
+    }
+    
+    public Menu_Recipe() {
+        
+    }
 
     public Menu_RecipeId getId() {
          return id;
@@ -53,6 +65,16 @@ public class Menu_Recipe implements Serializable {
     public void setType(Menu_recipeType type) {
         this.type = type;
     }
+
+    public Menu getMenus() {
+        return menus;
+    }
+
+    public void setMenus(Menu menus) {
+        this.menus = menus;
+    }
+    
+    
 
     //TODO Check whether commentary is necessary.
     @Override

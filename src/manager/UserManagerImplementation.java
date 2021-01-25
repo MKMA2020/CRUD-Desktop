@@ -18,7 +18,7 @@ import rest.UserRESTClient;
 
 /**
  *
- * @author Martin Valiente Ainz & Aitor Garcia
+ * @author Martin Valiente Ainz
  */
 public class UserManagerImplementation implements UserManager {
 

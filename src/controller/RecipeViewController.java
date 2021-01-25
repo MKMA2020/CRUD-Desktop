@@ -2,6 +2,7 @@ package controller;
 
 import static controller.GlobalController.LOGGER;
 import enumeration.RecipeType;
+import exception.TimeoutException;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -111,8 +112,6 @@ public class RecipeViewController extends GlobalController {
      */
     public void initStage(Parent root) {
         try{
-            
-       
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
         
@@ -122,7 +121,7 @@ public class RecipeViewController extends GlobalController {
         stage.setResizable(false);
         
         //Create an obsrvable list for recipes table.
-        ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(recipeManager.getAllRecipes());
+        ObservableList<Recipe> allRecipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
         //Set table model.
         recipeTable.setItems(allRecipes);
 

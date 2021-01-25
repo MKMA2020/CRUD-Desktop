@@ -1,14 +1,18 @@
 package controller;
 
-import exception.TimeoutException;
 import java.util.Date;
 import java.util.logging.Level;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -20,7 +24,7 @@ import model.User;
  * @author Martin Valiente Ainz
  */
 public class AdminUserWindowController extends GlobalController {
-    
+
     @FXML
     private SideMenuController sideMenuController;
 
@@ -28,70 +32,76 @@ public class AdminUserWindowController extends GlobalController {
      * TableView that will contain the information about users.
      */
     @FXML
-    TableView<User> managerTable;
+    private TableView<User> managerTable;
 
     /**
      * Column from the TableView that will contain the id of the user.
      */
     @FXML
-    TableColumn<User, Long> tclAdminId;
+    private TableColumn<User, Long> tclAdminId;
 
     /**
      * Column from the TableView that will contain the login of the user.
      */
     @FXML
-    TableColumn<User, String> tclAdminLogin;
+    private TableColumn<User, String> tclAdminLogin;
 
     /**
      * Column from the TableView that will contain the email of the user.
      */
     @FXML
-    TableColumn<User, String> tclAdminEmail;
+    private TableColumn<User, String> tclAdminEmail;
 
     /**
      * Column from the TableView that will contain the status of the user.
      */
     @FXML
-    TableColumn<User, Boolean> tclAdminStatus;
+    private TableColumn<User, Boolean> tclAdminStatus;
 
     /**
      * Column from the TableView that will contain the Last Access Date of the
      * user.
      */
     @FXML
-    TableColumn<User, Date> tclAdminLastAccess;
+    private TableColumn<User, Date> tclAdminLastAccess;
 
     /**
      * Column from the TableView that will contain the reset password CheckBox
      * of the user.
      */
     @FXML
-    TableColumn<User, Boolean> tclAdminResetPassword;
+    private TableColumn<User, Boolean> tclAdminResetPassword;
 
     /**
      * Column from the TableView that will contain the Last Password Change Date
      * of the user.
      */
     @FXML
-    TableColumn<User, Date> tclAdminLastPasswordChange;
-    
+    private TableColumn<User, Date> tclAdminLastPasswordChange;
+
     /**
-     * 
-     * @param root 
+     * Button that will Open window that generates the Form.
+     */
+    @FXML
+    private Button btnUserListGenerateForm;
+
+    /**
+     *
+     * @param root
      */
     public void initStage(Parent root) {
-        
+
         // Load Stage into SideMenu
         sideMenuController.setStage(stage);
         // Load Menu Components
         sideMenuController.initStage();
-        
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Administrar");
         stage.setResizable(false);
 
-        //stage.setOnShowing(this::handleWindowShowing);
+        stage.setOnShowing(this::handleWindowShowing);
 
         managerTable.setEditable(true);
 
@@ -106,7 +116,22 @@ public class AdminUserWindowController extends GlobalController {
         tclAdminLastAccess.setCellValueFactory(new PropertyValueFactory<>("lastAccess"));
         tclAdminResetPassword.setCellValueFactory(new PropertyValueFactory<>("resetPassword"));
         tclAdminLastPasswordChange.setCellValueFactory(new PropertyValueFactory<>("lastsPasswordChange"));
-        
+
+        // ContextMenu for rows on Table.
+        managerTable.setRowFactory((TableView<User> tableView) -> {
+            TableRow<User> row = new TableRow<>();
+            ContextMenu rowMenu = new ContextMenu();
+            MenuItem editItem = new MenuItem("Reset");
+            MenuItem removeItem = new MenuItem("Enable/Disable");
+            rowMenu.getItems().addAll(editItem, removeItem);
+            // When ItemProperty from row is NotNull show rowMenu ContextMenu.
+            // When ItemProperty from row is Null show Null ContextMenu.
+            row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty())).then(rowMenu).otherwise((ContextMenu) null));
+            return row;
+        });
+
+        loadTable();
+
         //Show window.
         stage.show();
     }
@@ -116,18 +141,28 @@ public class AdminUserWindowController extends GlobalController {
      *
      * @param event The window event
      */
-    private void handleWindowShowing(WindowEvent event) throws TimeoutException {
+    private void handleWindowShowing(WindowEvent event) {
+
+    }
+
+    /**
+     * Method will load Table data and add listeners for resetPassword and
+     * Status changes.
+     */
+    public void loadTable() {
         //Create an obsrvable list for recipes table.
-        ObservableList<User> allUsers = FXCollections.observableArrayList(getUserManager().findAll());
+        ObservableList<User> allUsers = null;
+        try{
+        allUsers = FXCollections.observableArrayList(getUserManager().findAll());
         
         // Status Listeners
         allUsers.forEach(user -> user.statusProperty().addListener((observable, oldValue, newValue) -> {
             LOGGER.log(Level.INFO, "Setting {0} status to user: {1}", new Object[]{user.getStatus().toString(), user.getLogin()});
-            user.setStatus(newValue);            
+            user.setStatus(newValue);
             getUserManager().edit(user);
 
         }));
-        
+
         // ResetPassword Listeners
         allUsers.forEach(user -> {
             user.resetPasswordProperty().addListener((observable, oldValue, newValue) -> {
@@ -143,9 +178,15 @@ public class AdminUserWindowController extends GlobalController {
                 }
             });
         });
-
+        
         //Set table model.
         managerTable.setItems(allUsers);
+        
+        }catch(NullPointerException ex){
+            showError("No hay respuesta del Servidor.");
+        }catch(Exception ex){
+            showError("Error inesperado.");
+        }
+        
     }
-
 }

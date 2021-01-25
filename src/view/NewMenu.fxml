@@ -50,7 +50,7 @@
                                 <Insets left="40.0" right="20.0" />
                             </HBox.margin>
                         </Label>
-                        <TextField prefWidth="200.0">
+                        <TextField fx:id="menuName" prefWidth="200.0">
                             <HBox.margin>
                                 <Insets left="20.0" right="40.0" />
                             </HBox.margin>
@@ -68,7 +68,7 @@
                                 <Insets left="40.0" right="20.0" />
                             </HBox.margin>
                         </Label>
-                        <ChoiceBox prefWidth="200.0">
+                        <ChoiceBox fx:id="choiceType" prefWidth="200.0">
                             <HBox.margin>
                                 <Insets left="20.0" right="40.0" />
                             </HBox.margin>
@@ -85,7 +85,7 @@
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefWidth="200.0">
+                  <ChoiceBox fx:id="choiceStarter" prefWidth="200.0">
                      <HBox.margin>
                         <Insets left="20.0" right="40.0" />
                      </HBox.margin>
@@ -102,7 +102,7 @@
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefWidth="200.0">
+                  <ChoiceBox fx:id="choiceMain" prefWidth="200.0">
                      <HBox.margin>
                         <Insets left="20.0" right="40.0" />
                      </HBox.margin>
@@ -119,7 +119,7 @@
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefWidth="200.0">
+                  <ChoiceBox fx:id="choiceSecondary" prefWidth="200.0">
                      <HBox.margin>
                         <Insets left="20.0" right="40.0" />
                      </HBox.margin>
@@ -136,7 +136,7 @@
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefWidth="200.0">
+                  <ChoiceBox fx:id="choiceDessert" prefWidth="200.0">
                      <HBox.margin>
                         <Insets left="20.0" right="40.0" />
                      </HBox.margin>
@@ -153,7 +153,7 @@
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefWidth="200.0">
+                  <ChoiceBox fx:id="choiceSides" prefWidth="200.0">
                      <HBox.margin>
                         <Insets left="20.0" right="40.0" />
                      </HBox.margin>
@@ -170,7 +170,7 @@
                         <Insets left="40.0" right="20.0" />
                      </HBox.margin>
                   </Label>
-                  <ChoiceBox prefWidth="200.0">
+                  <ChoiceBox fx:id="choiceDrink" prefWidth="200.0">
                      <HBox.margin>
                         <Insets left="20.0" right="40.0" />
                      </HBox.margin>
@@ -186,7 +186,7 @@
                     </padding>
                <children>
                         <!-- Cancel Button -->
-                        <Button id="btnCancel" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Cancelar">
+                        <Button id="btnCancel" fx:id="btnMenuCancel" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Cancelar" onAction="#cancelNewMenu">
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -199,7 +199,7 @@
                             </padding>
                         </Button>
                         <!-- Create Button -->
-                        <Button id="btnCreate" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Crear">
+                        <Button id="btnCreate" fx:id="btnMenuCreate" prefHeight="49.0" prefWidth="262.0" styleClass="Button" stylesheets="@../css/IngredientStyle.css" text="Crear" onAction="#validateMenu">
                             <graphic>
                                 <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                     <image>

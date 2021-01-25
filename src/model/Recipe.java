@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import enumeration.RecipeType;
@@ -11,11 +6,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Recipe entity class
- *
  * @author Martin Gros
  */
+
 @XmlRootElement
 public class Recipe {
+    
 
     /**
      * ID of the Recipe.
@@ -46,7 +42,8 @@ public class Recipe {
      * Ingredient collection of the recipe.
      */
     private Set<Ingredient> ingredients;
-    /**
+    
+        /**
      * Author of the recipe
      */
     private User user;
@@ -54,9 +51,8 @@ public class Recipe {
      * Recipe verified
      */
     private Boolean verified;
-
     
-    public User getUser() {
+     public User getUser() {
         return user;
     }
 
@@ -74,7 +70,7 @@ public class Recipe {
     public void setVerified(Boolean verified) {
         this.verified = verified;
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -118,11 +114,12 @@ public class Recipe {
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
-
-    public void setIngredients(Set<Ingredient> ingredients) {
+    
+        public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
-
+    
+        
     @Override
     public int hashCode() {
         int hash = 0;
@@ -145,6 +142,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "mkma.entity.Recipe[ id=" + id + " ]";
+        return this.name;
     }
 }

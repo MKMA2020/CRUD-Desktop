@@ -4,9 +4,7 @@ import factory.IngredientManagerFACTORY;
 import factory.MenuManagerFACTORY;
 import factory.RecipeManagerFACTORY;
 import factory.UserManagerFACTORY;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -126,5 +124,8 @@ class GlobalController {
     public static MenuManager getMenuManager() {
         return MenuManagerFACTORY.getMenuManager();
     }
-
+    
+    public static RecipeManager getRecipeManager() {
+        return RecipeManagerFACTORY.getRecipeManager();
+    }
 }
