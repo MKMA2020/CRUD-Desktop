@@ -2,6 +2,7 @@ package controller;
 
 import static controller.GlobalController.LOGGER;
 import enumeration.RecipeType;
+import exception.TimeoutException;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -109,7 +110,7 @@ public class RecipeViewController extends GlobalController {
      *
      * @param root The Parent object representing root node of view graph.
      */
-    public void initStage(Parent root) {
+    public void initStage(Parent root) throws TimeoutException {
         
         sideMenuController.setStage(stage);
         sideMenuController.initStage();

@@ -1,5 +1,6 @@
 package manager;
 
+import enumeration.RecipeType;
 import exception.TimeoutException;
 import java.util.Collection;
 import java.util.List;
@@ -60,6 +61,11 @@ public class RecipeManagerImplementation implements RecipeManager {
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Create Recipe failed: {0}", ex.getMessage());
         }
+    }
+
+    @Override
+    public List<Recipe> getRecipesByType(RecipeType type) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

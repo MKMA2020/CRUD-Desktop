@@ -43,6 +43,34 @@ public class Recipe {
      */
     private Set<Ingredient> ingredients;
     
+        /**
+     * Author of the recipe
+     */
+    private User user;
+    /**
+     * Recipe verified
+     */
+    private Boolean verified;
+    
+     public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    /**
+     * Author of the recipe
+     */
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+    
     public Long getId() {
         return id;
     }
