@@ -1,15 +1,15 @@
 package controller;
 
+import factory.IngredientManagerFACTORY;
 import factory.MenuManagerFACTORY;
 import factory.RecipeManagerFACTORY;
 import factory.UserManagerFACTORY;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import manager.IngredientManager;
 import manager.MenuManager;
 import manager.RecipeManager;
 import manager.UserManager;
@@ -112,6 +112,9 @@ class GlobalController {
      */
     protected final int INGREDIENT_NAME_MAX_LENGTH = 20;
 
+    public static IngredientManager getIngredientManager(){
+        return IngredientManagerFACTORY.getIngredientManager();
+    }
 
     public static UserManager getUserManager() {
         return UserManagerFACTORY.getUserManager();
@@ -124,5 +127,4 @@ class GlobalController {
     public static RecipeManager getRecipeManager() {
         return RecipeManagerFACTORY.getRecipeManager();
     }
-
 }

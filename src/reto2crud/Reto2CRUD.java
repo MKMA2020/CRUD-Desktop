@@ -9,9 +9,9 @@ import controller.AddRecipeController;
 import controller.AdminUserWindowController;
 import java.io.IOException;
 import controller.RecipeViewController;
-import controller.RecipeViewController1;
+import controller.MenuViewController;
 import controller.SignInController;
-import controller.SignUpController;
+import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +21,7 @@ import model.User;
 
 /**
  *
- * @author 2dam
+ * @author Martin Valiente Ainz
  */
 public class Reto2CRUD extends Application {
     
@@ -30,7 +30,6 @@ public class Reto2CRUD extends Application {
     private static User user;
     
     @Override
-
     public void start(Stage stage) throws IOException {
       
        //Load node graph from fxml file

@@ -6,7 +6,11 @@
 package controller;
 
 import static controller.GlobalController.LOGGER;
+import exception.DatabaseException;
+import exception.IncorrectCredentialsException;
+import exception.TimeoutException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -29,7 +33,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.ws.rs.core.GenericType;
 import model.Recipe;
 import model.User;
 import security.Ciphering;
@@ -75,17 +78,17 @@ public class SignUpController extends GlobalController {
      */
     @FXML
     private Button SignUpBtnBack;
-    
+
     @FXML
     private void handleButtonBack(ActionEvent event) throws IOException {
         start_SignIn(stage);
     }
 
     @FXML
-    private void handleButtonSignUp(ActionEvent event) throws IOException {
+    private void handleButtonSignUp(ActionEvent event) throws IOException, DatabaseException, IncorrectCredentialsException {
         SignUp();
     }
-    
+
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
         stage.setTitle("Registro");
@@ -99,9 +102,9 @@ public class SignUpController extends GlobalController {
         SignUpPWD2.textProperty().addListener(this::textChanged);
         SignUpEmail.textProperty().addListener(this::textChanged);
         SignUpFN.textProperty().addListener(this::textChanged);
-        
+
         stage.show();
-        
+
     }
 
     /**
@@ -134,7 +137,6 @@ public class SignUpController extends GlobalController {
      * @param stage
      * @throws IOException
      */
-    
     private void start_SignIn(Stage stage) throws IOException {
         //It gets the FXML of the sign-in window
         //Load node graph from fxml file
@@ -153,41 +155,51 @@ public class SignUpController extends GlobalController {
     }
 
     private void SignUp() {
-        boolean existe = validate();
+        boolean existe = false;
+        boolean error = validate();
         String alertError = null;
         boolean alertNeeded = false;
+        ArrayList<User> listadeUsuarios = new ArrayList<User>();
         User user = new User();
         Ciphering encrypter = new Ciphering();
-        
-        List<User> listadeUsuarios = getUserManager().findAll();
-        for (int i = 0; i < listadeUsuarios.size(); i++) {
-            if (listadeUsuarios.get(i).getLogin().contentEquals(SignUpUsername.getText())) {
-                existe = true;
-                break;
-            }
+
+        try {
+            listadeUsuarios = (ArrayList<User>) getUserManager().findAll();
+        } catch (TimeoutException e) {
+            showWarning("Error en la base de datos, por favor prueba mas tarde.");
+            error = true;
         }
+
         
-        if (!existe) {
-           
+            for (int i = 0; i < listadeUsuarios.size(); i++) {
+                if (listadeUsuarios.get(i).getLogin().contentEquals(SignUpUsername.getText())) {
+                    existe = true;
+                    break;
+                }
+            }
+       
+
+        if (!existe && !error) {
+
             //user.setPassword(Arrays.toString(encrypter.cifrarTexto(SignUpPWD.getText())));
-            
-            
             user.setLogin(SignUpUsername.getText());
             System.out.println(SignUpPWD.getText());
             user.setPassword(encrypter.cifrarTexto(SignUpPWD.getText()));
             System.out.println(user.getPassword());
             user.setEmail(SignUpEmail.getText());
             user.setFullName(SignUpFN.getText());
-            
+
             getUserManager().create(user);
             SignUpBtn.setText("Signed Up");
             SignUpBtn.setDisable(true);
-            
+
         } else {
-            showWarning("El usuario ya existe");
-            
+            if (existe) {
+                showWarning("El usuario ya existe");
+            }
+
         }
-        
+
     }
 
     /**
@@ -204,7 +216,7 @@ public class SignUpController extends GlobalController {
             SignUpBtn.setDisable(false);
         }
     }
-    
+
     private boolean validate() {
         boolean error = false;
         String alertList = "";
@@ -246,7 +258,7 @@ public class SignUpController extends GlobalController {
             aceptar.setId("Aceptar");
             listAllAlerts.showAndWait();
         }
-        
+
         return error;
     }
 
@@ -256,7 +268,6 @@ public class SignUpController extends GlobalController {
      * @param s the password to check
      * @return a boolean telling if the password is valid
      */
-    
     private boolean isValidPass(String pwd) {
         boolean valid = true;
         //Checks if it has any numbers
@@ -291,5 +302,5 @@ public class SignUpController extends GlobalController {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         return email.matches(regex);
     }
-    
+
 }

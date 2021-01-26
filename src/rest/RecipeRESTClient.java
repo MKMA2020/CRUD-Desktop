@@ -58,7 +58,7 @@ public class RecipeRESTClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
-    public <T> T findRecipesByType(Class<T> responseType, String type) throws ClientErrorException {
+    public <T> T findRecipesByType(GenericType<T> responseType, String type) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("type/{0}", new Object[]{type}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);

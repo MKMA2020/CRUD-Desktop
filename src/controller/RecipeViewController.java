@@ -76,8 +76,8 @@ public class RecipeViewController extends GlobalController {
      * @param root The Parent object representing root node of view graph.
      * @param personal This will decide whether or not to search the recipes by user.
      */
-    public void initStage(Parent root, Boolean personal) {
-        
+
+    public void initStage(Parent root, Boolean personal) {   
         
         this.personal = personal;
         
@@ -110,6 +110,9 @@ public class RecipeViewController extends GlobalController {
         
         //Show window.
         stage.show();
+         }catch(Exception e){
+             showWarning(e.getMessage());
+         }
     }
 
     /**

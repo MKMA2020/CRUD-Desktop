@@ -77,7 +77,7 @@ public class Recipe {
         this.steps = steps;
     }
 
-    //@XmlElement(name="kCal")
+    @XmlElement(name="kCal")
     public Float getkCal() {
         return kCal;
     }

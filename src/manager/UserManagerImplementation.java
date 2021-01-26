@@ -6,16 +6,19 @@
 package manager;
 
 import enumeration.UserType;
+import exception.IncorrectCredentialsException;
+import exception.TimeoutException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.core.GenericType;
 import model.User;
 import rest.UserRESTClient;
 
 /**
  *
- * @author Martin Valiente Ainz & Aitor Garcia
+ * @author Martin Valiente Ainz
  */
 public class UserManagerImplementation implements UserManager {
 
@@ -73,13 +76,18 @@ public class UserManagerImplementation implements UserManager {
     }
 
     @Override
-    public User login(String login, String password) {
+    public User login(String login, String password) throws TimeoutException, IncorrectCredentialsException {
         User user = null;
         try {
             LOGGER.log(Level.INFO, "Login User");
             user = webClient.login(User.class, login, password);
+        } catch (ForbiddenException e) {
+            throw new IncorrectCredentialsException();
+
         } catch (Exception ex) {
-            LOGGER.log(Level.SEVERE, "Login User failed: {0}", ex.getMessage());
+            
+            LOGGER.log(Level.SEVERE, "Find All Users failed: {0}", ex.getMessage());
+            throw new TimeoutException();
         }
         return user;
     }
@@ -97,7 +105,7 @@ public class UserManagerImplementation implements UserManager {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll() throws TimeoutException {
         List<User> users = null;
         try {
             LOGGER.log(Level.INFO, "Find All Users");
@@ -106,7 +114,9 @@ public class UserManagerImplementation implements UserManager {
             users = loadResetField(users);
 
         } catch (Exception ex) {
+            
             LOGGER.log(Level.SEVERE, "Find All Users failed: {0}", ex.getMessage());
+            throw new TimeoutException();
         }
         return users;
     }
@@ -129,7 +139,8 @@ public class UserManagerImplementation implements UserManager {
         List<User> users = null;
         try {
             LOGGER.log(Level.INFO, "FindUserByType");
-            users = webClient.findByType(new GenericType<List<User>>() {}, type.toString());
+            users = webClient.findByType(new GenericType<List<User>>() {
+            }, type.toString());
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Find Users by type failed: {0}", ex.getMessage());
         }
