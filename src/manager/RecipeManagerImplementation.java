@@ -65,7 +65,16 @@ public class RecipeManagerImplementation implements RecipeManager {
 
     @Override
     public List<Recipe> getRecipesByType(RecipeType type) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       List<Recipe> recipes = null;
+        try {
+            LOGGER.info("RecipeManager: getRecipesByType()");
+            
+            recipes = webClient.findRecipesByType(new GenericType<List<Recipe>>() {}, type.toString());
+            
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+        }
+        return recipes;
     }
 
 }
