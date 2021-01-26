@@ -1,5 +1,7 @@
 package controller;
 
+import static controller.GlobalController.LOGGER;
+import exception.TimeoutException;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -58,7 +60,7 @@ public class ResetPassController extends GlobalController {
      * @throws IOException in case there are input/output errors.
      */
     @FXML
-    private void handleButtonReset(ActionEvent event) throws IOException {
+    private void handleButtonReset(ActionEvent event) throws IOException, TimeoutException {
         Boolean windowError = false, alertNeeded = false;
         String alertError = null;
         
@@ -137,6 +139,8 @@ public class ResetPassController extends GlobalController {
                     dialog.setAlwaysOnTop(true);
                     dialog.setVisible(true);
                     LOGGER.severe("There has been an error trying to reset your password.");
+                } catch (TimeoutException ex) {
+                    LOGGER.severe("ERROR: Timeout.");
                 }
             } 
         });

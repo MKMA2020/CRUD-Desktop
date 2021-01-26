@@ -372,7 +372,7 @@ public class AddRecipeController extends GlobalController {
             recipe.setUser(null);
             recipe.setVerified(true);
             
-                getrecipeManager().create(recipe);
+                getRecipeManager().create(recipe);
                 btnAddRecipe.setDisable(true);
                 btnAddRecipe.setText("Añadida!");
             } catch (NumberFormatException ex) {
@@ -414,7 +414,7 @@ public class AddRecipeController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, false);
         });
         menuItemMenus.setOnAction(e -> {
             LOGGER.log(Level.INFO, "BtnShowMenus Clicked.");
@@ -445,7 +445,7 @@ public class AddRecipeController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, true);
         });
         menuItemExit.setOnAction(e -> {
             stage.close();

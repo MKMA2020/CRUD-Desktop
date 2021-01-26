@@ -7,7 +7,7 @@ package model;
 
 import enumeration.RecipeType;
 import java.util.Set;
-import javafx.beans.property.SimpleFloatProperty;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -52,6 +52,11 @@ public class Recipe {
      * Creator of the recipe.
      */
     private User user;
+    
+    /**
+     * Verification state of the recipe.
+     */
+    private Boolean verified;
 
     public Long getId() {
         return id;
@@ -77,12 +82,12 @@ public class Recipe {
         this.steps = steps;
     }
 
-    @XmlElement(name="kCal")
-    public Float getkCal() {
+    @XmlElement(name="kcal")
+    public Float getKcal() {
         return kCal;
     }
 
-    public void setkCal(Float kCal) {
+    public void setKcal(Float kCal) {
         this.kCal = kCal;
     }
 
@@ -110,6 +115,14 @@ public class Recipe {
         this.user = user;
     }
 
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

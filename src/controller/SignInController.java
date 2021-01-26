@@ -199,7 +199,7 @@ public class SignInController extends GlobalController {
         Parent root = (Parent) loader.load();
         RecipeViewController controller = (loader.getController());
         controller.setStage(primaryStage);
-        controller.initStage(root);
+        controller.initStage(root, false);
     }
 
 }

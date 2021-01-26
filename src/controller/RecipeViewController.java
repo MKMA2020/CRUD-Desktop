@@ -1,6 +1,7 @@
 package controller;
 
 import enumeration.RecipeType;
+import exception.TimeoutException;
 import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -11,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -92,7 +92,7 @@ public class RecipeViewController extends GlobalController {
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kCal"));
+        tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
         
         //Set table model.
         recipeTable.setItems(fillTable());
@@ -109,10 +109,11 @@ public class RecipeViewController extends GlobalController {
         });
         
         //Show window.
-        stage.show();
-         }catch(Exception e){
-             showWarning(e.getMessage());
-         }
+        try{
+            stage.show();
+        }catch(Exception e){
+            showWarning(e.getMessage());
+        }
     }
 
     /**
@@ -133,9 +134,13 @@ public class RecipeViewController extends GlobalController {
     }
     
     private ObservableList<Recipe> fillTable() {
-        //Create and fill the table.
-        ObservableList<Recipe> recipes =
-                FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
+        ObservableList<Recipe> recipes = null;
+        try {
+            //Create and fill the table.
+            recipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
+        } catch (TimeoutException ex) {
+            LOGGER.severe("ERROR: Timeout.");
+        }
         if(personal){
             stage.setTitle("Mis recetas");
             //Recipe filtering.
