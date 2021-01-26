@@ -63,7 +63,7 @@ public class SideMenuController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, true);
         });
 
         btnShowRecipes.setOnAction((event) -> {
@@ -78,7 +78,7 @@ public class SideMenuController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, false);
         });
 
         btnShowMenus.setOnAction((event) -> {
