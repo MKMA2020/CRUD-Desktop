@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
 import reto2crud.Reto2CRUD;
@@ -39,9 +40,9 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
 
     public AdminUserWindowControllerTest() {
     }
-    
+
     /**
-     * 
+     *
      * @param stage Primary Stage object
      * @throws Exception If there is any error
      */
@@ -58,6 +59,7 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     /**
      * Method will SetUp the TEST Class getting the target server URL and
      * creating a new USER to be tested.
+     *
      * @throws Exception If there is any error
      */
     @BeforeClass
@@ -81,19 +83,22 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
         user.setPassword(encrypter.cifrarTexto("TEST USER"));
         UserManagerFACTORY.getUserManager().create(user);
     }
-    
+
     /**
      * Method will delete TEST_USER after all tests have been executed.
+     *
      * @throws Exception If there is any error
      */
     @AfterClass
     public static void tearDownAfterClass() throws Exception {
         // Get all users
         List<User> users = UserManagerFACTORY.getUserManager().findAll();
-        
+
         // Get all Id's
         List<Long> ids = new ArrayList();
-        users.forEach((user) -> {ids.add(user.getId());});
+        users.forEach((user) -> {
+            ids.add(user.getId());
+        });
 
         // Delete TEST user      
         UserManagerFACTORY.getUserManager().remove(Collections.max(ids));
@@ -103,6 +108,7 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
      * Test of initial state of managerTableView.
      */
     @Test
+    //@Ignore
     public void testA_initialState() {
         verifyThat("#tclAdminId", hasText(""));
         verifyThat("#tclAdminLogin", hasText(""));
@@ -153,7 +159,7 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     //@Ignore
     public void testC_ResetPassword() {
 
-        //get row count
+        // Get row count
         int rowCount = managerTable.getItems().size();
         assertNotEquals("Table has no data: Cannot test.", rowCount, 0);
 
@@ -182,4 +188,66 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
 
     }
 
+    /**
+     * Test Reset MenuItem.
+     */
+    @Test
+    //@Ignore
+    public void testD_ContextMenuReset() {
+
+        //Click on row 1
+        Node row = lookup(".table-row-cell").nth(0).query();
+
+        // Check that row exists.
+        assertNotNull("Row is null: table has not that row. ", row);
+
+        // Right click to open ContextMenu.
+        rightClickOn(row);
+
+        // Get Selected user before changes and save data into variables.
+        User user = (User) managerTable.getSelectionModel().getSelectedItem();
+        Boolean resetPassword = user.getResetPassword();
+        Date lastPasswordChange = user.getLastsPasswordChange();
+
+        // Click Reset MenuItem.
+        clickOn("Reset");
+
+        // Get Selected user after changes.
+        user = (User) managerTable.getSelectionModel().getSelectedItem();
+
+        // Verify that beforeUser and afterUser are different.
+        assertNotEquals(resetPassword, user.getResetPassword());
+        assertNotEquals(lastPasswordChange, user.getLastsPasswordChange());
+    }
+
+    /**
+     * Test Enable / Disable MenuItem.
+     */
+    @Test
+    //@Ignore
+    public void testE_ContextMenuEnable() {
+        //Click on row 1
+        Node row = lookup(".table-row-cell").nth(0).query();
+
+        // Check that row exists.
+        assertNotNull("Row is null: table has not that row. ", row);
+
+        // Right click to open ContextMenu.
+        rightClickOn(row);
+
+        // Get Selected user before changes and save data into variables.
+        User user = (User) managerTable.getSelectionModel().getSelectedItem();
+        Boolean status = user.getStatus();
+
+        // Click Enable / Disable MenuItem.
+        clickOn("Enable/Disable");
+
+        // Get Selected user after changes.
+        user = (User) managerTable.getSelectionModel().getSelectedItem();
+
+        // Verify that beforeUser and afterUser are different.
+        assertNotEquals(status, user.getStatus());
+    }
+
+    // Testear lo que pasa si se cierra el servidor con la ventana abierta
 }
