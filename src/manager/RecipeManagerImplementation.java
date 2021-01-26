@@ -68,4 +68,14 @@ public class RecipeManagerImplementation implements RecipeManager {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void remove(Long id) {
+        try {
+            LOGGER.info("Remove Recipe");
+            webClient.remove(id.toString());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Remove Recipe failed: {0}", ex.getMessage());
+        }
+    }
+
 }

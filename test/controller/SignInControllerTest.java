@@ -52,7 +52,7 @@ public class SignInControllerTest extends ApplicationTest{
     public void testA_initislstate() {
         verifyThat("#SignInUsername", hasText(""));
         verifyThat("#SignInPWD", hasText(""));
-        verifyThat("#SignInBtn", isDisabled());
+        verifyThat("SignInBtn", isDisabled());
     }
     
     /**
@@ -137,7 +137,7 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("#SignInPWD");
         write("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         clickOn("#SignInBtn");
-        verifyThat("Error en la conexion con la base de datos", isVisible());
+        verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
         clickOn("Aceptar");
    }
    
@@ -164,7 +164,7 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("#SignInPWD");
         write("unexistentpass");
         clickOn("#SignInBtn");
-        verifyThat("Error en la conexion con la base de datos", isVisible());
+        verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
         clickOn("Aceptar");
     }
     
@@ -178,7 +178,7 @@ public class SignInControllerTest extends ApplicationTest{
        clickOn("#SignInPWD");
        write("wrongpass");
        clickOn("#SignInBtn");
-       verifyThat("Error en la conexion con la base de datos", isVisible());
+       verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
        clickOn("Aceptar");
    }
     

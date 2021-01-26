@@ -19,5 +19,6 @@ public enum IngredientType {
     Seafood,
     Meat,
     Drink,
+    ChooseIngredient,
     Dessert;
 }
