@@ -36,7 +36,7 @@ public class Recipe {
     /**
      * kCal value of the Recipe.
      */
-    private SimpleFloatProperty kCal;
+    private Float kCal;
 
     /**
      * Type of the Recipe.
@@ -79,11 +79,11 @@ public class Recipe {
 
     //@XmlElement(name="kCal")
     public Float getkCal() {
-        return kCal.get();
+        return kCal;
     }
 
     public void setkCal(Float kCal) {
-        this.kCal.set(kCal);
+        this.kCal = kCal;
     }
 
     public RecipeType getType() {

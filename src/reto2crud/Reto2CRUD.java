@@ -9,6 +9,7 @@ import controller.AddRecipeController;
 import controller.AdminUserWindowController;
 import java.io.IOException;
 import controller.RecipeViewController;
+import controller.RecipeViewController1;
 import controller.SignInController;
 import controller.SignUpController;
 import java.util.ResourceBundle;
@@ -33,16 +34,16 @@ public class Reto2CRUD extends Application {
     public void start(Stage stage) throws IOException {
       
        //Load node graph from fxml file
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/view/AdminUserWindow.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
         Parent root = (Parent)loader.load();
         //Get controller for graph 
-        AdminUserWindowController primaryStageController = ((AdminUserWindowController)loader.getController());
+        RecipeViewController primaryStageController = ((RecipeViewController)loader.getController());
 
         //Set a reference for Stage
         primaryStageController.setStage(stage);
         
         //Initializes primary stage
-        primaryStageController.initStage(root);
+        primaryStageController.initStage(root, false);
         
         
         }
