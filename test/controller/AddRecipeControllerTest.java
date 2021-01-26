@@ -106,6 +106,26 @@ public class AddRecipeControllerTest extends ApplicationTest {
         RecipeManagerFACTORY.getRecipeManager().create(recipe);
     }
     /**
+     * Method will delete TEST_USER after all tests have been executed.
+     *
+     * @throws Exception If there is any error
+     */
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        // Get all users
+        List<Recipe> recipes = (List<Recipe>) RecipeManagerFACTORY.getRecipeManager().getAllRecipes();
+
+        // Get all Id's
+        List<Long> ids = new ArrayList();
+        recipes.forEach((recipe) -> {
+            ids.add(recipe.getId());
+        });
+
+        // Delete TEST user    
+        RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids));
+        
+    }
+    /**
      * Test that tests if the TextFields are empty
      */
     @Test
@@ -207,26 +227,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
 
         
     }
-/**
-     * Method will delete TEST_USER after all tests have been executed.
-     *
-     * @throws Exception If there is any error
-     */
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        // Get all users
-        List<Recipe> recipes = (List<Recipe>) RecipeManagerFACTORY.getRecipeManager().getAllRecipes();
 
-        // Get all Id's
-        List<Long> ids = new ArrayList();
-        recipes.forEach((recipe) -> {
-            ids.add(recipe.getId());
-        });
-
-        // Delete TEST user    
-        RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids));
-        
-    }
 
     /**
      * Tests that adds a row and deletes it
