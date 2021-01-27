@@ -34,9 +34,9 @@ public class Recipe {
     private String steps;
 
     /**
-     * kCal value of the Recipe.
+     * kcal value of the Recipe.
      */
-    private Float kCal;
+    private Float kcal;
 
     /**
      * Type of the Recipe.
@@ -84,11 +84,11 @@ public class Recipe {
 
     @XmlElement(name="kcal")
     public Float getKcal() {
-        return kCal;
+        return kcal;
     }
 
-    public void setKcal(Float kCal) {
-        this.kCal = kCal;
+    public void setKcal(Float kcal) {
+        this.kcal = kcal;
     }
 
     public RecipeType getType() {
@@ -145,6 +145,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return "mkma.entity.Recipe[ id=" + id + " ]";
+        return this.name;
     }
 }
