@@ -1,10 +1,12 @@
 package controller;
 
+import exception.TimeoutException;
 import java.util.Date;
 import java.util.logging.Level;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -95,16 +97,19 @@ public class AdminUserWindowController extends GlobalController {
         sideMenuController.setStage(stage);
         // Load Menu Components
         sideMenuController.initStage();
-
+        
+        // Instance the Scene.
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Administrar");
         stage.setResizable(false);
 
         stage.setOnShowing(this::handleWindowShowing);
-
+        
+        // Set table editable.
         managerTable.setEditable(true);
-
+        
+        // Set Cell Factories for the CheckBoxes.
         tclAdminStatus.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminStatus));
         tclAdminResetPassword.setCellFactory(CheckBoxTableCell.<User>forTableColumn(tclAdminResetPassword));
 
@@ -120,18 +125,46 @@ public class AdminUserWindowController extends GlobalController {
         // ContextMenu for rows on Table.
         managerTable.setRowFactory((TableView<User> tableView) -> {
             TableRow<User> row = new TableRow<>();
+            // Instance the ContextMenu.
             ContextMenu rowMenu = new ContextMenu();
-            MenuItem editItem = new MenuItem("Reset");
-            MenuItem removeItem = new MenuItem("Enable/Disable");
-            rowMenu.getItems().addAll(editItem, removeItem);
+            // Instance reset MenuItem.
+            MenuItem reset = new MenuItem("Reset");
+            // Instance enable MenuItem.
+            MenuItem enable = new MenuItem("Enable/Disable");
+            // Add MenuItems to ContextMenu.
+            rowMenu.getItems().addAll(reset, enable);
             // When ItemProperty from row is NotNull show rowMenu ContextMenu.
             // When ItemProperty from row is Null show Null ContextMenu.
             row.contextMenuProperty().bind(Bindings.when(Bindings.isNotNull(row.itemProperty())).then(rowMenu).otherwise((ContextMenu) null));
+            // Event to reset user password.
+            reset.setOnAction((ActionEvent t) -> {
+                // Get Selected User.
+                User user = managerTable.getSelectionModel().getSelectedItem();
+                LOGGER.log(Level.INFO, "Resetting password to user: {0}", user.getLogin());
+                // Call for password reset method on the server
+                getUserManager().resetPassword(user.getLogin(), user.getEmail());
+                // Refresh LastPasswordChange from the server
+                user.setLastsPasswordChange(getUserManager().find(user.getId()).getLastsPasswordChange());
+                // Change CheckBox value to TRUE.
+                user.setResetPassword(Boolean.TRUE);
+                // Refresh Table to see the new date.
+                managerTable.refresh();
+            });
+            // Event to change user status.
+            enable.setOnAction((ActionEvent t) -> {
+                // Get Selected User.
+                User user = managerTable.getSelectionModel().getSelectedItem();
+                LOGGER.log(Level.INFO, "Setting {0} status to user: {1}", new Object[]{user.getStatus().toString(), user.getLogin()});
+                // Set the status to the opposite value.
+                user.setStatus(!user.getStatus());
+                // Edit user in the server with new value.
+                getUserManager().edit(user);
+            });
             return row;
         });
-
+        
+        // Load table data.
         loadTable();
-
         //Show window.
         stage.show();
     }
@@ -152,41 +185,45 @@ public class AdminUserWindowController extends GlobalController {
     public void loadTable() {
         //Create an obsrvable list for recipes table.
         ObservableList<User> allUsers = null;
-        try{
-        allUsers = FXCollections.observableArrayList(getUserManager().findAll());
-        
-        // Status Listeners
-        allUsers.forEach(user -> user.statusProperty().addListener((observable, oldValue, newValue) -> {
-            LOGGER.log(Level.INFO, "Setting {0} status to user: {1}", new Object[]{user.getStatus().toString(), user.getLogin()});
-            user.setStatus(newValue);
-            getUserManager().edit(user);
+        try {
+            allUsers = FXCollections.observableArrayList(getUserManager().findAll());
 
-        }));
+            // Status Listeners
+            allUsers.forEach(user -> user.statusProperty().addListener((observable, oldValue, newValue) -> {
+                LOGGER.log(Level.INFO, "Setting {0} status to user: {1}", new Object[]{user.getStatus().toString(), user.getLogin()});
+                user.setStatus(newValue);
+                getUserManager().edit(user);
 
-        // ResetPassword Listeners
-        allUsers.forEach(user -> {
-            user.resetPasswordProperty().addListener((observable, oldValue, newValue) -> {
-                if (newValue == Boolean.TRUE) {
-                    LOGGER.log(Level.INFO, "Resetting password to user: {0}", user.getLogin());
-                    getUserManager().resetPassword(user.getLogin(), user.getEmail());
-                    // Refresh LastPasswordChange from the server
-                    user.setLastsPasswordChange(getUserManager().find(user.getId()).getLastsPasswordChange());
-                    // Refresh Table to see the new date.
-                    managerTable.refresh();
-                } else {
-                    LOGGER.log(Level.INFO, "Password alredy reset to user: {0}", user.getLogin());
-                }
+            }));
+
+            // ResetPassword Listeners
+            allUsers.forEach(user -> {
+                user.resetPasswordProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue == Boolean.TRUE) {
+                        try {
+                        LOGGER.log(Level.INFO, "Resetting password to user: {0}", user.getLogin());
+                        getUserManager().resetPassword(user.getLogin(), user.getEmail());
+                        // Refresh LastPasswordChange from the server
+                        user.setLastsPasswordChange(getUserManager().find(user.getId()).getLastsPasswordChange());
+                        // Refresh Table to see the new date.
+                        managerTable.refresh();
+                        } catch(NullPointerException ex){
+                            showError("Server isn't responding.");
+                        }
+                    } else {
+                        LOGGER.log(Level.INFO, "Password alredy reset to user: {0}", user.getLogin());
+                    }
+                });
             });
-        });
-        
-        //Set table model.
-        managerTable.setItems(allUsers);
-        
-        }catch(NullPointerException ex){
+
+            //Set table model.
+            managerTable.setItems(allUsers);
+
+        } catch (NullPointerException ex) {
             showError("No hay respuesta del Servidor.");
-        }catch(Exception ex){
+        } catch (Exception ex) {
             showError("Error inesperado.");
         }
-        
+
     }
 }
