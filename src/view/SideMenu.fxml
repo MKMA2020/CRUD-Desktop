@@ -73,7 +73,7 @@
                 </Button>
                 
                 <!-- My Profile Button -->
-                <Button fx:id="btnShowAdmin" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Mi perfil">
+                <Button fx:id="btnShowAdmin" prefHeight="49.0" prefWidth="262.0" styleClass="sideMenuButton" stylesheets="@../css/SideMenuStyles.css" text="Administrar Usuarios">
                     <graphic>
                         <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                             <image>

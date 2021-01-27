@@ -100,15 +100,15 @@ public class Ingredient implements Serializable {
             return false;
         }
         Ingredient other = (Ingredient) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
+        if (this.name!=null && this.type!=null && other.type!=null && this.name.equals(other.getName()) && this.type.equals(other.type)) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     //TODO Check whether commentary is necessary.
     @Override
     public String toString() {
-        return "mkma.entity.Ingredient[ id=" + id + " ]";
+        return getName();
     }
 }

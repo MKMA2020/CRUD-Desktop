@@ -7,16 +7,16 @@ package model;
 
 import enumeration.RecipeType;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Recipe entity class
+ *
  * @author Martin Gros
  */
-
 @XmlRootElement
 public class Recipe {
-    
 
     /**
      * ID of the Recipe.
@@ -34,9 +34,9 @@ public class Recipe {
     private String steps;
 
     /**
-     * kCal value of the Recipe.
+     * kcal value of the Recipe.
      */
-    private float kcal;
+    private Float kcal;
 
     /**
      * Type of the Recipe.
@@ -47,7 +47,17 @@ public class Recipe {
      * Ingredient collection of the recipe.
      */
     private Set<Ingredient> ingredients;
+
+    /**
+     * Creator of the recipe.
+     */
+    private User user;
     
+    /**
+     * Verification state of the recipe.
+     */
+    private Boolean verified;
+
     public Long getId() {
         return id;
     }
@@ -72,11 +82,12 @@ public class Recipe {
         this.steps = steps;
     }
 
-    public float getKcal() {
+    @XmlElement(name="kcal")
+    public Float getKcal() {
         return kcal;
     }
 
-    public void setKcal(float kcal) {
+    public void setKcal(Float kcal) {
         this.kcal = kcal;
     }
 
@@ -91,12 +102,27 @@ public class Recipe {
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
-    
-        public void setIngredients(Set<Ingredient> ingredients) {
+
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
     
-        
     @Override
     public int hashCode() {
         int hash = 0;

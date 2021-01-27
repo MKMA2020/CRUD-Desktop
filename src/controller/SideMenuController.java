@@ -9,26 +9,44 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 
 /**
- *
+ * Controller class for the SideMenu of PocketChef Desktop App.
  * @author Martin Valiente Ainz
  */
 public class SideMenuController extends GlobalController {
-
+    
+    /**
+     * Button that will Open ShowMyRecipes Stage.
+     */
     @FXML
     private Button btnShowMyRecipes;
-
+    
+    /**
+     * Button that will Open ShowRecipes Stage.
+     */
     @FXML
     private Button btnShowRecipes;
-
+    
+    /**
+     * Button that will Open ShowMenus Stage.
+     */
     @FXML
     private Button btnShowMenus;
-
+    
+    /**
+     * Button that will Open ShowAdmin Stage.
+     */
     @FXML
     private Button btnShowAdmin;
-
+    
+    /**
+     * Button that will Open SignIn Stage.
+     */
     @FXML
     private Button btnExit;
-
+    
+    /**
+     * Method will load button events for the SideMenu.
+     */
     public void initStage() {
 
         LOGGER.log(Level.INFO, "Initialising SideMenu Buttons.");
@@ -45,7 +63,7 @@ public class SideMenuController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, true);
         });
 
         btnShowRecipes.setOnAction((event) -> {
@@ -60,7 +78,7 @@ public class SideMenuController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, false);
         });
 
         btnShowMenus.setOnAction((event) -> {

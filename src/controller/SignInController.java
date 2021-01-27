@@ -6,7 +6,11 @@
 package controller;
 
 import static controller.GlobalController.LOGGER;
+import exception.DatabaseException;
+import exception.IncorrectCredentialsException;
+import exception.TimeoutException;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.Observable;
@@ -26,9 +30,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.servlet.UnavailableException;
+import javax.ws.rs.ForbiddenException;
 import manager.UserManager;
 import model.Recipe;
 import model.User;
+import reto2crud.Reto2CRUD;
 import security.Ciphering;
 
 /**
@@ -59,6 +66,11 @@ public class SignInController extends GlobalController {
      */
     @FXML
     private Button SignInBtnSignUp;
+    /**
+     * Button to launch de reset pwd window
+     */
+    @FXML
+    private Button SignInBtnResetPwd;
 
     /**
      * Button to go to the reset up
@@ -75,14 +87,14 @@ public class SignInController extends GlobalController {
     }
 
     @FXML
-    private void handleButtonSignIn(ActionEvent event) throws IOException {
+    private void handleButtonSignIn(ActionEvent event) throws IOException, IncorrectCredentialsException, DatabaseException {
         signIn();
 
     }
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        
+
         stage.setScene(scene);
         stage.setTitle("Iniciar Sesion");
         stage.setResizable(false);
@@ -106,6 +118,13 @@ public class SignInController extends GlobalController {
         SignInBtn.setDisable(true);
         SignInBtnSignUp.setTooltip(new Tooltip("Click to sign up!"));
         SignInBtn.setTooltip(new Tooltip("Click to log in!"));
+        SignInBtnResetPwd.setOnAction(e -> {
+            try {
+                start_resetPWD(stage);
+            } catch (IOException ex) {
+                Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });;
     }
 
     /**
@@ -132,8 +151,19 @@ public class SignInController extends GlobalController {
         controller.initStage(root);
     }
 
-    private void signIn() throws IOException {
+
+    private void start_resetPWD(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ResetPass.fxml"));
+        Parent root = (Parent) loader.load();
+        ResetPassController controller = (loader.getController());
+        controller.setStage(primaryStage);
+        controller.initStage(root);
+    }
+
+    private void signIn() throws IOException, IncorrectCredentialsException {
         boolean error = false;
+        boolean errordb = false;
+        User user = new User();
         Ciphering encrypter = new Ciphering();
         LOGGER.log(Level.INFO, "Attempt to sign in started");
 
@@ -146,19 +176,30 @@ public class SignInController extends GlobalController {
             error = true;
         }
         if (!error) {
-            User user = new User();
-            user.setLogin(SignInBtn.getText());
-            user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
-            
-            user = getUserManager().login(SignInUsername.getText(), user.getPassword());
-            
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
-            Parent root = (Parent) loader.load();
-            RecipeViewController controller = (loader.getController());
-            controller.setStage(stage);
-            controller.initStage(root);
+            //Try and catch in order to avoid a database no response error.
+            try {
 
+                user.setLogin(SignInBtn.getText());
+                user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
+
+                user = getUserManager().login(SignInUsername.getText(), user.getPassword());
+                System.out.println("controller.SignInController.signIn()");
+                start_app(stage);
+            } catch (TimeoutException e) {
+                showWarning("Error en la conexion con la base de datos");
+            } catch (IncorrectCredentialsException e) {
+                showWarning("Nombre de usuario o contraseñas erroneas");
+            }
+        } else {
         }
+    }
+
+    private void start_app(Stage primaryStage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
+        Parent root = (Parent) loader.load();
+        RecipeViewController controller = (loader.getController());
+        controller.setStage(primaryStage);
+        controller.initStage(root, false);
     }
 
 }
