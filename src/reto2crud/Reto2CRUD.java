@@ -11,6 +11,7 @@ import java.io.IOException;
 import controller.RecipeViewController;
 import controller.MenuViewController;
 import controller.SignInController;
+import controller.SignUpController;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Application;

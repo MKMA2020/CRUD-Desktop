@@ -77,4 +77,14 @@ public class RecipeManagerImplementation implements RecipeManager {
         return recipes;
     }
 
+    @Override
+    public void remove(Long id) {
+        try {
+            LOGGER.info("Remove Recipe");
+            webClient.remove(id.toString());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Remove Recipe failed: {0}", ex.getMessage());
+        }
+    }
+
 }

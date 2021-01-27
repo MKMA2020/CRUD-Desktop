@@ -23,6 +23,8 @@ public interface RecipeManager {
     public Recipe getRecipeById(String id);
     
     public void create (Recipe recipe);
+    
+    public void remove(Long id);
    
     
 }
