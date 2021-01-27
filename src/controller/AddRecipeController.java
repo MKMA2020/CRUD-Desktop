@@ -382,13 +382,20 @@ public class AddRecipeController extends GlobalController {
             //Get controller for graph 
             RecipeViewController controller = ((RecipeViewController) loader.getController());
             //Set a reference for Stage
-            controller.setStage(before2);
+             if(before2==null){
+               controller.setStage(stage); 
+               controller.initStage(root, false);
+            }
+            else{
+                controller.setStage(before2);
+                controller.initStage(root, false);
+                stage.close();
+            }
 
             //Initializes primary stage
-            controller.initStage(root, false);
-            stage.close();
+            
+         
 
-            stage.close();
         });
         menuItemMenus.setOnAction(e -> {
 
@@ -403,11 +410,16 @@ public class AddRecipeController extends GlobalController {
             //Get controller for graph 
             MenuViewController controller = ((MenuViewController) loader.getController());
             //Set a reference for Stage
-            controller.setStage(before2);
+            if(before2==null){
+               controller.setStage(stage); 
+               controller.initStage(root);
+            }
+            else{
+                controller.setStage(before2);
+                controller.initStage(root);
+                stage.close();
+            }
 
-            //Initializes primary stage
-            controller.initStage(root);
-            stage.close();
 
         });
         menuItemMisRecetas.setOnAction(e -> {
@@ -420,9 +432,16 @@ public class AddRecipeController extends GlobalController {
                 Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
             RecipeViewController controller = (loader.getController());
-            controller.setStage(before2);
-            controller.initStage(root, true);
-            stage.close();
+            if(before2==null){
+               controller.setStage(stage); 
+               controller.initStage(root, false);
+            }
+            else{
+                controller.setStage(before2);
+                controller.initStage(root, false);
+                stage.close();
+            }
+
         });
         menuItemExit.setOnAction(e -> {
             stage.close();
@@ -600,6 +619,17 @@ public class AddRecipeController extends GlobalController {
             seEnVia = false;
         }
         //activarboton();
+    }
+    public void limpiar(){
+        txtRecipeName.setText("");
+            txtRecipeKCal.setText("");
+            txtareaRecipeSteps.setText("");
+            choiceRecipeType.getItems().clear();
+            recipeIngredientTable.getSelectionModel().getTableView().getItems().clear();
+            btnAddRecipe.setText("Añadir");
+
+            choiboxType();
+            activarboton();
     }
 
 }

@@ -13,6 +13,7 @@ import static enumeration.RecipeType.Starter;
 import enumeration.UserType;
 import factory.RecipeManagerFACTORY;
 import factory.UserManagerFACTORY;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import manager.RecipeManager;
@@ -30,11 +32,13 @@ import model.Ingredient;
 import model.Recipe;
 import model.User;
 import org.eclipse.persistence.internal.jpa.parsing.jpql.antlr.JPQLParser;
+import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.FixMethodOrder;
@@ -60,6 +64,7 @@ import security.Ciphering;
 public class AddRecipeControllerTest extends ApplicationTest {
 
     private TableView ingredientTable;
+    private TextField signin;
 
     /**
      * Starts application to be tested.
@@ -71,20 +76,9 @@ public class AddRecipeControllerTest extends ApplicationTest {
     public void start(Stage stage) throws Exception {
         Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
         Reto2CRUD.BASE_URI = configFile.getString("URL");
-        sleep(10000);
-        new Reto2CRUD().start(stage);
-        
-        
-        
-        clickOn("#SignInUsername");
-        write("marting");
-        clickOn("#SignInPWD");
-        write("Aa12345!");
-        clickOn("#SignInBtn");
-        verifyThat("#RecipeView", isVisible());
-        
-        
         ingredientTable = lookup("#recipeIngredientTable").queryTableView();
+        new Reto2CRUD().start(stage);
+
     }
 
     /**
@@ -114,7 +108,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         Set<Ingredient> foo = new HashSet<Ingredient>(ingredients);
         recipe.setIngredients(foo);
         RecipeManagerFACTORY.getRecipeManager().create(recipe);
-        
+
     }
 
     /**
@@ -132,12 +126,10 @@ public class AddRecipeControllerTest extends ApplicationTest {
         recipes.forEach((recipe) -> {
             ids.add(recipe.getId());
         });
-        
+
         //Update a value
-        recipes.get(recipes.size()-1).setName("Test Cambiado");
-        RecipeManagerFACTORY.getRecipeManager().update(recipes.get(recipes.size()-1));
-        
-        
+        recipes.get(recipes.size() - 1).setName("Test Cambiado");
+        RecipeManagerFACTORY.getRecipeManager().update(recipes.get(recipes.size() - 1));
 
         // Delete TEST recipe    
         RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids));
@@ -149,12 +141,11 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestA_emptyTextFields() {
-        verifyThat("#SignIn", isVisible());
-        clickOn("#SignInUsername");
         write("marting");
         clickOn("#SignInPWD");
         write("Aa12345!");
         clickOn("#SignInBtn");
+
         verifyThat("#RecipeView", isVisible());
         clickOn("#btnNewRecipe");
 
@@ -164,12 +155,15 @@ public class AddRecipeControllerTest extends ApplicationTest {
         verifyThat("Añadir", isDisabled());
         verifyThat("#addRow", isEnabled());
         verifyThat("#deleteRow", isDisabled());
+        ingredientTable = lookup("#recipeIngredientTable").queryTableView();
+        int rows = ingredientTable.getSelectionModel().getTableView().getItems().size();
+        assertEquals(rows, 0);
+
     }
 
     /**
      * Test that tests if the ComboBox has all the items loaded properly
      */
-
     @Test
     public void TestB_AllItemsRecipeComboType() {
         clickOn("#choiceRecipeType");
@@ -181,9 +175,9 @@ public class AddRecipeControllerTest extends ApplicationTest {
     /**
      * Test that tests if the add button is disabled if txtfields are filled
      */
-
     @Test
     public void TestC_CheckRecipeComboType() {
+
         clickOn("#txtRecipeName");
         write("Sample");
         verifyThat("Añadir", isDisabled());
@@ -197,6 +191,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         verifyThat("Añadir", isDisabled());
         // verifyThat("#btnAddRecipe", isDisabled());
         //verifyThat("#btnAddRecipe", isDisabled());
+        clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.ENTER);
 
     }
 
@@ -204,7 +199,6 @@ public class AddRecipeControllerTest extends ApplicationTest {
      * Test that tests if the Combobox works properly and has all the right
      * values in it.
      */
-
     @Test
     public void TestD_CheckRecipeComboType() {
 
@@ -223,13 +217,14 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Snack));
 
+        clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.ENTER);
+
     }
 
     /**
      * Test that tests if the add recipe button gets enabled once both the
      * txtfields and the recipe type combobox are filled
      */
-
     @Test
     public void TestE_CheckRecipeComboTypeAndTxtFields() {
         clickOn("#txtRecipeName");
@@ -247,6 +242,8 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
         verifyThat("Añadir", isDisabled());
+
+        clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.ENTER);
 
     }
 
@@ -270,6 +267,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn(row);
         clickOn("#deleteRow");
 
+
     }
 
     /**
@@ -287,6 +285,8 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn("Agua");
         Ingredient ingredient = (Ingredient) ingredientTable.getSelectionModel().getSelectedItem();
         assertEquals("Agua", ingredient.getName());
+        clickOn("#deleteRow");
+
 
     }
 
@@ -306,7 +306,12 @@ public class AddRecipeControllerTest extends ApplicationTest {
         assertEquals("Agua", ingredient.getName());
         clickOn("#deleteRow");
 
+
     }
+    /**
+     * Vefiries that the add recipe button is disabled plus if the tables 
+     * row count it's not 0 since it has a row now.
+     */
 
     @Test
     public void TestI_ChooseIngredientVerifyAddRecipeIsDisabled() {
@@ -317,6 +322,12 @@ public class AddRecipeControllerTest extends ApplicationTest {
         doubleClickOn(row);
         clickOn("Agua");
         verifyThat("Añadir", isDisabled());
+        ingredientTable = lookup("#recipeIngredientTable").queryTableView();
+        int rows = ingredientTable.getSelectionModel().getTableView().getItems().size();
+        assertNotEquals(rows, 0);
+
+
+        clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.ENTER);
 
     }
 
@@ -347,6 +358,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
 
         verifyThat("Añadir", isEnabled());
 
+
     }
 
     /**
@@ -354,30 +366,11 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestK_KCalIsString() {
-        clickOn("#txtRecipeName");
-        write("Sample");
-        verifyThat("Añadir", isDisabled());
-
-        clickOn("#txtareaRecipeSteps");
-        write("Sample");
-        verifyThat("Añadir", isDisabled());
-
-        clickOn("#txtRecipeKCal");
-        write("Sample");
-        verifyThat("Añadir", isDisabled());
-
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
-        verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
-
-        clickOn("#addRow");
-        verifyThat("#deleteRow", isDisabled());
-        Node row = lookup("#tableColumnIngredient").nth(1).query();
-        clickOn(row);
-        doubleClickOn(row);
-        clickOn("Agua");
+        
         clickOn("Añadir");
         verifyThat("Las calorias deben ser un numero!", isVisible());
         clickOn("Aceptar");
+
 
     }
 
@@ -387,31 +380,22 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestL_CreateRecipe() {
-        clickOn("#txtRecipeName");
-        write("Sample");
-        verifyThat("Añadir", isDisabled());
+        
 
-        clickOn("#txtareaRecipeSteps");
-        write("Sample");
-        verifyThat("Añadir", isDisabled());
-
-        clickOn("#txtRecipeKCal");
+        doubleClickOn("#txtRecipeKCal");
         write("44");
-        verifyThat("Añadir", isDisabled());
+        verifyThat("Añadir", isEnabled());
 
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        
 
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
 
-        clickOn("#addRow");
-        verifyThat("#deleteRow", isDisabled());
-        Node row = lookup("#tableColumnIngredient").nth(1).query();
-        clickOn(row);
-        doubleClickOn(row);
-        clickOn("Agua");
+     
         clickOn("Añadir");
         verifyThat("Añadida!", isVisible());
         verifyThat("Añadida!", isDisabled());
+
+        clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.ENTER);
 
     }
 
@@ -421,12 +405,19 @@ public class AddRecipeControllerTest extends ApplicationTest {
     @Test
     public void TestM_ReturnToThePreviousWindow() {
         clickOn("Cancelar");
-        verifyThat("#MyRecipes", isVisible());
+        verifyThat("#windowSignIn", isVisible());
 
     }
 
     @Test
     public void TestN_ClearSelection() {
+        write("marting");
+        clickOn("#SignInPWD");
+        write("Aa12345!");
+        clickOn("#SignInBtn");
+
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnNewRecipe");
 
         clickOn("#txtRecipeName");
         write("Sample");
@@ -449,13 +440,14 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn(row);
         doubleClickOn(row);
         clickOn("Agua");
-        clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#menuRecipe").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#txtareaRecipeSteps", hasText(""));
         verifyThat("#txtRecipeKCal", hasText(""));
         verifyThat("#txtRecipeName", hasText(""));
         verifyThat("Añadir", isDisabled());
         verifyThat("#addRow", isEnabled());
         verifyThat("#deleteRow", isDisabled());
+        ingredientTable = lookup("#recipeIngredientTable").queryTableView();
         int rows = ingredientTable.getSelectionModel().getTableView().getItems().size();
         assertEquals(rows, 0);
 
@@ -466,7 +458,8 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestN_MenuBarMisRecetas() {
-        clickOn("Volver A").type(KeyCode.DOWN).type(KeyCode.ENTER);
+
+        clickOn("#menuRecipeVolvera").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#RecipeView", isVisible());
 
     }
@@ -476,7 +469,15 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestO_MenuBarRecetas() {
-        clickOn("Volver A").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
+        write("marting");
+        clickOn("#SignInPWD");
+        write("Aa12345!");
+        clickOn("#SignInBtn");
+
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnNewRecipe");
+
+        clickOn("#menuRecipeVolvera").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#RecipeView", isVisible());
 
     }
@@ -486,8 +487,16 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestP_MenuBarRecetas() {
-        clickOn("Volver A").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
-        verifyThat("#MenuView", isVisible());
+        write("marting");
+        clickOn("#SignInPWD");
+        write("Aa12345!");
+        clickOn("#SignInBtn");
+
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnNewRecipe");
+
+        clickOn("#menuRecipeVolvera").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
+        verifyThat("#windowMenu", isVisible());
 
     }
 
@@ -496,8 +505,16 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestQ_MenuBarSalir() {
-        clickOn("Salir").clickOn("Salir");
-        verifyThat("#MyRecipes", isVisible());
+        write("marting");
+        clickOn("#SignInPWD");
+        write("Aa12345!");
+        clickOn("#SignInBtn");
+
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnNewRecipe");
+        
+        clickOn("#menuRecipeSalir").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        verifyThat("#RecipeView", isVisible());
 
     }
 
@@ -506,6 +523,14 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestR_CreateRecipeFromMenuItem() {
+        write("marting");
+        clickOn("#SignInPWD");
+        write("Aa12345!");
+        clickOn("#SignInBtn");
+
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnNewRecipe");
+
         clickOn("#txtRecipeName");
         write("Sample");
         verifyThat("Añadir", isDisabled());
@@ -528,7 +553,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn(row);
         doubleClickOn(row);
         clickOn("Agua");
-        clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#menuRecipe").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("Añadida!", isVisible());
         verifyThat("Añadida!", isDisabled());
 
