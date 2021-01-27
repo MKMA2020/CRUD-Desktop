@@ -29,7 +29,7 @@
             </ContextMenu>
          </contextMenu>
       </TableView>
-      <Label layoutX="647.0" layoutY="20.0" style="-fx-font-family: Helvetica; -fx-font-size: 38;" styleClass="sideMenuLabel" text="Mis menús" />
+      <Label layoutX="647.0" layoutY="20.0" style="-fx-font-family: Helvetica; -fx-font-size: 38;" styleClass="sideMenuLabel" text="Menús" />
       <ComboBox fx:id="selectMenuType" layoutX="1034.0" layoutY="35.0" prefHeight="26.0" prefWidth="215.0" promptText="Elige tipo de menú" />
       <Button fx:id="btnCreateMenu" layoutX="1206.0" layoutY="612.0" mnemonicParsing="false" onAction="#handleButtonMenuCreate" prefHeight="60.0" prefWidth="60.0" style="-fx-background-radius: 60;" AnchorPane.bottomAnchor="60.0" AnchorPane.rightAnchor="20.0">
          <graphic>

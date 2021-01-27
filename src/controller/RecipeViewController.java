@@ -104,6 +104,7 @@ public class RecipeViewController extends GlobalController {
                     createNewRecipe(event);
                 }catch(Exception ex){
                     showError("Error trying to create a recipe.");
+                    LOGGER.severe("Error trying to create a recipe.");
                 }
             }
         });
