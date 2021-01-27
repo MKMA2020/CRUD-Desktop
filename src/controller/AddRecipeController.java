@@ -576,7 +576,7 @@ public class AddRecipeController extends GlobalController {
             recipe.setUser(null);
             recipe.setVerified(true);
 
-            getrecipeManager().create(recipe);
+            getRecipeManager().create(recipe);
             btnAddRecipe.setDisable(true);
             btnAddRecipe.setText("Añadida!");
         } catch (NumberFormatException ex) {

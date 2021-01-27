@@ -53,6 +53,46 @@ public class ResetPassController extends GlobalController {
     private Button BtnConfirm;
 
     /**
+     * Method for initializing password reset stage.
+     * @param root
+     */
+    @FXML
+    public void initStage(Parent root) {
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Restablecer contraseña");
+        stage.setResizable(false);
+
+        stage.setOnShowing(this::handleWindowShowing);
+        //Set focus on the username text field.
+        txtUserName.requestFocus();
+        //TODO fill with information?
+
+        BtnConfirm.setOnAction(e -> {
+            handleButtonConfirm();
+        });
+        
+        BtnGoBack.setOnAction(e -> {
+            try {
+                handleButtonBack();
+            } catch (Exception ex) {
+                LOGGER.severe("Error going back.");
+            }
+        });
+        
+        stage.show();
+    }
+
+    /**
+     * Window event method handler. Informs about the window being displayed.
+     *
+     * @param event The window event
+     */
+    private void handleWindowShowing(WindowEvent event) {
+        LOGGER.info("Displaying password reset window.");
+    }
+    
+    /**
      * In case there are no errors, after pressing this button the user's
      * password will be reset.
      *
@@ -60,7 +100,7 @@ public class ResetPassController extends GlobalController {
      * @throws IOException in case there are input/output errors.
      */
     @FXML
-    private void handleButtonReset(ActionEvent event) throws IOException, TimeoutException {
+    private void handleButtonReset() throws TimeoutException{
         Boolean windowError = false, alertNeeded = false;
         String alertError = null;
         
@@ -99,7 +139,7 @@ public class ResetPassController extends GlobalController {
         }
     }
 
-    private void handleButtonBack(ActionEvent event) throws IOException {
+    private void handleButtonBack() throws Exception{
         Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
         root = loader.load();
@@ -110,62 +150,21 @@ public class ResetPassController extends GlobalController {
         this.stage.close();
     }
 
-    /**
-     * Method for initializing password reset stage.
-     * @param root
-     */
-    @FXML
-    public void initStage(Parent root) {
-        Scene scene = new Scene(root);
-
-        stage = new Stage();
-        stage.setScene(scene);
-        stage.setTitle("Restablecer contraseña");
-        stage.setResizable(false);
-
-        stage.setOnShowing(this::handleWindowShowing);
-        //Set focus on the username text field.
-        //txtUserName.requestFocus();
-        //TODO fill with information?
-
-        BtnConfirm.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    handleButtonReset(event);
-                } catch (IOException ex) {
-                    JOptionPane optionPane = new JOptionPane("There has been an error trying to reset your password.", JOptionPane.ERROR_MESSAGE);    
-                    JDialog dialog = optionPane.createDialog("Failure");
-                    dialog.setAlwaysOnTop(true);
-                    dialog.setVisible(true);
-                    LOGGER.severe("There has been an error trying to reset your password.");
-                } catch (TimeoutException ex) {
-                    LOGGER.severe("ERROR: Timeout.");
-                }
-            } 
-        });
-        
-        BtnGoBack.setOnAction(new EventHandler<ActionEvent>(){
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-                    handleButtonBack(event);
-                } catch (IOException ex) {
-                    LOGGER.severe("Error going back.");
-                }
+    private void handleButtonConfirm() {
+        try {
+                handleButtonReset();
+            } catch (TimeoutException timeEx){
+                JOptionPane optionPane = new JOptionPane("There has been an error trying to reach the server.", JOptionPane.ERROR_MESSAGE);
+                JDialog dialog = optionPane.createDialog("Failure");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+                LOGGER.severe("There has been an error trying to reach the server.");
+            } catch (Exception ex) {
+                JOptionPane optionPane = new JOptionPane("There has been an error trying to reset your password.", JOptionPane.ERROR_MESSAGE);
+                JDialog dialog = optionPane.createDialog("Failure");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+                LOGGER.severe("There has been an error trying to reset your password.");
             }
-            
-        });
-        
-        stage.show();
-    }
-
-    /**
-     * Window event method handler. Informs about the window being displayed.
-     *
-     * @param event The window event
-     */
-    private void handleWindowShowing(WindowEvent event) {
-        LOGGER.info("Displaying password reset window.");
     }
 }

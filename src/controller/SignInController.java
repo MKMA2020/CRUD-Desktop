@@ -17,6 +17,7 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -103,7 +104,14 @@ public class SignInController extends GlobalController {
         SignInUsername.textProperty().addListener((this::textchanged));
         SignInPWD.textProperty().addListener((this::textchanged));
         stage.show();
-
+        
+        SignInBtnResetPwd.setOnAction(e -> {
+            try {
+                goToReset(stage);
+            } catch (IOException ex) {
+                LOGGER.severe("Error going back to the log-in window.");
+            }
+        });
     }
 
     /**
@@ -200,6 +208,23 @@ public class SignInController extends GlobalController {
         RecipeViewController controller = (loader.getController());
         controller.setStage(primaryStage);
         controller.initStage(root, false);
+    }
+
+    private void goToReset(Stage stage) throws IOException {
+        //It gets the FXML of the password reset window
+        //Load node graph from fxml file
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/view/ResetPass.fxml"));
+        Parent root = (Parent) loader.load();
+        //Get controller for graph 
+        ResetPassController primaryStageController
+                = ((ResetPassController) loader.getController());
+
+        //Set a reference for Stage
+        primaryStageController.setStage(stage);
+        //Initializes primary stage
+        primaryStageController.initStage(root);
+        //stage.close();        });
     }
 
 }
