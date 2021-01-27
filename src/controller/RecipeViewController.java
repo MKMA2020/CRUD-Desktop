@@ -3,6 +3,8 @@ package controller;
 import enumeration.RecipeType;
 import exception.TimeoutException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -25,7 +27,7 @@ import reto2crud.Reto2CRUD;
  * @author Martin Valiente Ainz & Aitor Garcia
  */
 public class RecipeViewController extends GlobalController {
-    
+
     /**
      * TableView that will contain the information about recipes.
      */
@@ -50,21 +52,21 @@ public class RecipeViewController extends GlobalController {
      */
     @FXML
     public TableColumn<Recipe, Float> tclKcal;
-    
+
     /**
      * Button used to create a new recipe.
      */
     @FXML
     public Button btnNewRecipe;
 
-     @FXML
+    @FXML
     private SideMenuController sideMenuController;
-    
+
     /**
      * Recipe table data model.
      */
     private ObservableList<Recipe> recipes;
-    
+
     /**
      * This will decide whether or not to search the recipes by user
      */
@@ -74,66 +76,67 @@ public class RecipeViewController extends GlobalController {
      * InitStage Method for Recipes window.
      *
      * @param root The Parent object representing root node of view graph.
-     * @param personal This will decide whether or not to search the recipes by user.
+     * @param personal This will decide whether or not to search the recipes by
+     * user.
      */
+    public void initStage(Parent root, Boolean personal) {
 
-    public void initStage(Parent root, Boolean personal) {   
-        
         this.personal = personal;
-        
+
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
-        
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Recetas");
         stage.setResizable(false);
-        
+
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
-        
+
         //Set table model.
         recipeTable.setItems(fillTable());
-        
-        btnNewRecipe.setOnAction(new EventHandler<ActionEvent>(){
+
+        btnNewRecipe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
-                try{
+            public void handle(ActionEvent event) {
+                try {
                     createNewRecipe(event);
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     showError("Error trying to create a recipe.");
                     LOGGER.severe("Error trying to create a recipe.");
                 }
             }
         });
-        
+
         //Show window.
-        try{
+        try {
             stage.show();
-        }catch(Exception e){
+        } catch (Exception e) {
             showWarning(e.getMessage());
         }
     }
 
     /**
      * Leads to the recipe creation screen.
+     *
      * @param event
      */
-    public void createNewRecipe(ActionEvent event) throws IOException{
+    public void createNewRecipe(ActionEvent event) throws IOException {
         Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Add_Recipe.fxml"));
         root = loader.load();
         AddRecipeController controller = loader.getController();
         Stage newRecipeDialog = new Stage();
         newRecipeDialog.initModality(Modality.APPLICATION_MODAL);
-        newRecipeDialog.setAlwaysOnTop(true);
+        newRecipeDialog.setAlwaysOnTop(false);
         controller.setStage(newRecipeDialog);
-        controller.initStage(root);
+        controller.initStage(root, stage);
         //TODO wait until the window gets closed and refresh.
     }
-    
+
     private ObservableList<Recipe> fillTable() {
         ObservableList<Recipe> recipes = null;
         try {
@@ -142,15 +145,17 @@ public class RecipeViewController extends GlobalController {
         } catch (TimeoutException ex) {
             LOGGER.severe("ERROR: Timeout.");
         }
-        if(personal){
+        if (personal) {
             stage.setTitle("Mis recetas");
             //Recipe filtering.
-            for(Recipe recipe: recipes){
-                if(!(recipe.getUser().getId().equals(Reto2CRUD.getUser().getId()))){
+            for (Recipe recipe : recipes) {
+                if (!(recipe.getUser().getId().equals(Reto2CRUD.getUser().getId()))) {
                     recipes.remove(recipe);
                 }
             }
         }
         return recipes;
     }
+
+
 }

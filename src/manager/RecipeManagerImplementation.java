@@ -87,4 +87,14 @@ public class RecipeManagerImplementation implements RecipeManager {
         }
     }
 
+    @Override
+    public void update(Recipe recipe) {
+        try {
+            LOGGER.log(Level.INFO, "Edit User");
+            webClient.edit(recipe, recipe.getId().toString());
+        } catch (Exception ex) {
+            LOGGER.log(Level.SEVERE, "Edit Recipe failed: {0}", ex.getMessage());
+        }
+    }
+
 }

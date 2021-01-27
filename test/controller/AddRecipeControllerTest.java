@@ -15,7 +15,6 @@ import factory.RecipeManagerFACTORY;
 import factory.UserManagerFACTORY;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -72,7 +71,19 @@ public class AddRecipeControllerTest extends ApplicationTest {
     public void start(Stage stage) throws Exception {
         Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
         Reto2CRUD.BASE_URI = configFile.getString("URL");
+        sleep(10000);
         new Reto2CRUD().start(stage);
+        
+        
+        
+        clickOn("#SignInUsername");
+        write("marting");
+        clickOn("#SignInPWD");
+        write("Aa12345!");
+        clickOn("#SignInBtn");
+        verifyThat("#RecipeView", isVisible());
+        
+        
         ingredientTable = lookup("#recipeIngredientTable").queryTableView();
     }
 
@@ -87,7 +98,6 @@ public class AddRecipeControllerTest extends ApplicationTest {
         // Get target server
         Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
         Reto2CRUD.BASE_URI = configFile.getString("URL");
-
         Recipe recipe = new Recipe();
         Ingredient ingredient = new Ingredient();
         ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
@@ -104,6 +114,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         Set<Ingredient> foo = new HashSet<Ingredient>(ingredients);
         recipe.setIngredients(foo);
         RecipeManagerFACTORY.getRecipeManager().create(recipe);
+        
     }
 
     /**
@@ -121,8 +132,14 @@ public class AddRecipeControllerTest extends ApplicationTest {
         recipes.forEach((recipe) -> {
             ids.add(recipe.getId());
         });
+        
+        //Update a value
+        recipes.get(recipes.size()-1).setName("Test Cambiado");
+        RecipeManagerFACTORY.getRecipeManager().update(recipes.get(recipes.size()-1));
+        
+        
 
-        // Delete TEST user    
+        // Delete TEST recipe    
         RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids));
 
     }
@@ -132,6 +149,14 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestA_emptyTextFields() {
+        verifyThat("#SignIn", isVisible());
+        clickOn("#SignInUsername");
+        write("marting");
+        clickOn("#SignInPWD");
+        write("Aa12345!");
+        clickOn("#SignInBtn");
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnNewRecipe");
 
         verifyThat("#txtareaRecipeSteps", hasText(""));
         verifyThat("#txtRecipeKCal", hasText(""));

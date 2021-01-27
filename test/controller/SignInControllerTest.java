@@ -147,7 +147,7 @@ public class SignInControllerTest extends ApplicationTest{
    @Test
     public void TestH_SigningIn(){
         clickOn("#SignInUsername");
-        write("martin");
+        write("marting");
         clickOn("#SignInPWD");
         write("Aa12345!");
         clickOn("#SignInBtn");

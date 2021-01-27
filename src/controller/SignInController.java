@@ -183,7 +183,7 @@ public class SignInController extends GlobalController {
                 user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
 
                 user = getUserManager().login(SignInUsername.getText(), user.getPassword());
-                System.out.println("controller.SignInController.signIn()");
+                Reto2CRUD.setUser(user);
                 start_app(stage);
             } catch (TimeoutException e) {
                 showWarning("Error en la conexion con la base de datos");

@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.sun.org.apache.xerces.internal.dom.ParentNode;
 import static controller.GlobalController.LOGGER;
 import enumeration.IngredientType;
 import enumeration.RecipeType;
@@ -202,11 +203,13 @@ public class AddRecipeController extends GlobalController {
     RecipeType selection = null;
     Ingredient selectedItem = null;
     Boolean startError = false;
+    Stage before2 = null;
 
     /**
      * Sets the whole behaviour for the window.
      */
-    public void initStage(Parent root) {
+    public void initStage(Parent root, Stage beforeStage) {
+        before2 = beforeStage;
 
         Scene scene = new Scene(root);
         //stage.initModality(Modality.APPLICATION_MODAL);
@@ -369,7 +372,6 @@ public class AddRecipeController extends GlobalController {
         });
         menuItemRecetas.setOnAction(e -> {
             LOGGER.log(Level.INFO, "BtnShowRecipes Clicked.");
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
             Parent root = null;
             try {
@@ -377,13 +379,20 @@ public class AddRecipeController extends GlobalController {
             } catch (IOException ex) {
                 Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            RecipeViewController controller = (loader.getController());
-            controller.setStage(stage);
+            //Get controller for graph 
+            RecipeViewController controller = ((RecipeViewController) loader.getController());
+            //Set a reference for Stage
+            controller.setStage(before2);
+
+            //Initializes primary stage
             controller.initStage(root, false);
+            stage.close();
+
+            stage.close();
         });
         menuItemMenus.setOnAction(e -> {
-            LOGGER.log(Level.INFO, "BtnShowMenus Clicked.");
 
+            LOGGER.log(Level.INFO, "BtnShowMenus Clicked.");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuView.fxml"));
             Parent root = null;
             try {
@@ -394,13 +403,15 @@ public class AddRecipeController extends GlobalController {
             //Get controller for graph 
             MenuViewController controller = ((MenuViewController) loader.getController());
             //Set a reference for Stage
-            controller.setStage(stage);
+            controller.setStage(before2);
+
             //Initializes primary stage
             controller.initStage(root);
+            stage.close();
+
         });
         menuItemMisRecetas.setOnAction(e -> {
             LOGGER.log(Level.INFO, "BtnShowMyRecipes Clicked.");
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
             Parent root = null;
             try {
@@ -409,8 +420,9 @@ public class AddRecipeController extends GlobalController {
                 Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
             RecipeViewController controller = (loader.getController());
-            controller.setStage(stage);
+            controller.setStage(before2);
             controller.initStage(root, true);
+            stage.close();
         });
         menuItemExit.setOnAction(e -> {
             stage.close();
@@ -442,10 +454,10 @@ public class AddRecipeController extends GlobalController {
 
     /**
      * Gets the ingredient type by their name
+     *
      * @param name
      * @return type
      */
-    
     private IngredientType findtypebyname(String name) {
         IngredientType tipo = null;
         for (Ingredient e : usedIngredients) {
@@ -457,18 +469,20 @@ public class AddRecipeController extends GlobalController {
         }
         return tipo;
     }
-/**
- * Sets the tooltips for the TextFields
- */
+
+    /**
+     * Sets the tooltips for the TextFields
+     */
     private void tooltips() {
         txtRecipeName.setTooltip(new Tooltip("Nombre de la receta"));
         txtareaRecipeSteps.setTooltip(new Tooltip("Escribe los pasos!"));
         btnAddRecipe.setTooltip(new Tooltip("Click para añadir la receta!"));
         btnCancelAddRecipe.setTooltip(new Tooltip("Click para cancelar."));
     }
-/**
- * Fills the choicebox with the enum values
- */
+
+    /**
+     * Fills the choicebox with the enum values
+     */
     private void choiboxType() {
         choiceRecipeType.getItems().addAll((Object[]) RecipeType.values());
 
@@ -497,9 +511,10 @@ public class AddRecipeController extends GlobalController {
         }
 
     }
+
     /**
-     * Method that takes care of the buttons behaviour, the button for adding the recipe will only be
-     * enabled if the sentence bellow is true
+     * Method that takes care of the buttons behaviour, the button for adding
+     * the recipe will only be enabled if the sentence bellow is true
      */
 
     private void activarboton() {
@@ -511,11 +526,12 @@ public class AddRecipeController extends GlobalController {
             btnAddRecipe.setDisable(true);
         }
     }
+
     /**
-     * Method that adds the recipe
-     * Compares the whole ingredient list with the ones used in the table
-     * and makes a third id in order to have all the details from the ingredient
-     * so it can be succesfully added to the database, also sets the user as the recipe author
+     * Method that adds the recipe Compares the whole ingredient list with the
+     * ones used in the table and makes a third id in order to have all the
+     * details from the ingredient so it can be succesfully added to the
+     * database, also sets the user as the recipe author
      */
 
     private void addRecipe() {
@@ -576,7 +592,7 @@ public class AddRecipeController extends GlobalController {
             recipe.setUser(null);
             recipe.setVerified(true);
 
-            getrecipeManager().create(recipe);
+            getRecipeManager().create(recipe);
             btnAddRecipe.setDisable(true);
             btnAddRecipe.setText("Añadida!");
         } catch (NumberFormatException ex) {

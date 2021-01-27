@@ -237,7 +237,7 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testJ_existingUser() {
         clickOn("#SignUpUsername");
-        write("Martin");
+        write("Marting");
         clickOn("#SignUpPWD");
         write("Alberto!Garcia8");
         clickOn("#SignUpPWD2");
