@@ -3,6 +3,7 @@ package controller;
 import enumeration.MenuType;
 import enumeration.Menu_recipeType;
 import enumeration.RecipeType;
+import exception.DatabaseException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -96,6 +97,7 @@ public class NewMenuController extends GlobalController {
         
         //CHOICEBOX PROPERTIES
         //Creates a series of arrays for the choiceboxes
+        try {
         ObservableList<String> types =
         FXCollections.observableArrayList("Desayuno","Comida","Aperitivo","Cena");
         ObservableList<Recipe> starter = 
@@ -110,6 +112,7 @@ public class NewMenuController extends GlobalController {
         FXCollections.observableArrayList(getRecipeManager().getRecipesByType(RecipeType.Sides));
         ObservableList<Recipe> drink = 
         FXCollections.observableArrayList(getRecipeManager().getRecipesByType(RecipeType.Drink));
+        
         
         //Sets the values of the arrays to the choiceboxes
         choiceType.setItems(types);
@@ -129,7 +132,10 @@ public class NewMenuController extends GlobalController {
         choiceSides.getSelectionModel().selectedItemProperty().addListener(this::selectionChanged);
         choiceDrink.getSelectionModel().selectedItemProperty().addListener(this::selectionChanged);
         menuName.textProperty().addListener(this::selectionChanged);
-        
+        } catch (Exception ex) {
+            showError("No han podido cargarse las recetas.");
+            stage.close();
+        }
         btnMenuCreate.setDisable(true);
         //Show window.
         stage.showAndWait();
@@ -186,7 +192,13 @@ public class NewMenuController extends GlobalController {
                 menu.setType(MenuType.Dinner);
                 break;
         }
+        try {
         getMenuManager().create(menu);
+        } catch (DatabaseException ex) {
+            showError("Ha oocurrido un error inesperado!");
+        } catch (Exception ex) {
+            showError("No se ha podido crear el menú");
+        }
         //This should add the recipe-menu relation, but has many issues
         /**List<Menu> allMenus = getMenuManager().findAll();
         Menu editMenu = allMenus.get(allMenus.size()-1);
@@ -222,6 +234,9 @@ public class NewMenuController extends GlobalController {
         //Sends the created menu to the server to add it
         getMenuManager().edit(editMenu);**/
         LOGGER.info("Menu successfully created");
+        showInformation("Menu succesfully created! Going back to the list");
+        btnMenuCreate.setDisable(true);
+        stage.close();
     }
         
     }

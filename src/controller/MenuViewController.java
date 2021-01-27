@@ -1,6 +1,7 @@
 package controller;
 
 import enumeration.MenuType;
+import exception.DatabaseException;
 import java.io.IOException;
 import java.util.logging.Level;
 import javafx.collections.FXCollections;
@@ -109,12 +110,16 @@ public class MenuViewController extends GlobalController {
         stage.setScene(scene);
         stage.setTitle("Lista de menús");
         stage.setResizable(false);
-        stage.setOnShowing(this::handleWindowShowing);
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
         
+        //CONTROL PROPERTIES
+        //Disables the delete button
+        btnDeleteMenu.setDisable(true);
+        
         //TABLE PROPERTIES
         //Creates an observable list containing every menu, in order to show it in the table.
+        try {
         everyMenu = FXCollections.observableArrayList(getMenuManager().findAll());
         //Set table model.
         menuTable.setItems(everyMenu);
@@ -186,13 +191,12 @@ public class MenuViewController extends GlobalController {
            menuTable.refresh();
     }
     ); 
+        } catch (Exception ex) {
+              showError("Ha ocurrido un error inesperado con el servidor.");  
+          }
         
         //Show window.
         stage.show();
-    }
-
-    private void handleWindowShowing(Event event) {
-        btnDeleteMenu.setDisable(true);
     }
 
     @FXML
@@ -202,28 +206,52 @@ public class MenuViewController extends GlobalController {
         NewMenuController controller = (loader.getController());
         controller.setStage(stage);
         controller.initStage(root);
+        try {
         everyMenu = FXCollections.observableArrayList(getMenuManager().findAll());
         menuTable.setItems(everyMenu);
         menuTable.refresh();
+        } catch (Exception ex) {
+            showError("Ha ocurrido un error inesperado con el servidor.");
+        }
         
     }
 
     @FXML
     private void deleteMenu(ActionEvent event) {      
         try {
-           getMenuManager().delete(menuTable.getSelectionModel().getSelectedItem().getId());
-           everyMenu.remove(menuTable.getSelectionModel().getSelectedItem());
-           menuTable.refresh(); 
+            boolean confirm = showConfirmation("Seguro que quieres borrar el menu "+
+            menuTable.getSelectionModel().getSelectedItem().getName()+"?");
+            if (confirm) {
+                try {
+                getMenuManager().delete(menuTable.getSelectionModel().getSelectedItem().getId());
+                everyMenu.remove(menuTable.getSelectionModel().getSelectedItem());
+                menuTable.refresh();
+                } catch (DatabaseException ex) {
+                    showError("Ha ocurrido un error inesperado con el servidor.");
+                } catch (Exception ex) {
+                    showError("No ha podido eliminarse el menú.");
+                }
+            }
         } catch (NullPointerException ex) {
             showError("No hay menú seleccionado!");
         }
     }
     
     private void updateMenuDescription(CellEditEvent <Menu,String> t) {
+        if (t.getNewValue().length()>50)
+            showError("La nueva descripción es demasiado larga!");
+        else {
         Menu m = t.getRowValue();           
         m.setDescription(t.getNewValue());
+        try {
         getMenuManager().edit(m);
+        } catch (DatabaseException ex) {
+            showError("Ha ocurrido un error inesperado con el servidor.");
+        } catch (Exception ex) {
+            showError("No ha podido editarse el menú.");
+        }
         menuTable.refresh();
+        }
     }
     
 }

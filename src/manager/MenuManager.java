@@ -6,6 +6,7 @@
 package manager;
 
 import enumeration.MenuType;
+import exception.DatabaseException;
 import java.util.List;
 import model.Menu;
 
@@ -17,7 +18,7 @@ public interface MenuManager {
     public List<Menu> findAll();
     public List<Menu> findByType(MenuType type);
     public Menu find(Long id);
-    public void delete(Long id);
-    public void create(Menu menu);
-    public void edit(Menu menu);
+    public void delete(Long id) throws DatabaseException;
+    public void create(Menu menu)  throws DatabaseException;
+    public void edit(Menu menu) throws DatabaseException;
 }

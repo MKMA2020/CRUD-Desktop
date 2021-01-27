@@ -94,7 +94,7 @@ class GlobalController {
      */
     protected Boolean showConfirmation(String msg) {
         Boolean result = false;
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.OK, ButtonType.CANCEL);
         //CSS HAS TO BE ADDED
         alert.showAndWait();
         if(alert.getResult() == ButtonType.OK)
