@@ -75,7 +75,7 @@ public class MenuViewControllerTest extends ApplicationTest {
 
         // Create TEST menu
         menu.setDescription("This is a test Menu");
-        menu.setName("This is a test Menu");
+        menu.setName("AAAAAAAAAAAAAAAAAAAAAAAAA");
         menu.setType(MenuType.Lunch);
         
         
@@ -106,14 +106,13 @@ public class MenuViewControllerTest extends ApplicationTest {
      */
     @Test
     public void testA_initialState() {
-        verifyThat("#clmnMenuName", hasText(""));
-        verifyThat("#clmnMenuType", hasText(""));
-        verifyThat("#clmnDescription", hasText(""));
-        
+        int rowCount = menuTable.getColumns().size();
+        assertNotNull(rowCount);
         //Click on row 0
-        Node row = lookup(".table-row-cell").nth(1).query();
+        Node row = lookup(".table-row-cell").nth(0).query();
         assertNotNull("Row is null: table has not that row. ", row);
         clickOn(row);
+        //verifyThat(nodeQuery, nodeMatcher);
     }
     @Test
     //@Ignore
@@ -123,18 +122,18 @@ public class MenuViewControllerTest extends ApplicationTest {
         assertNotEquals("Table has no data: Cannot test.", rowCount, 0);
 
         // Select row and get menu.
-        Node cell = lookup(".table-row-cell").nth(1).query();
+        Node cell = lookup(".table-row-cell").nth(0).query();
         clickOn(cell);
         
         Menu menu = (Menu) menuTable.getSelectionModel().getSelectedItem();
         String descriptionBefore = menu.getDescription();
 
         // Click on cell 4 and change Status
-        cell = lookup("#clmnDescription").nth(2).query();
+        cell = lookup("#clmnDescription").nth(1).query();
         doubleClickOn(cell).write("Cambio").type(KeyCode.ENTER);
 
         // Select row and get user.
-        cell = lookup(".table-row-cell").nth(1).query();
+        cell = lookup(".table-row-cell").nth(0).query();
         clickOn(cell);
         Menu menu2 = (Menu) menuTable.getSelectionModel().getSelectedItem();
         assertNotEquals(descriptionBefore, menu2.getDescription());

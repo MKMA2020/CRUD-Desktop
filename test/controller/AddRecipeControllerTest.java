@@ -97,7 +97,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         recipe.setType(RecipeType.Dessert);
         recipe.setKcal(Float.parseFloat("44"));
         recipe.setSteps("");
-        ingredient.setName("gdfgh");
+        ingredient.setName("Agua");
         ingredient.setId(Long.parseLong("1"));
         ingredient.setType(IngredientType.Dairy);
         ingredients.add(ingredient);
@@ -105,6 +105,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         recipe.setIngredients(foo);
         RecipeManagerFACTORY.getRecipeManager().create(recipe);
     }
+
     /**
      * Method will delete TEST_USER after all tests have been executed.
      *
@@ -123,8 +124,9 @@ public class AddRecipeControllerTest extends ApplicationTest {
 
         // Delete TEST user    
         RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids));
-        
+
     }
+
     /**
      * Test that tests if the TextFields are empty
      */
@@ -138,6 +140,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         verifyThat("#addRow", isEnabled());
         verifyThat("#deleteRow", isDisabled());
     }
+
     /**
      * Test that tests if the ComboBox has all the items loaded properly
      */
@@ -149,6 +152,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         verifyThat("#choiceRecipeType", ComboBoxMatchers.containsExactlyItems(RecipeType.values()));
 
     }
+
     /**
      * Test that tests if the add button is disabled if txtfields are filled
      */
@@ -170,40 +174,35 @@ public class AddRecipeControllerTest extends ApplicationTest {
         //verifyThat("#btnAddRecipe", isDisabled());
 
     }
+
     /**
-     * Test that tests if the Combobox works properly and has all the right values in it.
+     * Test that tests if the Combobox works properly and has all the right
+     * values in it.
      */
 
     @Test
     public void TestD_CheckRecipeComboType() {
 
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Main));
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Secondary));
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Dessert));
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Sides));
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Drink));
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Snack));
 
-        
     }
+
     /**
-     * Test that tests if the add recipe button gets enabled once both the txtfields and the recipe
-     * type combobox are filled
+     * Test that tests if the add recipe button gets enabled once both the
+     * txtfields and the recipe type combobox are filled
      */
 
     @Test
@@ -220,14 +219,11 @@ public class AddRecipeControllerTest extends ApplicationTest {
         write("Sample");
         verifyThat("Añadir", isDisabled());
 
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
         verifyThat("Añadir", isDisabled());
 
-        
     }
-
 
     /**
      * Tests that adds a row and deletes it
@@ -242,14 +238,15 @@ public class AddRecipeControllerTest extends ApplicationTest {
         verifyThat("#deleteRow", isDisabled());
         rowCount = ingredientTable.getItems().size();
         assertNotEquals("Table has no data: Cannot test.", rowCount, 0);
-        
+
         //Click on row 0
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         assertNotNull("Row is null: table has not that row. ", row);
         clickOn(row);
         clickOn("#deleteRow");
 
     }
+
     /**
      * Tests that adds a row and sets an ingredient
      */
@@ -258,45 +255,46 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
         //Click on row 0
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         assertNotNull("Row is null: table has not that row. ", row);
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
-        Ingredient ingredient = (Ingredient)ingredientTable.getSelectionModel().getSelectedItem();
-        assertEquals("gdfgh", ingredient.getName());
-        
+        clickOn("Agua");
+        Ingredient ingredient = (Ingredient) ingredientTable.getSelectionModel().getSelectedItem();
+        assertEquals("Agua", ingredient.getName());
 
     }
+
     /**
-     * Adds a row and an ingredient to the table and verifies that the selected ingredeint matches the one from the table
+     * Adds a row and an ingredient to the table and verifies that the selected
+     * ingredeint matches the one from the table
      */
     @Test
     public void TestH_AddRowChooseIngredientandVerify() {
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
-        Ingredient ingredient = (Ingredient)ingredientTable.getSelectionModel().getSelectedItem();
-        assertEquals("gdfgh", ingredient.getName());
+        clickOn("Agua");
+        Ingredient ingredient = (Ingredient) ingredientTable.getSelectionModel().getSelectedItem();
+        assertEquals("Agua", ingredient.getName());
         clickOn("#deleteRow");
-        
 
     }
+
     @Test
     public void TestI_ChooseIngredientVerifyAddRecipeIsDisabled() {
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
+        clickOn("Agua");
         verifyThat("Añadir", isDisabled());
-        
 
     }
+
     @Test
     public void TestJ_AddRecipeIsEnabled() {
         clickOn("#txtRecipeName");
@@ -314,18 +312,18 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn("#choiceRecipeType").type(KeyCode.DOWN);
         clickOn("#choiceRecipeType").type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
-        
+
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
-        
+        clickOn("Agua");
+
         verifyThat("Añadir", isEnabled());
-        
 
     }
+
     /**
      * Test that tries to add a new recipe where the kcal is a String
      */
@@ -343,25 +341,24 @@ public class AddRecipeControllerTest extends ApplicationTest {
         write("Sample");
         verifyThat("Añadir", isDisabled());
 
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
-        
+
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
+        clickOn("Agua");
         clickOn("Añadir");
-        verifyThat("Las calorias deben ser un numero!",isVisible());        
+        verifyThat("Las calorias deben ser un numero!", isVisible());
         clickOn("Aceptar");
-        
-        
 
     }
+
     /**
-     * Test that adds correctly a recipe and checks if the the button gets disabled and changes
+     * Test that adds correctly a recipe and checks if the the button gets
+     * disabled and changes
      */
     @Test
     public void TestL_CreateRecipe() {
@@ -377,26 +374,25 @@ public class AddRecipeControllerTest extends ApplicationTest {
         write("44");
         verifyThat("Añadir", isDisabled());
 
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
+
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
-        
+
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
+        clickOn("Agua");
         clickOn("Añadir");
         verifyThat("Añadida!", isVisible());
         verifyThat("Añadida!", isDisabled());
-        
-        
 
     }
-/**
- * Clicks on the cancelar button, checks if my recipes windows shows
- */
+
+    /**
+     * Clicks on the cancelar button, checks if my recipes windows shows
+     */
     @Test
     public void TestM_ReturnToThePreviousWindow() {
         clickOn("Cancelar");
@@ -406,7 +402,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
 
     @Test
     public void TestN_ClearSelection() {
-        
+
         clickOn("#txtRecipeName");
         write("Sample");
         verifyThat("Añadir", isDisabled());
@@ -419,16 +415,15 @@ public class AddRecipeControllerTest extends ApplicationTest {
         write("44");
         verifyThat("Añadir", isDisabled());
 
-        clickOn("#choiceRecipeType").type(KeyCode.DOWN);
-        clickOn("#choiceRecipeType").type(KeyCode.ENTER);
+        clickOn("#choiceRecipeType").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
 
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
+        clickOn("Agua");
         clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#txtareaRecipeSteps", hasText(""));
         verifyThat("#txtRecipeKCal", hasText(""));
@@ -436,11 +431,11 @@ public class AddRecipeControllerTest extends ApplicationTest {
         verifyThat("Añadir", isDisabled());
         verifyThat("#addRow", isEnabled());
         verifyThat("#deleteRow", isDisabled());
-        int rows =ingredientTable.getSelectionModel().getTableView().getItems().size();
+        int rows = ingredientTable.getSelectionModel().getTableView().getItems().size();
         assertEquals(rows, 0);
 
     }
-    
+
     /**
      * Clicks on the MenuBar Volver a and chooses mis recetas
      */
@@ -448,8 +443,9 @@ public class AddRecipeControllerTest extends ApplicationTest {
     public void TestN_MenuBarMisRecetas() {
         clickOn("Volver A").type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#RecipeView", isVisible());
-    
+
     }
+
     /**
      * Clicks on the MenuBar Volver a and chooses recetas
      */
@@ -457,8 +453,9 @@ public class AddRecipeControllerTest extends ApplicationTest {
     public void TestO_MenuBarRecetas() {
         clickOn("Volver A").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#RecipeView", isVisible());
-    
+
     }
+
     /**
      * Clicks on the MenuBar Volver a and chooses Menu
      */
@@ -466,8 +463,9 @@ public class AddRecipeControllerTest extends ApplicationTest {
     public void TestP_MenuBarRecetas() {
         clickOn("Volver A").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("#MenuView", isVisible());
-    
+
     }
+
     /**
      * Clicks on the MenuBar Salir Option
      */
@@ -475,8 +473,9 @@ public class AddRecipeControllerTest extends ApplicationTest {
     public void TestQ_MenuBarSalir() {
         clickOn("Salir").clickOn("Salir");
         verifyThat("#MyRecipes", isVisible());
-    
+
     }
+
     /**
      * Creates recipe from the MenuBar GuardarReceta Option
      */
@@ -497,17 +496,17 @@ public class AddRecipeControllerTest extends ApplicationTest {
         clickOn("#choiceRecipeType").type(KeyCode.DOWN);
         clickOn("#choiceRecipeType").type(KeyCode.ENTER);
         verifyThat("#choiceRecipeType", ComboBoxMatchers.hasSelectedItem(Starter));
-        
+
         clickOn("#addRow");
         verifyThat("#deleteRow", isDisabled());
-        Node row = lookup(".table-row-cell").nth(0).query();
+        Node row = lookup("#tableColumnIngredient").nth(1).query();
         clickOn(row);
         doubleClickOn(row);
-        clickOn("gdfgh");
+        clickOn("Agua");
         clickOn("Recetas").type(KeyCode.DOWN).type(KeyCode.DOWN).type(KeyCode.ENTER);
         verifyThat("Añadida!", isVisible());
         verifyThat("Añadida!", isDisabled());
-    
+
     }
-    
+
 }
