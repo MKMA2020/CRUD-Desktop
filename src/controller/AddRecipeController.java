@@ -379,7 +379,7 @@ public class AddRecipeController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, false);
         });
         menuItemMenus.setOnAction(e -> {
             LOGGER.log(Level.INFO, "BtnShowMenus Clicked.");
@@ -410,7 +410,7 @@ public class AddRecipeController extends GlobalController {
             }
             RecipeViewController controller = (loader.getController());
             controller.setStage(stage);
-            controller.initStage(root);
+            controller.initStage(root, true);
         });
         menuItemExit.setOnAction(e -> {
             stage.close();

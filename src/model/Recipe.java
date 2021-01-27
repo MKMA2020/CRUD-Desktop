@@ -1,17 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
 import enumeration.RecipeType;
 import java.util.Set;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Recipe entity class
+ *
  * @author Martin Gros
  */
-
 @XmlRootElement
 public class Recipe {
-    
 
     /**
      * ID of the Recipe.
@@ -31,7 +36,7 @@ public class Recipe {
     /**
      * kCal value of the Recipe.
      */
-    private float kcal;
+    private Float kCal;
 
     /**
      * Type of the Recipe.
@@ -42,35 +47,17 @@ public class Recipe {
      * Ingredient collection of the recipe.
      */
     private Set<Ingredient> ingredients;
-    
-        /**
-     * Author of the recipe
+
+    /**
+     * Creator of the recipe.
      */
     private User user;
+    
     /**
-     * Recipe verified
+     * Verification state of the recipe.
      */
     private Boolean verified;
-    
-     public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Boolean getVerified() {
-        return verified;
-    }
-
-    /**
-     * Author of the recipe
-     */
-    public void setVerified(Boolean verified) {
-        this.verified = verified;
-    }
-    
     public Long getId() {
         return id;
     }
@@ -95,12 +82,13 @@ public class Recipe {
         this.steps = steps;
     }
 
-    public float getKcal() {
-        return kcal;
+    @XmlElement(name="kcal")
+    public Float getKcal() {
+        return kCal;
     }
 
-    public void setKcal(float kcal) {
-        this.kcal = kcal;
+    public void setKcal(Float kCal) {
+        this.kCal = kCal;
     }
 
     public RecipeType getType() {
@@ -114,12 +102,27 @@ public class Recipe {
     public Set<Ingredient> getIngredients() {
         return ingredients;
     }
-    
-        public void setIngredients(Set<Ingredient> ingredients) {
+
+    public void setIngredients(Set<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(Boolean verified) {
+        this.verified = verified;
+    }
     
-        
     @Override
     public int hashCode() {
         int hash = 0;
@@ -142,6 +145,6 @@ public class Recipe {
 
     @Override
     public String toString() {
-        return this.name;
+        return "mkma.entity.Recipe[ id=" + id + " ]";
     }
 }

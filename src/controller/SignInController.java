@@ -35,6 +35,7 @@ import javax.ws.rs.ForbiddenException;
 import manager.UserManager;
 import model.Recipe;
 import model.User;
+import reto2crud.Reto2CRUD;
 import security.Ciphering;
 
 /**
@@ -150,6 +151,7 @@ public class SignInController extends GlobalController {
         controller.initStage(root);
     }
 
+
     private void start_resetPWD(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ResetPass.fxml"));
         Parent root = (Parent) loader.load();
@@ -189,7 +191,6 @@ public class SignInController extends GlobalController {
                 showWarning("Nombre de usuario o contraseñas erroneas");
             }
         } else {
-
         }
     }
 
@@ -198,7 +199,7 @@ public class SignInController extends GlobalController {
         Parent root = (Parent) loader.load();
         RecipeViewController controller = (loader.getController());
         controller.setStage(primaryStage);
-        controller.initStage(root);
+        controller.initStage(root, false);
     }
 
 }
