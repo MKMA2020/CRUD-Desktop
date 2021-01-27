@@ -90,10 +90,14 @@ class GlobalController {
      *
      * @param msg The confirmation message to be shown.
      */
-    protected void showConfirmation(String msg) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.OK);
+    protected Boolean showConfirmation(String msg) {
+        Boolean result = false;
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.OK, ButtonType.CANCEL);
         //CSS HAS TO BE ADDED
         alert.showAndWait();
+        if(alert.getResult() == ButtonType.OK)
+            result = true;
+        return result;
     }
 
     /**
