@@ -7,14 +7,18 @@ package reto2crud;
 
 import controller.AddRecipeController;
 import controller.AdminUserWindowController;
+import java.io.IOException;
+import controller.RecipeViewController;
 import controller.MenuViewController;
 import controller.SignInController;
+import controller.SignUpController;
 import java.io.IOException;
 import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
+import model.User;
 
 /**
  *
@@ -24,22 +28,22 @@ public class Reto2CRUD extends Application {
     
     public static ResourceBundle configFile;
     public static String BASE_URI;
+    private static User user;
     
     @Override
     public void start(Stage stage) throws IOException {
       
        //Load node graph from fxml file
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/view/AdminUserWindow.fxml"));
+        FXMLLoader loader=new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
         Parent root = (Parent)loader.load();
         //Get controller for graph 
-        AdminUserWindowController primaryStageController = (loader.getController());
-
+        RecipeViewController primaryStageController = ((RecipeViewController)loader.getController());
 
         //Set a reference for Stage
         primaryStageController.setStage(stage);
         
         //Initializes primary stage
-        primaryStageController.initStage(root);
+        primaryStageController.initStage(root, false);
         
         
         }
@@ -56,6 +60,16 @@ public class Reto2CRUD extends Application {
         launch(args);
         
     }
+
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        Reto2CRUD.user = user;
+    }
+
+    
     
 }
 

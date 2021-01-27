@@ -5,6 +5,9 @@
  */
 package controller;
 
+import java.util.ResourceBundle;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import reto2crud.Reto2CRUD;
 import org.junit.FixMethodOrder;
@@ -17,6 +20,7 @@ import static org.testfx.matcher.base.NodeMatchers.isDisabled;
 import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
+import static reto2crud.Reto2CRUD.configFile;
 
 /**
  *
@@ -29,8 +33,12 @@ import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SignInControllerTest extends ApplicationTest{
     
+    
     @Override
     public void start(Stage stage) throws Exception {
+        Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
+        Reto2CRUD.BASE_URI = configFile.getString("URL");
+        
         new Reto2CRUD().start(stage);
     }
     
@@ -44,7 +52,7 @@ public class SignInControllerTest extends ApplicationTest{
     public void testA_initislstate() {
         verifyThat("#SignInUsername", hasText(""));
         verifyThat("#SignInPWD", hasText(""));
-        verifyThat("#SignInBtn", isDisabled());
+        verifyThat("SignInBtn", isDisabled());
     }
     
     /**
@@ -129,7 +137,7 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("#SignInPWD");
         write("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         clickOn("#SignInBtn");
-        verifyThat("User or password are incorrect.", isVisible());
+        verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
         clickOn("Aceptar");
    }
    
@@ -139,11 +147,11 @@ public class SignInControllerTest extends ApplicationTest{
    @Test
     public void TestH_SigningIn(){
         clickOn("#SignInUsername");
-        write("kerman");
+        write("martin");
         clickOn("#SignInPWD");
-        write("1Aqwe");
+        write("Aa12345!");
         clickOn("#SignInBtn");
-        verifyThat("#windowSignOut", isVisible());
+        verifyThat("#RecipeView", isVisible());
     }
     
     /**
@@ -156,7 +164,7 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("#SignInPWD");
         write("unexistentpass");
         clickOn("#SignInBtn");
-        verifyThat("User or password are incorrect.", isVisible());
+        verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
         clickOn("Aceptar");
     }
     
@@ -170,7 +178,7 @@ public class SignInControllerTest extends ApplicationTest{
        clickOn("#SignInPWD");
        write("wrongpass");
        clickOn("#SignInBtn");
-       verifyThat("User or password are incorrect.", isVisible());
+       verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
        clickOn("Aceptar");
    }
     
@@ -184,7 +192,7 @@ public class SignInControllerTest extends ApplicationTest{
         clickOn("#SignInPWD");
         write("1Aqwe");
         clickOn("#SignInBtn");
-        verifyThat("An unexpected error ocurred on the server.", isVisible());
+        verifyThat("Error en la conexion con la base de datos", isVisible());
         clickOn("Aceptar");
     }
 }

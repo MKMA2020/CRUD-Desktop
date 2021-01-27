@@ -92,10 +92,14 @@ class GlobalController {
      *
      * @param msg The confirmation message to be shown.
      */
-    protected void showConfirmation(String msg) {
+    protected Boolean showConfirmation(String msg) {
+        Boolean result = false;
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, msg, ButtonType.OK);
         //CSS HAS TO BE ADDED
         alert.showAndWait();
+        if(alert.getResult() == ButtonType.OK)
+            result = true;
+        return result;
     }
 
     /**
@@ -108,13 +112,8 @@ class GlobalController {
      */
     protected final int INGREDIENT_NAME_MAX_LENGTH = 20;
 
-    protected RecipeManager recipeManager;
-    
     public static IngredientManager getIngredientManager(){
         return IngredientManagerFACTORY.getIngredientManager();
-    }
-    public static RecipeManager getrecipeManager(){
-        return RecipeManagerFACTORY.getRecipeManager();
     }
 
     public static UserManager getUserManager() {
