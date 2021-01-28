@@ -20,7 +20,11 @@ import static reto2crud.Reto2CRUD.configFile;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ResetPassControllerTest extends ApplicationTest{
     
-    //private static User testUser = new User();
+//    User needed for the test:
+//    Login: tester
+//    Email: testemail@tester.test
+//    Full name: Testy McTestface
+//    Password: Tester1
     
     
     public void start(Stage stage) throws Exception {
@@ -33,7 +37,7 @@ public class ResetPassControllerTest extends ApplicationTest{
     
     /**
      * Method for the case in which the user doesn't exist beforehand.
-     * @throws Exception generic exception in case the user creation causes an error.
+     * @throws Exception generic exception in case of any error.
      */
     /*@BeforeClass
     public static void setUpBeforeClass() throws Exception {
