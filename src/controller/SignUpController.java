@@ -47,37 +47,37 @@ public class SignUpController extends GlobalController {
      * Textfield for the user
      */
     @FXML
-    private TextField SignUpUsername;
+    private TextField signUpUsername;
     /**
      * Textfield for the email
      */
     @FXML
-    private TextField SignUpEmail;
+    private TextField signUpEmail;
     /**
      * Textfield for the full name
      */
     @FXML
-    private TextField SignUpFN;
+    private TextField signUpFN;
     /**
      * Textfield for the password
      */
     @FXML
-    private PasswordField SignUpPWD;
+    private PasswordField signUpPWD;
     /**
      * Textfield for the password verification
      */
     @FXML
-    private PasswordField SignUpPWD2;
+    private PasswordField signUpPWD2;
     /**
      * Button to sign in the user
      */
     @FXML
-    private Button SignUpBtn;
+    private Button signUpBtn;
     /**
      * Button to go to the sign sign
      */
     @FXML
-    private Button SignUpBtnBack;
+    private Button signUpBtnBack;
 
     @FXML
     private void handleButtonBack(ActionEvent event) throws IOException {
@@ -90,45 +90,45 @@ public class SignUpController extends GlobalController {
     }
 
     public void initStage(Parent root) {
+        LOGGER.info("SignUp");
         Scene scene = new Scene(root);
         stage.setTitle("Registro");
         stage.setResizable(false);
         stage.setScene(scene);
+        signUpBtn.setDisable(true);
         //Set window's events handlers
         stage.setOnShowing(this::handleWindowShowing);
         //Listeners
-        SignUpUsername.textProperty().addListener(this::textChanged);
-        SignUpPWD.textProperty().addListener(this::textChanged);
-        SignUpPWD2.textProperty().addListener(this::textChanged);
-        SignUpEmail.textProperty().addListener(this::textChanged);
-        SignUpFN.textProperty().addListener(this::textChanged);
+        signUpUsername.textProperty().addListener(this::textChanged);
+        signUpPWD.textProperty().addListener(this::textChanged);
+        signUpPWD2.textProperty().addListener(this::textChanged);
+        signUpEmail.textProperty().addListener(this::textChanged);
+        signUpFN.textProperty().addListener(this::textChanged);
 
         stage.show();
 
     }
 
     /**
-     * When the window's first launched, sets the logIn button to disabled and
+     * When the window's first launched, sets the Signup button to disabled and
      * adds 2 tooltips.
      */
     private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Beginning LoginController::handleWindowShowing");
         //Default texts
-        SignUpUsername.setText("");
-        SignUpPWD.setText("");
-        SignUpPWD2.setText("");
-        SignUpFN.setText("");
-        SignUpEmail.setText("");
-        //SignUp button disabled
-        SignUpBtn.setDisable(true);
+        signUpUsername.setText("");
+        signUpPWD.setText("");
+        signUpPWD2.setText("");
+        signUpFN.setText("");
+        signUpEmail.setText("");
         //Few tooltips
-        SignUpBtn.setTooltip(new Tooltip("Click para registrarte "));
-        SignUpBtnBack.setTooltip(new Tooltip("Click para volver al inicio de sesion "));
-        SignUpUsername.setTooltip(new Tooltip("Entre 5 y 20 carácteres"));
-        SignUpPWD.setTooltip(new Tooltip("Debe de contener al menos una letra minuúscula, otra mayúscula y un caracter"));
-        SignUpPWD2.setTooltip(new Tooltip("Repetir contraseña"));
-        SignUpEmail.setTooltip(new Tooltip("E-mail en formato valido :)"));
-        SignUpFN.setTooltip(new Tooltip("Nombre y apellido"));
+        signUpBtn.setTooltip(new Tooltip("Click para registrarte "));
+        signUpBtnBack.setTooltip(new Tooltip("Click para volver al inicio de sesion "));
+        signUpUsername.setTooltip(new Tooltip("Entre 5 y 20 carácteres"));
+        signUpPWD.setTooltip(new Tooltip("Debe de contener al menos una letra minuúscula, otra mayúscula y un caracter"));
+        signUpPWD2.setTooltip(new Tooltip("Repetir contraseña"));
+        signUpEmail.setTooltip(new Tooltip("E-mail en formato valido :)"));
+        signUpFN.setTooltip(new Tooltip("Nombre y apellido"));
     }
 
     /**
@@ -138,6 +138,7 @@ public class SignUpController extends GlobalController {
      * @throws IOException
      */
     private void start_SignIn(Stage stage) throws IOException {
+        LOGGER.info("Going back to SignIn");
         //It gets the FXML of the sign-in window
         //Load node graph from fxml file
         FXMLLoader loader = new FXMLLoader(
@@ -155,6 +156,7 @@ public class SignUpController extends GlobalController {
     }
 
     private void SignUp() {
+        LOGGER.info("Attempt to SignUp");
         boolean existe = false;
         boolean error = validate();
         String alertError = null;
@@ -169,29 +171,26 @@ public class SignUpController extends GlobalController {
             showWarning("Error en la base de datos, por favor prueba mas tarde.");
             error = true;
         }
-
+           if(!error){
         
             for (int i = 0; i < listadeUsuarios.size(); i++) {
-                if (listadeUsuarios.get(i).getLogin().contentEquals(SignUpUsername.getText())) {
+                if (listadeUsuarios.get(i).getLogin().equalsIgnoreCase(signUpUsername.getText())) {
                     existe = true;
+                    LOGGER.info("Username: "+signUpUsername.getText()+" already exists.");
                     break;
                 }
             }
-       
+           }
 
         if (!existe && !error) {
-
-            //user.setPassword(Arrays.toString(encrypter.cifrarTexto(SignUpPWD.getText())));
-            user.setLogin(SignUpUsername.getText());
-            System.out.println(SignUpPWD.getText());
-            user.setPassword(encrypter.cifrarTexto(SignUpPWD.getText()));
-            System.out.println(user.getPassword());
-            user.setEmail(SignUpEmail.getText());
-            user.setFullName(SignUpFN.getText());
-
+            LOGGER.info("SignIng Up");
+            user.setLogin(signUpUsername.getText());
+            user.setPassword(encrypter.cifrarTexto(signUpPWD.getText()));
+            user.setEmail(signUpEmail.getText());
+            user.setFullName(signUpFN.getText());
             getUserManager().create(user);
-            SignUpBtn.setText("Signed Up");
-            SignUpBtn.setDisable(true);
+            signUpBtn.setText("Registrado");
+            signUpBtn.setDisable(true);
 
         } else {
             if (existe) {
@@ -208,45 +207,46 @@ public class SignUpController extends GlobalController {
      * @param observable
      */
     private void textChanged(Observable observable) {
-        if (SignUpUsername.getText().trim().equals("") || SignUpPWD.getText().trim().equals("")
-                || SignUpPWD2.getText().trim().equals("") || SignUpEmail.getText().trim().equals("")
-                || SignUpFN.getText().trim().equals("")) {
-            SignUpBtn.setDisable(true);
+        if (signUpUsername.getText().trim().equals("") || signUpPWD.getText().trim().equals("")
+                || signUpPWD2.getText().trim().equals("") || signUpEmail.getText().trim().equals("")
+                || signUpFN.getText().trim().equals("")) {
+            signUpBtn.setDisable(true);
         } else {
-            SignUpBtn.setDisable(false);
+            signUpBtn.setDisable(false);
         }
     }
 
     private boolean validate() {
+        LOGGER.info("Validating...");
         boolean error = false;
         String alertList = "";
         //Checks if the user is long enough
-        if (SignUpUsername.getText().length() < 5) {
+        if (signUpUsername.getText().length() < 5) {
             error = true;
             alertList = alertList.concat("El nombre de usuario es demasiado corto.\n");
         }
         //Checks if the user is too long
-        if (SignUpUsername.getText().length() > 20) {
+        if (signUpUsername.getText().length() > 20) {
             error = true;
             alertList = alertList.concat("El nombre de usuario es demasiado largo.\n");
         }
         //Checks if the password meets the requirements
-        if (isValidPass(SignUpPWD.getText()) == false) {
+        if (isValidPass(signUpPWD.getText()) == false) {
             error = true;
             alertList = alertList.concat("La contraseña debe de incluir una mayúscula, una minúscula y un numero\n");
         }
         //Checks if the password is too short
-        if (SignUpPWD.getText().length() < 5) {
+        if (signUpPWD.getText().length() < 5) {
             error = true;
             alertList = alertList.concat("La contraseña es demasiado corta\n");
         }
         //Checks if the password and its confirmation are the same
-        if (!SignUpPWD.getText().equals(SignUpPWD2.getText())) {
+        if (!signUpPWD.getText().equals(signUpPWD2.getText())) {
             error = true;
             alertList = alertList.concat("Las contraseñas no coinciden\n");
         }
         //Checks if the email has a valid format
-        if (!isValidEmail(SignUpEmail.getText())) {
+        if (!isValidEmail(signUpEmail.getText())) {
             error = true;
             alertList = alertList.concat("Formato incorrecto de correo electrónico\n");
         }

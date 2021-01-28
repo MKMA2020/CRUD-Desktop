@@ -50,27 +50,27 @@ public class SignInController extends GlobalController {
      * Textfield for the user
      */
     @FXML
-    private TextField SignInUsername;
+    private TextField signInUsername;
     /**
      * Textfield for the password
      */
     @FXML
-    private PasswordField SignInPWD;
+    private PasswordField signInPWD;
     /**
      * Button to sign in the user
      */
     @FXML
-    private Button SignInBtn;
+    private Button signInBtn;
     /**
      * Button to go to the sign up
      */
     @FXML
-    private Button SignInBtnSignUp;
+    private Button signInBtnSignUp;
     /**
      * Button to launch de reset pwd window
      */
     @FXML
-    private Button SignInBtnResetPwd;
+    private Button signInBtnResetPwd;
 
     /**
      * Button to go to the reset up
@@ -83,6 +83,7 @@ public class SignInController extends GlobalController {
      */
     @FXML
     private void handleButtonSignUp(ActionEvent event) throws IOException {
+        LOGGER.info("Going to SignUp");
         start_signup(stage);
     }
 
@@ -93,15 +94,15 @@ public class SignInController extends GlobalController {
     }
 
     public void initStage(Parent root) {
+        LOGGER.info("SignIn");
         Scene scene = new Scene(root);
-
         stage.setScene(scene);
         stage.setTitle("Iniciar Sesion");
         stage.setResizable(false);
         //Set window's events handlers
-        stage.setOnShowing(this::handleWindowShowing);
-        SignInUsername.textProperty().addListener((this::textchanged));
-        SignInPWD.textProperty().addListener((this::textchanged));
+        handleWindowShowing();
+        signInUsername.textProperty().addListener((this::textchanged));
+        signInPWD.textProperty().addListener((this::textchanged));
         stage.show();
 
     }
@@ -110,15 +111,15 @@ public class SignInController extends GlobalController {
      * When the window's first launched, sets the logIn button to disabled and
      * adds 2 tooltips.
      */
-    private void handleWindowShowing(WindowEvent event) {
+    private void handleWindowShowing() {
         LOGGER.info("Beginning LoginController::handleWindowShowing");
         //Aceptar button is disabled.
-        SignInUsername.setText("");
-        SignInPWD.setText("");
-        SignInBtn.setDisable(true);
-        SignInBtnSignUp.setTooltip(new Tooltip("Click to sign up!"));
-        SignInBtn.setTooltip(new Tooltip("Click to log in!"));
-        SignInBtnResetPwd.setOnAction(e -> {
+        signInUsername.setText("");
+        signInPWD.setText("");
+        signInBtn.setDisable(true);
+        signInBtnSignUp.setTooltip(new Tooltip("Click to sign up!"));
+        signInBtn.setTooltip(new Tooltip("Click to log in!"));
+        signInBtnResetPwd.setOnAction(e -> {
             try {
                 start_resetPWD(stage);
             } catch (IOException ex) {
@@ -135,10 +136,10 @@ public class SignInController extends GlobalController {
      */
     private void textchanged(Observable obv) {
 
-        if (this.SignInUsername.getText().trim().equals("") || this.SignInPWD.getText().trim().equals("")) {
-            SignInBtn.setDisable(true);
+        if (this.signInUsername.getText().trim().equals("") || this.signInPWD.getText().trim().equals("")) {
+            signInBtn.setDisable(true);
         } else {
-            SignInBtn.setDisable(false);
+            signInBtn.setDisable(false);
         }
 
     }
@@ -167,11 +168,11 @@ public class SignInController extends GlobalController {
         Ciphering encrypter = new Ciphering();
         LOGGER.log(Level.INFO, "Attempt to sign in started");
 
-        if (this.SignInUsername.getText().trim().length() < 5) {
+        if (this.signInUsername.getText().trim().length() < 5) {
             showWarning("El nombre de usuario es muy corto");
             error = true;
         }
-        if (this.SignInUsername.getText().trim().length() > 20) {
+        if (this.signInUsername.getText().trim().length() > 20) {
             showWarning("El nombre de usuario es demasiado largo");
             error = true;
         }
@@ -179,10 +180,10 @@ public class SignInController extends GlobalController {
             //Try and catch in order to avoid a database no response error.
             try {
 
-                user.setLogin(SignInBtn.getText());
-                user.setPassword(encrypter.cifrarTexto(SignInPWD.getText()));
+                user.setLogin(signInBtn.getText());
+                user.setPassword(encrypter.cifrarTexto(signInPWD.getText()));
 
-                user = getUserManager().login(SignInUsername.getText(), user.getPassword());
+                user = getUserManager().login(signInUsername.getText(), user.getPassword());
                 Reto2CRUD.setUser(user);
                 start_app(stage);
             } catch (TimeoutException e) {
