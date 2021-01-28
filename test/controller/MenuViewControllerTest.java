@@ -49,7 +49,7 @@ import security.Ciphering;
 
 /**
  *
- * @author Martin
+ * @author Kerman Rodríguez
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MenuViewControllerTest extends ApplicationTest {
@@ -57,8 +57,7 @@ public class MenuViewControllerTest extends ApplicationTest {
     private TableView menuTable;
 
     /**
-     * Method will SetUp the TEST Class getting the target server URL and
-     * creating a new USER to be tested.
+     * Method that creates a new menu used for the tests
      *
      * @throws Exception If there is any error
      */
@@ -102,7 +101,7 @@ public class MenuViewControllerTest extends ApplicationTest {
         verifyThat("#btnCreateMenu", isEnabled());
     }
     /**
-     * Test thar verifies that tha the table isn't empty
+     * Test thar verifies that the menu table isn't empty
      */
     @Test
     public void testB_TtableInfo() {
@@ -131,12 +130,12 @@ public class MenuViewControllerTest extends ApplicationTest {
         
     }
     /**
-     * Test that verifies that the user status has really changed
+     * Test that verifies if the menu description changes
      */
 
     @Test
  
-    public void testD_ChangeUserStatus() {
+    public void testD_MenuDescriptionChanged() {
 
 
         Menu menu = (Menu) menuTable.getSelectionModel().getSelectedItem();
@@ -227,19 +226,5 @@ public class MenuViewControllerTest extends ApplicationTest {
         clickOn("Aceptar");
         
 
-    }
-    /**
-     * Test that will only be valid if the server is out of reach
-     */
-    
-    @Test
-    public void testI_ServerError() {
-        clickOn("#signInUsername");
-        write("MartinG");
-        clickOn("#signInPWD");
-        write("Aa12345!");
-        clickOn("#signInBtn");
-        verifyThat("Error en la conexion con la base de datos", isVisible());
-        clickOn("Aceptar");
     }
 }
