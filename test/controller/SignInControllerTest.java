@@ -24,7 +24,7 @@ import static reto2crud.Reto2CRUD.configFile;
 
 /**
  *
- * @author Martin
+ * @author Martin Gros
  */
 /**
  * TestFX test class for SignInController.
@@ -49,10 +49,13 @@ public class SignInControllerTest extends ApplicationTest{
      * Method that checks that the initial characteristics of the window are correct.
      */
     @Test
-    public void testA_initislstate() {
-        verifyThat("#SignInUsername", hasText(""));
-        verifyThat("#SignInPWD", hasText(""));
-        verifyThat("SignInBtn", isDisabled());
+    public void TestA_initislstate() {
+        verifyThat("#signInUsername", hasText(""));
+        verifyThat("#signInPWD", hasText(""));
+        verifyThat("#signInBtn", isDisabled());
+        verifyThat("#signInBtnSignUp", isEnabled());
+        verifyThat("#signInBtnResetPwd", isEnabled());
+        
     }
     
     /**
@@ -60,15 +63,15 @@ public class SignInControllerTest extends ApplicationTest{
      */
    @Test
     public void TestB_signInDisabled(){
-        clickOn("#SignInUsername");
+        clickOn("#signInUsername");
         write("Sampletext");
-        verifyThat("#SignInBtn", isDisabled());
+        verifyThat("#signInBtn", isDisabled());
         eraseText(18);
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("alsoratherlongpassword");
-        verifyThat("#SignInBtn", isDisabled());
+        verifyThat("#signInBtn", isDisabled());
         eraseText(22);
-        verifyThat("#SignInBtn", isDisabled());
+        verifyThat("#signInBtn", isDisabled());
     }
     
     /**
@@ -76,11 +79,11 @@ public class SignInControllerTest extends ApplicationTest{
      */
     @Test
     public void TestC_signInEnabled(){
-        clickOn("#SignInUsername");
+        clickOn("#signInUsername");
         write("validusername");
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("alsovalidpassword");
-        verifyThat("#SignInBtn", isEnabled());
+        verifyThat("#signInBtn", isEnabled());
     }
     
     /**
@@ -88,11 +91,11 @@ public class SignInControllerTest extends ApplicationTest{
      */
    @Test
    public void TestD_userTooLong(){
-        clickOn("#SignInUsername");
+        clickOn("#signInUsername");
         write("invaliduseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeer");
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("validpassword");
-        clickOn("#SignInBtn");
+        clickOn("#signInBtn");
         verifyThat("El nombre de usuario es demasiado largo",isVisible());        
         clickOn("Aceptar");
    }
@@ -102,11 +105,11 @@ public class SignInControllerTest extends ApplicationTest{
     */
    @Test
    public void TestE_userTooShort(){
-        clickOn("#SignInUsername");
+        clickOn("#signInUsername");
         write("user");
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("validpassword");
-        clickOn("#SignInBtn");
+        clickOn("#signInBtn");
         verifyThat("El nombre de usuario es muy corto",isVisible());
         clickOn("Aceptar");
    }
@@ -117,11 +120,11 @@ public class SignInControllerTest extends ApplicationTest{
    @Ignore
    @Test
    public void TestF_userComicallyLong() {
-       clickOn("#SignInUsername");
+       clickOn("#signInUsername");
         write("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("validpassword");
-        clickOn("#SignInBtn");
+        clickOn("#signInBtn");
         verifyThat("El nombre de usuario es demasiado largo",isVisible());        
         clickOn("Aceptar");
    }
@@ -132,11 +135,11 @@ public class SignInControllerTest extends ApplicationTest{
    @Ignore
    @Test
    public void TestG_passComicallyLong() {
-       clickOn("#SignInUsername");
+       clickOn("#signInUsername");
         write("validusername");
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-        clickOn("#SignInBtn");
+        clickOn("#signInBtn");
         verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
         clickOn("Aceptar");
    }
@@ -146,11 +149,11 @@ public class SignInControllerTest extends ApplicationTest{
     */
    @Test
     public void TestH_SigningIn(){
-        clickOn("#SignInUsername");
-        write("martin");
-        clickOn("#SignInPWD");
+        clickOn("#signInUsername");
+        write("marting");
+        clickOn("#signInPWD");
         write("Aa12345!");
-        clickOn("#SignInBtn");
+        clickOn("#signInBtn");
         verifyThat("#RecipeView", isVisible());
     }
     
@@ -159,11 +162,11 @@ public class SignInControllerTest extends ApplicationTest{
     */
    @Test
     public void TestI_UserNotExists(){
-        clickOn("#SignInUsername");
+        clickOn("#signInUsername");
         write("nonvaliduser");
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("unexistentpass");
-        clickOn("#SignInBtn");
+        clickOn("#signInBtn");
         verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
         clickOn("Aceptar");
     }
@@ -173,25 +176,48 @@ public class SignInControllerTest extends ApplicationTest{
     */
    @Test
    public void TestJ_WrongPass(){
-       clickOn("#SignInUsername");
-       write("kerman");
-       clickOn("#SignInPWD");
+       clickOn("#signInUsername");
+       write("MartinG");
+       clickOn("#signInPWD");
        write("wrongpass");
-       clickOn("#SignInBtn");
+       clickOn("#signInBtn");
        verifyThat("Nombre de usuario o contraseñas erroneas", isVisible());
        clickOn("Aceptar");
    }
+   
+   /**
+    * Method that tests wether the SignUp button works well
+    */
+   
+   @Test
+   public void TestK_SignUp(){
+       clickOn("#signInBtnSignUp");
+       verifyThat("#windowSignUp", isVisible());
+       clickOn("#signUpBtnBack");
+   }
+   
+   /**
+    * Method that tests wether the Reset pass button works well
+    */
+   @Test
+   public void TestL_ResetPass(){
+       clickOn("#signInBtnResetPwd");
+       verifyThat("#windowResetPass", isVisible());
+       clickOn("Atras");
+   }
+   
+   
     
     /**
      * Method that introduces information and then checks that it cannot connect to the server.
      */
     @Test
-    public void TestK_ServerError(){
-        clickOn("#SignInUsername");
-        write("kerman");
-        clickOn("#SignInPWD");
-        write("1Aqwe");
-        clickOn("#SignInBtn");
+    public void TestM_ServerError(){
+        clickOn("#signInUsername");
+        write("Martin");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
         verifyThat("Error en la conexion con la base de datos", isVisible());
         clickOn("Aceptar");
     }

@@ -19,11 +19,14 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
+import org.testfx.api.FxToolkit;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import reto2crud.Reto2CRUD;
 import static reto2crud.Reto2CRUD.configFile;
 import security.Ciphering;
@@ -46,15 +49,6 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
      * @param stage Primary Stage object
      * @throws Exception If there is any error
      */
-    @Override
-    public void start(Stage stage) throws Exception {
-        new Reto2CRUD().start(stage);
-        managerTable = lookup("#managerTable").queryTableView();
-        btnUserListGenerateForm = lookup("#btnUserListGenerateForm").queryButton();
-        clickOn("Id");
-        clickOn("Id");
-
-    }
 
     /**
      * Method will SetUp the TEST Class getting the target server URL and
@@ -67,6 +61,8 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
         // Get target server
         Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
         Reto2CRUD.BASE_URI = configFile.getString("URL");
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Reto2CRUD.class);
 
         Ciphering encrypter = new Ciphering();
         User user = new User();
@@ -103,6 +99,16 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
         // Delete TEST user      
         UserManagerFACTORY.getUserManager().remove(Collections.max(ids));
     }
+    /**
+     * This will be done before every test
+     */
+    @Before
+    public void beforeTest(){
+        managerTable = lookup("#managerTable").queryTableView();
+        btnUserListGenerateForm = lookup("#btnUserListGenerateForm").queryButton();
+        
+        
+    }
 
     /**
      * Test of initial state of managerTableView.
@@ -110,6 +116,14 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     @Test
     //@Ignore
     public void testA_initialState() {
+        write("marting");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnShowAdmin");
+        clickOn("Id");
+        clickOn("Id");
         verifyThat("#tclAdminId", hasText(""));
         verifyThat("#tclAdminLogin", hasText(""));
         verifyThat("#tclAdminEmail", hasText(""));
@@ -130,6 +144,8 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     @Test
     //@Ignore
     public void testB_ChangeUserStatus() {
+        clickOn("Id");
+        clickOn("Id");
         //get row count
         int rowCount = managerTable.getItems().size();
         assertNotEquals("Table has no data: Cannot test.", rowCount, 0);
@@ -158,6 +174,7 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     @Test
     //@Ignore
     public void testC_ResetPassword() {
+        
 
         // Get row count
         int rowCount = managerTable.getItems().size();
@@ -194,6 +211,8 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     @Test
     //@Ignore
     public void testD_ContextMenuReset() {
+        clickOn("Id");
+        clickOn("Id");
 
         //Click on row 1
         Node row = lookup(".table-row-cell").nth(0).query();
@@ -226,6 +245,8 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     @Test
     //@Ignore
     public void testE_ContextMenuEnable() {
+        clickOn("Id");
+        clickOn("Id");
         //Click on row 1
         Node row = lookup(".table-row-cell").nth(0).query();
 
@@ -249,5 +270,18 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
         assertNotEquals(status, user.getStatus());
     }
 
-    // Testear lo que pasa si se cierra el servidor con la ventana abierta
+    /**
+     * Test that will only be valid if the server is out of reach
+     */
+    
+    @Test
+    public void testF_ServerError() {
+        clickOn("#signInUsername");
+        write("MartinG");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("Error en la conexion con la base de datos", isVisible());
+        clickOn("Aceptar");
+    }
 }

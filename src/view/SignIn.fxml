@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<!--Author: Martin Gros -->
 
 <AnchorPane fx:id="windowSignIn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="b" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SignInController">
    <children>
@@ -19,7 +20,7 @@
       </ImageView>
       <AnchorPane layoutX="315.0" layoutY="138.0" prefHeight="444.0" prefWidth="650.0" style="-fx-background-color: ffa45b;">
          <children>
-            <Text fx:id="SignInText" fill="#fbf6f0" layoutX="176.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Iniciar Sesión" textAlignment="CENTER" wrappingWidth="297.13671875">
+            <Text fx:id="signInText" fill="#fbf6f0" layoutX="176.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Iniciar Sesión" textAlignment="CENTER" wrappingWidth="297.13671875">
                <font>
                   <Font name="Arial" size="49.0" />
                </font>
@@ -34,7 +35,7 @@
                   <Font name="Arial" size="21.0" />
                </font>
             </Text>
-            <TextField fx:id="SignInUsername" alignment="CENTER" layoutX="193.0" layoutY="146.0" prefHeight="36.0" prefWidth="264.0" promptText="Nombre de usuario" style="-fx-background-color: fbf6f0;" styleClass="TextField" stylesheets="@../css/SignInSignUpStyle.css">
+            <TextField fx:id="signInUsername" alignment="CENTER" layoutX="193.0" layoutY="146.0" prefHeight="36.0" prefWidth="264.0" promptText="Nombre de usuario" style="-fx-background-color: fbf6f0;" styleClass="TextField" stylesheets="@../css/SignInSignUpStyle.css">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -44,12 +45,12 @@
                   <Image url="@../resources/id-card.png" />
                </image>
             </ImageView>
-            <PasswordField fx:id="SignInPWD" alignment="CENTER" layoutX="193.0" layoutY="216.0" prefHeight="36.0" prefWidth="264.0" promptText="Contraseña" styleClass="TextField" stylesheets="@../css/SignInSignUpStyle.css">
+            <PasswordField fx:id="signInPWD" alignment="CENTER" layoutX="193.0" layoutY="216.0" prefHeight="36.0" prefWidth="264.0" promptText="Contraseña" styleClass="TextField" stylesheets="@../css/SignInSignUpStyle.css">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
             </PasswordField>
-            <Button fx:id="SignInBtn" onAction="#handleButtonSignIn" layoutX="190.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Iniciar Sesiòn">
+            <Button fx:id="signInBtn" onAction="#handleButtonSignIn" layoutX="190.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Iniciar Sesiòn">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -61,7 +62,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Button fx:id="SignInBtnSignUp" onAction="#handleButtonSignUp" layoutX="334.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Registrarme">
+            <Button fx:id="signInBtnSignUp" onAction="#handleButtonSignUp" layoutX="334.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Registrarme">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
@@ -83,7 +84,7 @@
                   <Font name="Arial" size="13.0" />
                </font>
             </Text>
-            <Button fx:id="SignInBtnResetPwd" layoutX="320.0" layoutY="255.0" mnemonicParsing="false" style="-fx-background-color: ffa45b;" text="Contraseña Olvidada?" textFill="#fbf6f0" underline="true">
+            <Button fx:id="signInBtnResetPwd" layoutX="320.0" layoutY="255.0" mnemonicParsing="false" style="-fx-background-color: ffa45b;" text="Contraseña Olvidada?" textFill="#fbf6f0" underline="true">
                <font>
                   <Font name="Arial Bold" size="12.0" />
                </font>

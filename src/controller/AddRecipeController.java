@@ -5,6 +5,7 @@
  */
 package controller;
 
+import com.sun.org.apache.xerces.internal.dom.ParentNode;
 import static controller.GlobalController.LOGGER;
 import enumeration.IngredientType;
 import enumeration.RecipeType;
@@ -110,7 +111,7 @@ public class AddRecipeController extends GlobalController {
     /**
      * TextField for the name of the cepe
      */
-
+    
     @FXML
     private TextField txtRecipeName;
     /**
@@ -126,7 +127,7 @@ public class AddRecipeController extends GlobalController {
     /**
      * ChoiceBox for the recipe type
      */
-
+    
     @FXML
     private ComboBox choiceRecipeType;
 
@@ -202,12 +203,15 @@ public class AddRecipeController extends GlobalController {
     RecipeType selection = null;
     Ingredient selectedItem = null;
     Boolean startError = false;
+    Stage before2 = null;
+    Boolean sent = false;
 
     /**
      * Sets the whole behaviour for the window.
      */
-    public void initStage(Parent root) {
-
+    public void initStage(Parent root, Stage beforeStage) {
+        LOGGER.info("Add Recipe");
+        before2 = beforeStage;
         Scene scene = new Scene(root);
         //stage.initModality(Modality.APPLICATION_MODAL);
         stage.setScene(scene);
@@ -218,7 +222,7 @@ public class AddRecipeController extends GlobalController {
         //load all ingredients into the observable arraylist
         try {
             usedIngredients = FXCollections.observableArrayList(getIngredientManager().findAll());
-
+            
             List<String> usedNameIngredients = new ArrayList<String>();
             List<IngredientType> usedTypeIngredients = new ArrayList<IngredientType>();
             for (Ingredient e : usedIngredients) {
@@ -236,7 +240,7 @@ public class AddRecipeController extends GlobalController {
             txtRecipeName.textProperty().addListener((this::textchanged));
             txtRecipeKCal.textProperty().addListener((this::textchanged));
             txtareaRecipeSteps.textProperty().addListener((this::textchanged));
-
+            
             choiceRecipeType.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
                 try {
                     choiceSelection = newValue.toString();
@@ -246,21 +250,19 @@ public class AddRecipeController extends GlobalController {
                 }
                 if (newValue != oldValue) {
                     activarboton();
-
-                    System.out.println(newValue);
-                    // btnAddRecipe.setDisable(false);
-                    //btnAddRecipe.setDisable(false);
+                    
+                    LOGGER.info(choiceSelection);
                 }
-
+                
             });
             //activarboton();*/
             stage.show();
         } catch (TimeoutException e) {
             showWarning("Error en la base de datos, por favor prueba mas tarde.");
             LOGGER.warning("Critical error, server is off.");
-
+            
         }
-
+        
     }
 
     /**
@@ -270,7 +272,7 @@ public class AddRecipeController extends GlobalController {
      * table buttons, and menu items.
      */
     private void handleWindowShowing() {
-        LOGGER.info("Beginning LoginController::handleWindowShowing");
+        LOGGER.info("Beginning AddRecipeController::handleWindowShowing");
         //addRecipe and delete row button are disabled.
         //btnAddRecipe.setDisable(true);
         deleteRow.setDisable(true);
@@ -292,10 +294,10 @@ public class AddRecipeController extends GlobalController {
         //Sets a listener for the chosen row
         recipeIngredientTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
-
+                
                 deleteRow.setDisable(false);
                 LOGGER.log(Level.INFO, "chosen");
-
+                
             } else {
                 deleteRow.setDisable(true);
                 LOGGER.log(Level.INFO, "unchosen");
@@ -309,8 +311,8 @@ public class AddRecipeController extends GlobalController {
             data.getRowValue().setType(hola);
             recipeIngredientTable.refresh();
             name = data.getNewValue();
-            System.out.println(name);
-
+            LOGGER.info("Selected: " + name);
+            
         });
         deleteRow.setFocusTraversable(false);
 
@@ -326,15 +328,12 @@ public class AddRecipeController extends GlobalController {
             try {
                 selectedItem = recipeIngredientTable.getSelectionModel().getSelectedItem();
                 recipeIngredientTable.getItems().remove(selectedItem);
-                System.out.println("removing " + selectedItem.getName());
-
+                LOGGER.info("removing " + selectedItem.getName());
+                
             } catch (NullPointerException ex) {
-
+                
                 recipeIngredientTable.getItems().remove(selectedItem);
             }
-
-            System.out.println("removing " + selectedItem.getName());
-
             activarboton();
         });
         /**
@@ -344,32 +343,27 @@ public class AddRecipeController extends GlobalController {
          * the table lack of id, so the server crashes
          */
         btnAddRecipe.setOnAction(e -> {
+            LOGGER.info("Adding Recipe");
             addRecipe();
         });
         btnCancelAddRecipe.setOnAction(e -> {
+            LOGGER.info("Cancelling adding recipe");
             stage.close();
         });
         //menu items on actions
         menuItemExit.setOnAction(e -> {
+            LOGGER.info("Bye Bye");
             stage.close();
         });
         menuItemNewRecipe.setOnAction(e -> {
-            txtRecipeName.setText("");
-            txtRecipeKCal.setText("");
-            txtareaRecipeSteps.setText("");
-            choiceRecipeType.getItems().clear();
-            recipeIngredientTable.getSelectionModel().getTableView().getItems().clear();
-            btnAddRecipe.setText("Añadir");
-
-            choiboxType();
-            activarboton();
+            limpiar();
         });
         menuItemSaveRecipe.setOnAction(e -> {
+            LOGGER.info("Saving Recipe");
             addRecipe();
         });
         menuItemRecetas.setOnAction(e -> {
             LOGGER.log(Level.INFO, "BtnShowRecipes Clicked.");
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
             Parent root = null;
             try {
@@ -377,13 +371,23 @@ public class AddRecipeController extends GlobalController {
             } catch (IOException ex) {
                 Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            RecipeViewController controller = (loader.getController());
-            controller.setStage(stage);
-            controller.initStage(root, false);
+            //Get controller for graph 
+            RecipeViewController controller = ((RecipeViewController) loader.getController());
+            //Set a reference for Stage
+            if (before2 == null) {
+                controller.setStage(stage);                
+                controller.initStage(root, false);
+            } else {
+                controller.setStage(before2);
+                controller.initStage(root, false);
+                stage.close();
+            }
+
+            //Initializes primary stage
         });
         menuItemMenus.setOnAction(e -> {
+            
             LOGGER.log(Level.INFO, "BtnShowMenus Clicked.");
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/MenuView.fxml"));
             Parent root = null;
             try {
@@ -394,13 +398,18 @@ public class AddRecipeController extends GlobalController {
             //Get controller for graph 
             MenuViewController controller = ((MenuViewController) loader.getController());
             //Set a reference for Stage
-            controller.setStage(stage);
-            //Initializes primary stage
-            controller.initStage(root);
+            if (before2 == null) {
+                controller.setStage(stage);                
+                controller.initStage(root);
+            } else {
+                controller.setStage(before2);
+                controller.initStage(root);
+                stage.close();
+            }
+            
         });
         menuItemMisRecetas.setOnAction(e -> {
             LOGGER.log(Level.INFO, "BtnShowMyRecipes Clicked.");
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));
             Parent root = null;
             try {
@@ -409,13 +418,20 @@ public class AddRecipeController extends GlobalController {
                 Logger.getLogger(SideMenuController.class.getName()).log(Level.SEVERE, null, ex);
             }
             RecipeViewController controller = (loader.getController());
-            controller.setStage(stage);
-            controller.initStage(root, true);
+            if (before2 == null) {
+                controller.setStage(stage);                
+                controller.initStage(root, true);
+            } else {
+                controller.setStage(before2);
+                controller.initStage(root, true);
+                stage.close();
+            }
+            
         });
         menuItemExit.setOnAction(e -> {
             stage.close();
         });
-
+        
         recipeIngredientTable.getSelectionModel().selectedItemProperty().addListener(this::handleclubtableselection);
     }
 
@@ -430,48 +446,45 @@ public class AddRecipeController extends GlobalController {
         tableisselected = true;
         if (newValue != null) {
             String name = newValue.toString();
-
-            //int i=getid(name);
-            //tableColumnType.setCellValueFactory(TextFieldTableCell.forTableColumn(IngredientType.Additive));
-            System.out.println(name);
-            //tableColumnIngredient.setCellFactory(TextFieldTableCell.forTableColumn(usedIngredients.get(i).getType().toString()));
-
+            LOGGER.info("Choosen " + name);
+            
         }
-
     }
 
     /**
      * Gets the ingredient type by their name
+     *
      * @param name
      * @return type
      */
-    
     private IngredientType findtypebyname(String name) {
         IngredientType tipo = null;
         for (Ingredient e : usedIngredients) {
             if (e.getName().equalsIgnoreCase(name)) {
                 tipo = e.getType();
                 break;
-
+                
             }
         }
         return tipo;
     }
-/**
- * Sets the tooltips for the TextFields
- */
+
+    /**
+     * Sets the tooltips for the TextFields
+     */
     private void tooltips() {
         txtRecipeName.setTooltip(new Tooltip("Nombre de la receta"));
         txtareaRecipeSteps.setTooltip(new Tooltip("Escribe los pasos!"));
         btnAddRecipe.setTooltip(new Tooltip("Click para añadir la receta!"));
         btnCancelAddRecipe.setTooltip(new Tooltip("Click para cancelar."));
     }
-/**
- * Fills the choicebox with the enum values
- */
+
+    /**
+     * Fills the choicebox with the enum values
+     */
     private void choiboxType() {
         choiceRecipeType.getItems().addAll((Object[]) RecipeType.values());
-
+        
     }
 
     /**
@@ -481,44 +494,47 @@ public class AddRecipeController extends GlobalController {
      * @param obv parameter used to observe the text fields.
      */
     private void textchanged(Observable obv) {
-
+        
         if (this.txtRecipeKCal.getText().trim().equals("") || this.txtRecipeName.getText().trim().equals("") || this.txtareaRecipeSteps.getText().trim().equals("")) {
             {
-
+                
                 btnAddRecipe.setDisable(true);
                 menuItemSaveRecipe.setDisable(true);
             }
-
+            
         } else {
             activarboton();
             //btnAddRecipe.setDisable(false);
 
             //btnAddRecipe.setDisable(false);
         }
-
+        
     }
-    /**
-     * Method that takes care of the buttons behaviour, the button for adding the recipe will only be
-     * enabled if the sentence bellow is true
-     */
 
+    /**
+     * Method that takes care of the buttons behaviour, the button for adding
+     * the recipe will only be enabled if the sentence bellow is true
+     */
     private void activarboton() {
-        if (recipeIngredientTable.getSelectionModel().getTableView().getItems().size() != 0 && !this.txtRecipeKCal.getText().trim().equals("") && !this.txtRecipeName.getText().trim().equals("") && !this.txtareaRecipeSteps.getText().trim().equals("") && choiceSelection != null) {
+        if (recipeIngredientTable.getSelectionModel().getTableView().getItems().size() != 0 && !this.txtRecipeKCal.getText().trim().equals("") && !this.txtRecipeName.getText().trim().equals("") && !this.txtareaRecipeSteps.getText().trim().equals("") && choiceSelection != null && sent == false) {
             btnAddRecipe.setDisable(false);
             menuItemSaveRecipe.setDisable(false);
+            LOGGER.info("Add recipe button enabled.");
         } else {
             menuItemSaveRecipe.setDisable(true);
             btnAddRecipe.setDisable(true);
+            
         }
     }
-    /**
-     * Method that adds the recipe
-     * Compares the whole ingredient list with the ones used in the table
-     * and makes a third id in order to have all the details from the ingredient
-     * so it can be succesfully added to the database, also sets the user as the recipe author
-     */
 
+    /**
+     * Method that adds the recipe Compares the whole ingredient list with the
+     * ones used in the table and makes a third id in order to have all the
+     * details from the ingredient so it can be succesfully added to the
+     * database, also sets the user as the recipe author
+     */
     private void addRecipe() {
+        LOGGER.info("Adding Recipe");
         boolean seEnVia = true;
         //Getting all the table ingredients and putting them into a list.
         List<Ingredient> listadefNames = recipeIngredientTable.getSelectionModel().getTableView().getItems();
@@ -529,18 +545,12 @@ public class AddRecipeController extends GlobalController {
         } else {
             arrayListUSEDNAMES = new ArrayList<>(listadefNames);
         }
-        for (int x = 0; x < arrayListUSEDNAMES.size(); x++) {
-            System.out.println(arrayListUSEDNAMES.get(x).getName());
-        }
         //Converting usedingredients List into arraylist too for avoiding indexation error just in case.
         ArrayList<Ingredient> fullIngredients;
         if (listadefNames instanceof ArrayList<?>) {
             fullIngredients = (ArrayList<Ingredient>) usedIngredients;
         } else {
             fullIngredients = new ArrayList<>(usedIngredients);
-        }
-        for (int x = 0; x < fullIngredients.size(); x++) {
-            System.out.println(fullIngredients.get(x).getName());
         }
         Ingredient aux = null;
         //This will be the definitive list that will be sent to the server
@@ -554,31 +564,30 @@ public class AddRecipeController extends GlobalController {
                 }
             }
         }
-
+        LOGGER.info("Ingredientes a enviar: ");
         for (int x = 0; x < listadefFullIngredients.size(); x++) {
-            System.out.println("Ingredientes a enviar: " + listadefFullIngredients.get(x).getName());
+            LOGGER.info(listadefFullIngredients.get(x).getName());
         }
-
+        
         Recipe recipe = new Recipe();
-
+        
         recipe.setName(txtRecipeName.getText());
         try {
             recipe.setKcal(Float.parseFloat(txtRecipeKCal.getText()));
-            System.out.println(recipe.getKcal());
-
             recipe.setSteps(txtareaRecipeSteps.getText());
             recipe.setType(selection);
-
+            
             Set<Ingredient> foo = new HashSet<Ingredient>(listadefFullIngredients);
-
+            
             recipe.setIngredients(foo);
             //USER NEEDS TO BE SET
-            recipe.setUser(null);
+            recipe.setUser(Reto2CRUD.getUser());
             recipe.setVerified(true);
-
-            getrecipeManager().create(recipe);
+            
+            getRecipeManager().create(recipe);
             btnAddRecipe.setDisable(true);
             btnAddRecipe.setText("Añadida!");
+            sent = true;
         } catch (NumberFormatException ex) {
             showError("Las calorias deben ser un numero!");
             seEnVia = false;
@@ -586,4 +595,18 @@ public class AddRecipeController extends GlobalController {
         //activarboton();
     }
 
+    public void limpiar() {
+        LOGGER.info("New Recipe");
+        sent = false;
+        txtRecipeName.setText("");
+        txtRecipeKCal.setText("");
+        txtareaRecipeSteps.setText("");
+        choiceRecipeType.getItems().clear();
+        recipeIngredientTable.getSelectionModel().getTableView().getItems().clear();
+        btnAddRecipe.setText("Añadir");
+        
+        choiboxType();
+        activarboton();
+    }
+    
 }

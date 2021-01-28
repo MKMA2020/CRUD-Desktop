@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Recipe;
+import model.User;
 import reto2crud.Reto2CRUD;
 
 /**
@@ -25,7 +26,7 @@ import reto2crud.Reto2CRUD;
  * @author Martin Valiente Ainz & Aitor Garcia
  */
 public class RecipeViewController extends GlobalController {
-    
+
     /**
      * TableView that will contain the information about recipes.
      */
@@ -50,90 +51,95 @@ public class RecipeViewController extends GlobalController {
      */
     @FXML
     public TableColumn<Recipe, Float> tclKcal;
-    
+
     /**
      * Button used to create a new recipe.
      */
     @FXML
     public Button btnNewRecipe;
 
-     @FXML
+    @FXML
     private SideMenuController sideMenuController;
-    
+
     /**
      * Recipe table data model.
      */
     private ObservableList<Recipe> recipes;
-    
+
     /**
      * This will decide whether or not to search the recipes by user
      */
-    Boolean personal = null;
+    private Boolean personal = null;
+    
+    /**
+     * Information of the logged user.
+     */
+    private User loggedUser = Reto2CRUD.getUser();
 
     /**
      * InitStage Method for Recipes window.
      *
      * @param root The Parent object representing root node of view graph.
-     * @param personal This will decide whether or not to search the recipes by user.
+     * @param personal This will decide whether or not to search the recipes by
+     * user.
      */
+    public void initStage(Parent root, Boolean personal) {
 
-    public void initStage(Parent root, Boolean personal) {   
-        
         this.personal = personal;
-        
+
         sideMenuController.setStage(stage);
         sideMenuController.initStage();
-        
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setTitle("Recetas");
         stage.setResizable(false);
-        
+
         //Set factories for cell values in users table columns.
         tclTitle.setCellValueFactory(new PropertyValueFactory<>("name"));
         tclType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
-        
+
         //Set table model.
         recipeTable.setItems(fillTable());
-        
-        btnNewRecipe.setOnAction(new EventHandler<ActionEvent>(){
+
+        btnNewRecipe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
-            public void handle(ActionEvent event){
-                try{
+            public void handle(ActionEvent event) {
+                try {
                     createNewRecipe(event);
-                }catch(Exception ex){
+                } catch (Exception ex) {
                     showError("Error trying to create a recipe.");
                     LOGGER.severe("Error trying to create a recipe.");
                 }
             }
         });
-        
+
         //Show window.
-        try{
+        try {
             stage.show();
-        }catch(Exception e){
+        } catch (Exception e) {
             showWarning(e.getMessage());
         }
     }
 
     /**
      * Leads to the recipe creation screen.
+     *
      * @param event
      */
-    public void createNewRecipe(ActionEvent event) throws IOException{
+    public void createNewRecipe(ActionEvent event) throws IOException {
         Parent root;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Add_Recipe.fxml"));
         root = loader.load();
         AddRecipeController controller = loader.getController();
         Stage newRecipeDialog = new Stage();
         newRecipeDialog.initModality(Modality.APPLICATION_MODAL);
-        newRecipeDialog.setAlwaysOnTop(true);
         controller.setStage(newRecipeDialog);
-        controller.initStage(root);
+        controller.initStage(root, stage);
         //TODO wait until the window gets closed and refresh.
     }
-    
+
     private ObservableList<Recipe> fillTable() {
         ObservableList<Recipe> recipes = null;
         try {
@@ -141,14 +147,31 @@ public class RecipeViewController extends GlobalController {
             recipes = FXCollections.observableArrayList(getRecipeManager().getAllRecipes());
         } catch (TimeoutException ex) {
             LOGGER.severe("ERROR: Timeout.");
+        } catch (NullPointerException nullEx) {
+            LOGGER.warning("The list is empty.");
         }
-        if(personal){
+        if (personal && !(recipes.isEmpty())) {
             stage.setTitle("Mis recetas");
-            //Recipe filtering.
-            for(Recipe recipe: recipes){
-                if(!(recipe.getUser().getId().equals(Reto2CRUD.getUser().getId()))){
-                    recipes.remove(recipe);
+            try {
+                //Recipe filtering
+                Boolean exists = false;
+                for(Recipe recipe : recipes){
+                    if(!(recipe.getUser().getId().equals(loggedUser.getId()))){
+                        exists = true;
+                        break;
+                    }
                 }
+                if(exists){
+                    for(int cont = 0; cont < recipes.size();){
+                        if(!(recipes.get(cont).getUser().getId().equals(loggedUser.getId()))){
+                            recipes.remove(cont);
+                        }else{
+                            cont++;
+                        }
+                    }
+                }
+            } catch (NullPointerException nullEx) {
+                LOGGER.severe("Received null element.");
             }
         }
         return recipes;

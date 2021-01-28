@@ -9,6 +9,7 @@ import exception.TimeoutException;
 import java.util.Collection;
 import java.util.List;
 import model.Recipe;
+import model.User;
 
 /**
  *
@@ -23,6 +24,8 @@ public interface RecipeManager {
     public Recipe getRecipeById(String id);
     
     public void create (Recipe recipe);
+    
+    public void update (Recipe recipe);
     
     public void remove(Long id);
    

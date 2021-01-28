@@ -35,7 +35,7 @@
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/create.png" />
+                  <Image url="@../resources/recipe.png" />
                </image>
             </ImageView>
          </graphic>
@@ -47,7 +47,7 @@
          <graphic>
             <ImageView fitHeight="36.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/delete.png" />
+                  <Image url="@../resources/not-found.png" />
                </image>
             </ImageView>
          </graphic>

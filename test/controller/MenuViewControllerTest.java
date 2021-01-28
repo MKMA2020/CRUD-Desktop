@@ -35,10 +35,14 @@ import static org.testfx.matcher.base.NodeMatchers.isEnabled;
 import static org.testfx.matcher.control.LabeledMatchers.hasText;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
+import org.testfx.api.FxToolkit;
+import static org.testfx.matcher.base.NodeMatchers.isDisabled;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import reto2crud.Reto2CRUD;
 import static reto2crud.Reto2CRUD.configFile;
 import security.Ciphering;
@@ -49,63 +53,59 @@ import security.Ciphering;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MenuViewControllerTest extends ApplicationTest {
+
     private TableView menuTable;
 
-    @Override
-    public void start(Stage stage) throws Exception {
-
-        new Reto2CRUD().start(stage);
-        menuTable = lookup("#menuTable").queryTableView();
-    }
     /**
      * Method will SetUp the TEST Class getting the target server URL and
      * creating a new USER to be tested.
+     *
      * @throws Exception If there is any error
      */
-
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
         // Get target server
         Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
         Reto2CRUD.BASE_URI = configFile.getString("URL");
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Reto2CRUD.class);
 
         Menu menu = new Menu();
-        
-        
 
         // Create TEST menu
         menu.setDescription("This is a test Menu");
         menu.setName("AAAAAAAAAAAAAAAAAAAAAAAAA");
         menu.setType(MenuType.Lunch);
-        
-        
+
         MenuManagerFACTORY.getMenuManager().create(menu);
     }
-    /**
-     * Method will delete TEST_MENU after all tests have been executed.
-     * @throws Exception If there is any error
-     */
-    
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-        // Get all users
-        List<Menu> menus = (List<Menu>) MenuManagerFACTORY.getMenuManager().findAll();
 
-        // Get all Id's
-        List<Long> ids = new ArrayList();
-        menus.forEach((menu) -> {
-            ids.add(menu.getId());
-        });
-
-        // Delete TEST user    
-        MenuManagerFACTORY.getMenuManager().delete(Collections.max(ids));
-        
+    @Before
+    public void beforeTest() {
+        menuTable = lookup("#menuTable").queryTableView();
     }
+
     /**
      * Test of initial state of managerTableView.
      */
     @Test
     public void testA_initialState() {
+        write("marting");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("#RecipeView", isVisible());
+        clickOn("#btnShowMenus");
+        verifyThat("#windowMenu", isVisible());
+        menuTable = lookup("#menuTable").queryTableView();
+        verifyThat("#btnDeleteMenu", isDisabled());
+        verifyThat("#btnCreateMenu", isEnabled());
+    }
+    /**
+     * Test thar verifies that tha the table isn't empty
+     */
+    @Test
+    public void testB_TtableInfo() {
         int rowCount = menuTable.getColumns().size();
         assertNotNull(rowCount);
         //Click on row 0
@@ -114,9 +114,11 @@ public class MenuViewControllerTest extends ApplicationTest {
         clickOn(row);
         //verifyThat(nodeQuery, nodeMatcher);
     }
+    /**
+     * Test that chooses a row and verifies that the delete menu button is activated
+     */
     @Test
-    //@Ignore
-    public void testB_ChangeUserStatus() {
+    public void testC_DeleteMenuIsEnabled() {
         //get row count
         int rowCount = menuTable.getColumns().size();
         assertNotEquals("Table has no data: Cannot test.", rowCount, 0);
@@ -124,12 +126,24 @@ public class MenuViewControllerTest extends ApplicationTest {
         // Select row and get menu.
         Node cell = lookup(".table-row-cell").nth(0).query();
         clickOn(cell);
+        verifyThat("#btnDeleteMenu", isEnabled());
+
         
+    }
+    /**
+     * Test that verifies that the user status has really changed
+     */
+
+    @Test
+ 
+    public void testD_ChangeUserStatus() {
+
+
         Menu menu = (Menu) menuTable.getSelectionModel().getSelectedItem();
         String descriptionBefore = menu.getDescription();
 
         // Click on cell 4 and change Status
-        cell = lookup("#clmnDescription").nth(1).query();
+        Node cell = lookup("#clmnDescription").nth(1).query();
         doubleClickOn(cell).write("Cambio").type(KeyCode.ENTER);
 
         // Select row and get user.
@@ -138,5 +152,94 @@ public class MenuViewControllerTest extends ApplicationTest {
         Menu menu2 = (Menu) menuTable.getSelectionModel().getSelectedItem();
         assertNotEquals(descriptionBefore, menu2.getDescription());
 
+    }
+    @Test
+    /**
+     * Test thar chooses our menu created on the beforeclass
+     * and proceeds to delete it, verifies that the table size is smaller after
+     * deleting it
+     */
+
+    public void testE_deleteMenu() {
+
+        int row = 0;
+        int row2= 0;
+        Menu menu = (Menu) menuTable.getSelectionModel().getSelectedItem();
+        String descriptionBefore = menu.getDescription();
+        
+        //gets the rows
+        row=menuTable.getSelectionModel().getTableView().getItems().size();
+
+        // Click, select and deletes it
+        Node cell = lookup("#clmnDescription").nth(1).query();
+        clickOn("#btnDeleteMenu");
+        clickOn("Aceptar");
+
+        //gets the new rows
+        row2=menuTable.getSelectionModel().getTableView().getItems().size();
+        assertNotEquals(row, row2);
+
+    }
+    @Test
+    /**
+     * Test that clicks add menu button and closes it
+     */
+    public void testF_addMenuWindow() {
+
+        clickOn("#btnCreateMenu");
+        verifyThat("#choiceMain", isVisible());
+        clickOn("#btnCancel");
+        verifyThat("#windowMenu", isVisible());
+
+    }
+    @Test
+    /**
+     * Adds a menu
+     */
+    public void testG_addMenu() {
+        clickOn("#btnCreateMenu");
+        verifyThat("#choiceMain", isVisible());
+        clickOn("#menuName");
+        write("Sample Menu");
+        clickOn("#choiceType").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceStarter").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceMain").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceSecondary").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceDessert").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceSides").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceDrink").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("Crear");
+        clickOn("Aceptar");
+        
+        
+
+    }
+    @Test
+     /**
+     * Verifies that the menu we just created exists and proceeds to 
+     * delete it.
+     */
+    public void testH_verifyAndDeleteMenu() {
+
+        verifyThat("Sample Menu", isVisible());
+        clickOn("Sample Menu");
+        clickOn("#btnDeleteMenu");
+        clickOn("Aceptar");
+        
+
+    }
+    /**
+     * Test that will only be valid if the server is out of reach
+     */
+    
+    @Test
+    public void testI_ServerError() {
+        clickOn("#signInUsername");
+        write("MartinG");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("Error en la conexion con la base de datos", isVisible());
+        clickOn("Aceptar");
     }
 }
