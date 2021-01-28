@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.Recipe;
+import model.User;
 import reto2crud.Reto2CRUD;
 
 /**
@@ -68,7 +69,12 @@ public class RecipeViewController extends GlobalController {
     /**
      * This will decide whether or not to search the recipes by user
      */
-    Boolean personal = null;
+    private Boolean personal = null;
+    
+    /**
+     * Information of the logged user.
+     */
+    private User loggedUser = Reto2CRUD.getUser();
 
     /**
      * InitStage Method for Recipes window.
@@ -145,17 +151,28 @@ public class RecipeViewController extends GlobalController {
         } catch (NullPointerException nullEx) {
             LOGGER.warning("The list is empty.");
         }
-        if (personal) {
+        if (personal && !(recipes.isEmpty())) {
             stage.setTitle("Mis recetas");
-            //Recipe filtering.
-            for (Recipe recipe : recipes) {
-                try {
-                    if (!(recipe.getUser().getId().equals(Reto2CRUD.getUser().getId()))) {
-                        recipes.remove(recipe);
+            try {
+                //Recipe filtering
+                Boolean exists = false;
+                for(Recipe recipe : recipes){
+                    if(!(recipe.getUser().getId().equals(loggedUser.getId()))){
+                        exists = true;
+                        break;
                     }
-                } catch (NullPointerException nullEx) {
-                    LOGGER.warning("The list is empty.");
                 }
+                if(exists){
+                    for(int cont = 0; cont < recipes.size();){
+                        if(!(recipes.get(cont).getUser().getId().equals(loggedUser.getId()))){
+                            recipes.remove(cont);
+                        }else{
+                            cont++;
+                        }
+                    }
+                }
+            } catch (NullPointerException nullEx) {
+                LOGGER.severe("Received null element.");
             }
         }
         return recipes;

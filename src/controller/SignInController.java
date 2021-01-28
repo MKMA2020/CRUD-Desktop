@@ -10,31 +10,20 @@ import exception.DatabaseException;
 import exception.IncorrectCredentialsException;
 import exception.TimeoutException;
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.Observable;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.servlet.UnavailableException;
-import javax.ws.rs.ForbiddenException;
-import manager.UserManager;
-import model.Recipe;
 import model.User;
 import reto2crud.Reto2CRUD;
 import security.Ciphering;
@@ -193,6 +182,7 @@ public class SignInController extends GlobalController {
                 user = getUserManager().login(SignInUsername.getText(), user.getPassword());
                 System.out.println("controller.SignInController.signIn()");
                 start_app(stage);
+                Reto2CRUD.setUser(user);
             } catch (TimeoutException e) {
                 showWarning("Error en la conexion con la base de datos");
             } catch (IncorrectCredentialsException e) {
@@ -218,7 +208,7 @@ public class SignInController extends GlobalController {
         Parent root = (Parent) loader.load();
         //Get controller for graph 
         ResetPassController primaryStageController
-                = ((ResetPassController) loader.getController());
+                = (ResetPassController) loader.getController();
 
         //Set a reference for Stage
         primaryStageController.setStage(stage);
