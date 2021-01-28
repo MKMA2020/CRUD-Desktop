@@ -139,7 +139,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestA_emptyTextFields() {
-        write("MartinG1");
+        write("MartinG");
         clickOn("#signInPWD");
         write("Aa12345!");
         clickOn("#signInBtn");
