@@ -180,10 +180,11 @@ public class MenuViewControllerTest extends ApplicationTest {
         assertNotEquals(row, row2);
 
     }
+    @Test
     /**
      * Test that clicks add menu button and closes it
      */
-    public void testF_addMenu() {
+    public void testF_addMenuWindow() {
 
         clickOn("#btnCreateMenu");
         verifyThat("#choiceMain", isVisible());
@@ -192,7 +193,47 @@ public class MenuViewControllerTest extends ApplicationTest {
 
     }
     @Test
-    public void testG_ServerError() {
+    /**
+     * Adds a menu
+     */
+    public void testG_addMenu() {
+        clickOn("#btnCreateMenu");
+        verifyThat("#choiceMain", isVisible());
+        clickOn("#menuName");
+        write("Sample Menu");
+        clickOn("#choiceType").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceStarter").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceMain").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceSecondary").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceDessert").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceSides").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("#choiceDrink").type(KeyCode.DOWN).type(KeyCode.ENTER);
+        clickOn("Crear");
+        clickOn("Aceptar");
+        
+        
+
+    }
+    @Test
+     /**
+     * Verifies that the menu we just created exists and proceeds to 
+     * delete it.
+     */
+    public void testH_verifyAndDeleteMenu() {
+
+        verifyThat("Sample Menu", isVisible());
+        clickOn("Sample Menu");
+        clickOn("#btnDeleteMenu");
+        clickOn("Aceptar");
+        
+
+    }
+    /**
+     * Test that will only be valid if the server is out of reach
+     */
+    
+    @Test
+    public void testI_ServerError() {
         clickOn("#signInUsername");
         write("MartinG");
         clickOn("#signInPWD");

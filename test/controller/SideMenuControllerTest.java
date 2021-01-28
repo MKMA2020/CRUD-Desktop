@@ -2,10 +2,12 @@ package controller;
 
 import java.util.ResourceBundle;
 import javafx.stage.Stage;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import reto2crud.Reto2CRUD;
@@ -28,11 +30,14 @@ public class SideMenuControllerTest extends ApplicationTest {
      * @param stage Primary Stage object
      * @throws Exception If there is any error
      */
-    @Override
-    public void start(Stage stage) throws Exception {
+    @BeforeClass
+    public static void setUpBeforeClass() throws Exception {
+        // Get target server
         Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
         Reto2CRUD.BASE_URI = configFile.getString("URL");
-        new Reto2CRUD().start(stage);
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Reto2CRUD.class);
+        
     }
 
     /**
@@ -40,6 +45,11 @@ public class SideMenuControllerTest extends ApplicationTest {
      */
     @Test
     public void TestA_btnShowMyRecipes() {
+        write("marting");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("#RecipeView", isVisible());
         clickOn("#btnShowMyRecipes");
         verifyThat("#RecipeView", isVisible());
     }
@@ -78,6 +88,21 @@ public class SideMenuControllerTest extends ApplicationTest {
     public void TestE_btnExit() {
         clickOn("#btnExit");
         verifyThat("#windowSignIn", isVisible());
+    }
+    
+    /**
+     * Test that will only be valid if the server is out of reach
+     */
+    
+    @Test
+    public void testF_ServerError() {
+        clickOn("#signInUsername");
+        write("MartinG");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("Error en la conexion con la base de datos", isVisible());
+        clickOn("Aceptar");
     }
 
 }

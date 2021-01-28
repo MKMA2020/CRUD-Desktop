@@ -174,8 +174,7 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
     @Test
     //@Ignore
     public void testC_ResetPassword() {
-        clickOn("Id");
-        clickOn("Id");
+        
 
         // Get row count
         int rowCount = managerTable.getItems().size();
@@ -271,5 +270,18 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
         assertNotEquals(status, user.getStatus());
     }
 
-    // Testear lo que pasa si se cierra el servidor con la ventana abierta
+    /**
+     * Test that will only be valid if the server is out of reach
+     */
+    
+    @Test
+    public void testF_ServerError() {
+        clickOn("#signInUsername");
+        write("MartinG");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("Error en la conexion con la base de datos", isVisible());
+        clickOn("Aceptar");
+    }
 }

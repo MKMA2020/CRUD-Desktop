@@ -19,7 +19,6 @@ import model.User;
 
 /**
  * Controller class for the window used to change the password of a user.
- *
  * @author Aitor Garcia
  */
 public class ResetPassController extends GlobalController {
@@ -50,7 +49,6 @@ public class ResetPassController extends GlobalController {
 
     /**
      * Method for initializing password reset stage.
-     *
      * @param root
      */
     @FXML
@@ -69,7 +67,7 @@ public class ResetPassController extends GlobalController {
         resetBtnOk.setOnAction(e -> {
             handleButtonConfirm();
         });
-
+        
         resetBtnBack.setOnAction(e -> {
             try {
                 handleButtonBack();
@@ -77,7 +75,7 @@ public class ResetPassController extends GlobalController {
                 LOGGER.severe("Error going back.");
             }
         });
-
+        
         stage.show();
     }
 
@@ -89,6 +87,7 @@ public class ResetPassController extends GlobalController {
     /*private void handleWindowShowing(WindowEvent event) {
         LOGGER.info("Displaying password reset window.");
     }*/
+    
     /**
      * In case there are no errors, after pressing this button the user's
      * password will be reset.
@@ -97,78 +96,76 @@ public class ResetPassController extends GlobalController {
      * @throws IOException in case there are input/output errors.
      */
     @FXML
-    private void handleButtonReset() throws TimeoutException, Exception {
+    private void handleButtonReset() throws TimeoutException, Exception{
         Boolean windowError = false, alertNeeded = false;
         String alertError = null;
-
-        if (txtResetUsername.getText().trim().length() < 5) {
-            Alert alertUserTooShort = new Alert(Alert.AlertType.WARNING, "Username is too short", ButtonType.OK);
+        
+        if(txtResetUsername.getText().trim().length() < 5){
+            Alert alertUserTooShort = new Alert(Alert.AlertType.WARNING, "El nombre de usuario es demasiado corto", ButtonType.OK);
             Button btnAlertOk = (Button) alertUserTooShort.getDialogPane().lookupButton(ButtonType.OK);
             btnAlertOk.setId("btnOkShort");
             alertUserTooShort.showAndWait();
             LOGGER.info("Error attempting to reset password: User " + txtResetUsername.getText() + " is too short.");
             windowError = true;
-        } else if (txtResetUsername.getText().trim().length() > 20) {
-            Alert alertUserTooLong = new Alert(Alert.AlertType.WARNING, "Username is too long");
+        }else if(txtResetUsername.getText().trim().length() > 20){
+            Alert alertUserTooLong = new Alert(Alert.AlertType.WARNING, "El nombre de usuario es demasiado largo");
             Button btnAlertOk = (Button) alertUserTooLong.getDialogPane().lookupButton(ButtonType.OK);
             btnAlertOk.setId("btnOkLong");
             alertUserTooLong.showAndWait();
             LOGGER.info("Error attempting to reset password: User " + txtResetUsername.getText() + " is too long.");
             windowError = true;
         }
-        if (!windowError) {
+        if(!windowError){
             Boolean found = false;
             List<User> userList = getUserManager().findAll();
             for (User user : userList) {
-                if ((user.getLogin().equals(txtResetUsername.getText()) && (user.getEmail().equals(txtResetEmail.getText())))) {
+                if((user.getLogin().equalsIgnoreCase(txtResetUsername.getText()) && (user.getEmail().equalsIgnoreCase(txtResetEmail.getText())))){
                     getUserManager().resetPassword(txtResetUsername.getText(), txtResetEmail.getText());
                     found = true;
                     resetBtnOk.setDisable(true);
                     break;
                 }
             }
-            if (!found) {
-                JOptionPane optionPane = new JOptionPane("The introduced information is uncorrect.", JOptionPane.ERROR_MESSAGE);
-                JDialog dialog = optionPane.createDialog("ERROR");
-                dialog.setAlwaysOnTop(true);
-                dialog.setVisible(true);
-                LOGGER.severe("Finding user for password reset: Failed.");
+            if(!found){
+                JOptionPane optionPane = new JOptionPane("La información introducida es incorrecta", JOptionPane.ERROR_MESSAGE);    
+                    JDialog dialog = optionPane.createDialog("ERROR");
+                    dialog.setAlwaysOnTop(true);
+                    dialog.setVisible(true);
+                    LOGGER.severe("Finding user for password reset: Failed.");
             }
         }
     }
 
-    private void handleButtonBack() throws IOException {
-        //It gets the FXML of the sign-in window
-        //Load node graph from fxml file
-        FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/SignIn.fxml"));
-        Parent root = (Parent) loader.load();
-        //Get controller for graph 
-        SignInController primaryStageController
-                = ((SignInController) loader.getController());
-
-        //Set a reference for Stage
-        primaryStageController.setStage(stage);
-        //Initializes primary stage
-        primaryStageController.initStage(root);
-        //stage.close();
+    private void handleButtonBack(){
+        Parent root = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
+        try{
+            root = loader.load();
+        }catch(IOException IOEx){
+            LOGGER.severe(IOEx.getMessage());
+        }
+        SignInController controller = loader.getController();
+        Stage stage = new Stage();
+        controller.setStage(stage);
+        controller.initStage(root);
+        this.stage.close();
     }
 
     private void handleButtonConfirm() {
         try {
-            handleButtonReset();
-        } catch (TimeoutException timeEx) {
-            JOptionPane optionPane = new JOptionPane("There has been an error trying to reach the server.", JOptionPane.ERROR_MESSAGE);
-            JDialog dialog = optionPane.createDialog("Failure");
-            dialog.setAlwaysOnTop(true);
-            dialog.setVisible(true);
-            LOGGER.severe("There has been an error trying to reach the server.");
-        } catch (Exception ex) {
-            JOptionPane optionPane = new JOptionPane("There has been an error trying to reset your password.", JOptionPane.ERROR_MESSAGE);
-            JDialog dialog = optionPane.createDialog("Failure");
-            dialog.setAlwaysOnTop(true);
-            dialog.setVisible(true);
-            LOGGER.severe("There has been an error trying to reset your password.");
-        }
+                handleButtonReset();
+            } catch (TimeoutException timeEx){
+                JOptionPane optionPane = new JOptionPane("There has been an error trying to reach the server.", JOptionPane.ERROR_MESSAGE);
+                JDialog dialog = optionPane.createDialog("Failure");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+                LOGGER.severe("There has been an error trying to reach the server.");
+            } catch (Exception ex) {
+                JOptionPane optionPane = new JOptionPane("There has been an error trying to reset your password.", JOptionPane.ERROR_MESSAGE);
+                JDialog dialog = optionPane.createDialog("Failure");
+                dialog.setAlwaysOnTop(true);
+                dialog.setVisible(true);
+                LOGGER.severe("There has been an error trying to reset your password.");
+            }
     }
 }

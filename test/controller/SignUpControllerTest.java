@@ -5,9 +5,15 @@
  */
 package controller;
 
+import factory.UserManagerFACTORY;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.stage.Stage;
+import model.User;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import reto2crud.Reto2CRUD;
@@ -47,6 +53,25 @@ public class SignUpControllerTest extends ApplicationTest {
     @After
     public void afterTest() {
         clickOn("#signUpBtnBack");
+    }
+     /**
+     * Method will delete TEST_USER after all tests have been executed.
+     *
+     * @throws Exception If there is any error
+     */
+    @AfterClass
+    public static void tearDownAfterClass() throws Exception {
+        // Get all users
+        List<User> users = UserManagerFACTORY.getUserManager().findAll();
+
+        // Get all Id's
+        List<Long> ids = new ArrayList();
+        users.forEach((user) -> {
+            ids.add(user.getId());
+        });
+
+        // Delete TEST user      
+        UserManagerFACTORY.getUserManager().remove(Collections.max(ids));
     }
 
     /**
@@ -104,13 +129,13 @@ public class SignUpControllerTest extends ApplicationTest {
         clickOn("#signUpUsername");
         write("a");
         clickOn("#signUpPWD");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpPWD2");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpEmail");
         write("albertogarcia@gmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("El nombre de usuario es demasiado corto.\n", isVisible());
         clickOn("Aceptar");
@@ -124,13 +149,13 @@ public class SignUpControllerTest extends ApplicationTest {
         clickOn("#signUpUsername");
         write("aaaaaaaaaaaaaaaaaaaaa");
         clickOn("#signUpPWD");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpPWD2");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpEmail");
         write("albertogarcia@gmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("El nombre de usuario es demasiado largo.\n", isVisible());
         clickOn("Aceptar");
@@ -143,7 +168,7 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testE_PasswordShort() {
         clickOn("#signUpUsername");
-        write("Joaquin");
+        write("Alberto");
         clickOn("#signUpPWD");
         write("1Aq");
         clickOn("#signUpPWD2");
@@ -151,7 +176,7 @@ public class SignUpControllerTest extends ApplicationTest {
         clickOn("#signUpEmail");
         write("albertogarcia@gmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("La contraseña es demasiado corta\n", isVisible());
         clickOn("Aceptar");
@@ -163,7 +188,7 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testF_PasswordFormat() {
         clickOn("#signUpUsername");
-        write("Joaquin");
+        write("Alberto");
         clickOn("#signUpPWD");
         write("aaaaa");
         clickOn("#signUpPWD2");
@@ -171,7 +196,7 @@ public class SignUpControllerTest extends ApplicationTest {
         clickOn("#signUpEmail");
         write("albertogarcia@gmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("La contraseña debe de incluir una mayúscula, una minúscula y un numero\n", isVisible());
         clickOn("Aceptar");
@@ -184,15 +209,15 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testG_PasswordNoMatch() {
         clickOn("#signUpUsername");
-        write("Joaquin");
+        write("Alberto");
         clickOn("#signUpPWD");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpPWD2");
-        write("Joaquin!Garcia81");
+        write("Alberto!Garcia81");
         clickOn("#signUpEmail");
         write("albertogarcia@gmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("Las contraseñas no coinciden\n", isVisible());
         clickOn("Aceptar");
@@ -205,15 +230,15 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testH_EmailWrong() {
         clickOn("#signUpUsername");
-        write("Joaquin");
+        write("Alberto");
         clickOn("#signUpPWD");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpPWD2");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpEmail");
         write("albertogarciagmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("Formato incorrecto de correo electrónico\n", isVisible());
         clickOn("Aceptar");
@@ -226,15 +251,15 @@ public class SignUpControllerTest extends ApplicationTest {
     @Test
     public void testI_SignUpButtonChanged() {
         clickOn("#signUpUsername");
-        write("Joaquin");
+        write("Alberto");
         clickOn("#signUpPWD");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpPWD2");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpEmail");
         write("albertogarcia@gmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("Registrado", isVisible());
         verifyThat("#signUpBtn", isDisabled());
@@ -249,15 +274,29 @@ public class SignUpControllerTest extends ApplicationTest {
         clickOn("#signUpUsername");
         write("Marting");
         clickOn("#signUpPWD");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpPWD2");
-        write("Joaquin!Garcia8");
+        write("Alberto!Garcia8");
         clickOn("#signUpEmail");
         write("albertogarcia@gmail.com");
         clickOn("#signUpFN");
-        write("Joaquin García");
+        write("Alberto García");
         clickOn("#signUpBtn");
         verifyThat("El usuario ya existe", isVisible());
+        clickOn("Aceptar");
+    }
+    /**
+     * Test that will only be valid if the server is out of reach
+     */
+    
+    @Test
+    public void testI_ServerError() {
+        clickOn("#signInUsername");
+        write("MartinG");
+        clickOn("#signInPWD");
+        write("Aa12345!");
+        clickOn("#signInBtn");
+        verifyThat("Error en la conexion con la base de datos", isVisible());
         clickOn("Aceptar");
     }
 
