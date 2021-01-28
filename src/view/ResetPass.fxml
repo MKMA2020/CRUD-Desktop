@@ -48,7 +48,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </TextField>
-            <Button id="Button" fx:id="resetBtnBack" layoutX="190.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@css/SignInSignUpStyle.css" text="Atras">
+            <Button id="Button" fx:id="resetBtnBack" layoutX="190.0" layoutY="329.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="123.0" styleClass="Button" stylesheets="@../css/SignInSignUpStyle.css" text="Atras">
                <font>
                   <Font name="Arial" size="12.0" />
                </font>

@@ -106,7 +106,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
     }
 
     /**
-     * Method will delete TEST_USER after all tests have been executed.
+     * Method will delete TEST_Recipe after all tests have been executed.
      *
      * @throws Exception If there is any error
      */
@@ -125,8 +125,12 @@ public class AddRecipeControllerTest extends ApplicationTest {
         recipes.get(recipes.size() - 1).setName("Test Cambiado");
         RecipeManagerFACTORY.getRecipeManager().update(recipes.get(recipes.size() - 1));
 
-        // Delete TEST recipe    
+        // Delete TEST recipes    
         RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids));
+        RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids)-1);
+        RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids)-2);
+        RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids)-3);
+        RecipeManagerFACTORY.getRecipeManager().remove(Collections.max(ids)-4);
 
     }
 
@@ -135,7 +139,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
      */
     @Test
     public void TestA_emptyTextFields() {
-        write("marting");
+        write("MartinG");
         clickOn("#signInPWD");
         write("Aa12345!");
         clickOn("#signInBtn");
@@ -226,7 +230,7 @@ public class AddRecipeControllerTest extends ApplicationTest {
         verifyThat("Añadir", isDisabled());
 
         clickOn("#txtareaRecipeSteps");
-        write("Sample");
+        write("Sample For fun");
         verifyThat("Añadir", isDisabled());
 
         clickOn("#txtRecipeKCal");
