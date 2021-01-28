@@ -86,13 +86,23 @@ public class SignInController extends GlobalController {
         LOGGER.info("Going to SignUp");
         start_signup(stage);
     }
+     /**
+     * If the button is clicked the sign up window will be launched.
+     *
+     * @param event event used
+     * @throws IOException when there are input/output errors.
+     */
 
     @FXML
     private void handleButtonSignIn(ActionEvent event) throws IOException, IncorrectCredentialsException, DatabaseException {
         signIn();
 
     }
-
+/**
+     * Initializes and starts the window.
+     *
+     * @param root Parent of the window
+     */
     public void initStage(Parent root) {
         LOGGER.info("SignIn");
         Scene scene = new Scene(root);
@@ -143,6 +153,12 @@ public class SignInController extends GlobalController {
         }
 
     }
+  /**
+     * Method to invoke the signup window
+     *
+     * @param primaryStage Main stage
+     * @throws IOException IO issues
+     */
 
     private void start_signup(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignUp.fxml"));
@@ -151,7 +167,12 @@ public class SignInController extends GlobalController {
         controller.setStage(primaryStage);
         controller.initStage(root);
     }
-
+ /**
+     * Method to invoke the ResetPass window
+     *
+     * @param primaryStage Main stage
+     * @throws IOException IO issues
+     */
 
     private void start_resetPWD(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/ResetPass.fxml"));
@@ -160,6 +181,17 @@ public class SignInController extends GlobalController {
         controller.setStage(primaryStage);
         controller.initStage(root);
     }
+        /**
+     * This method gets launched whenever the user hits the login button In case
+     * the username is either longer than 20 or shorther than 5 chars it will
+     * send and alert. IF there is no error and everything goes through the
+     * applicattions main window will be launched.
+     *
+     * @param event current event.
+     * @throws IOException when there are input/output errors
+     * @throws IncorrectCredentialsException when the loging credentials arent right
+     * 
+     */
 
     private void signIn() throws IOException, IncorrectCredentialsException {
         boolean error = false;
@@ -194,6 +226,11 @@ public class SignInController extends GlobalController {
         } else {
         }
     }
+    /**
+     * MEthod that loads the recipes window
+     * @param primaryStage
+     * @throws IOException 
+     */
 
     private void start_app(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/RecipeView.fxml"));

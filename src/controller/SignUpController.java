@@ -44,6 +44,8 @@ import security.Ciphering;
 public class SignUpController extends GlobalController {
 
     /**
+     * This class is the controller for the sign-up window. It contains methods
+     * that control it, like checks of the text fields or to define the buttons.
      * Textfield for the user
      */
     @FXML
@@ -78,16 +80,25 @@ public class SignUpController extends GlobalController {
      */
     @FXML
     private Button signUpBtnBack;
-
+ /**
+     * Handler to go back to the sign in window
+     */
     @FXML
     private void handleButtonBack(ActionEvent event) throws IOException {
         start_SignIn(stage);
     }
-
+ /**
+     * Handler to start the signup
+     */
     @FXML
     private void handleButtonSignUp(ActionEvent event) throws IOException, DatabaseException, IncorrectCredentialsException {
         SignUp();
     }
+     /**
+     * Method that initializes the window. It sets its properties and shows it
+     *
+     * @param root the parent of the window
+     */
 
     public void initStage(Parent root) {
         LOGGER.info("SignUp");
@@ -154,6 +165,11 @@ public class SignUpController extends GlobalController {
         primaryStageController.initStage(root);
         //stage.close();
     }
+    /**
+     * Method that runs when you click the sign-up button. .
+     *
+     * @param event it is the clicking event of the button
+     */
 
     private void SignUp() {
         LOGGER.info("Attempt to SignUp");
@@ -171,16 +187,16 @@ public class SignUpController extends GlobalController {
             showWarning("Error en la base de datos, por favor prueba mas tarde.");
             error = true;
         }
-           if(!error){
-        
+        if (!error) {
+
             for (int i = 0; i < listadeUsuarios.size(); i++) {
                 if (listadeUsuarios.get(i).getLogin().equalsIgnoreCase(signUpUsername.getText())) {
                     existe = true;
-                    LOGGER.info("Username: "+signUpUsername.getText()+" already exists.");
+                    LOGGER.info("Username: " + signUpUsername.getText() + " already exists.");
                     break;
                 }
             }
-           }
+        }
 
         if (!existe && !error) {
             LOGGER.info("SignIng Up");
