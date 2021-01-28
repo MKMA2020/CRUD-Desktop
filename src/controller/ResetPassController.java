@@ -101,14 +101,14 @@ public class ResetPassController extends GlobalController {
         String alertError = null;
         
         if(txtResetUsername.getText().trim().length() < 5){
-            Alert alertUserTooShort = new Alert(Alert.AlertType.ERROR, "Username is too short", ButtonType.OK);
+            Alert alertUserTooShort = new Alert(Alert.AlertType.WARNING, "El nombre de usuario es demasiado corto", ButtonType.OK);
             Button btnAlertOk = (Button) alertUserTooShort.getDialogPane().lookupButton(ButtonType.OK);
             btnAlertOk.setId("btnOkShort");
             alertUserTooShort.showAndWait();
             LOGGER.info("Error attempting to reset password: User " + txtResetUsername.getText() + " is too short.");
             windowError = true;
         }else if(txtResetUsername.getText().trim().length() > 20){
-            Alert alertUserTooLong = new Alert(Alert.AlertType.ERROR, "Username is too long");
+            Alert alertUserTooLong = new Alert(Alert.AlertType.WARNING, "El nombre de usuario es demasiado largo");
             Button btnAlertOk = (Button) alertUserTooLong.getDialogPane().lookupButton(ButtonType.OK);
             btnAlertOk.setId("btnOkLong");
             alertUserTooLong.showAndWait();
@@ -127,7 +127,7 @@ public class ResetPassController extends GlobalController {
                 }
             }
             if(!found){
-                JOptionPane optionPane = new JOptionPane("The introduced information is uncorrect.", JOptionPane.ERROR_MESSAGE);    
+                JOptionPane optionPane = new JOptionPane("La información introducida es incorrecta", JOptionPane.ERROR_MESSAGE);    
                     JDialog dialog = optionPane.createDialog("ERROR");
                     dialog.setAlwaysOnTop(true);
                     dialog.setVisible(true);
