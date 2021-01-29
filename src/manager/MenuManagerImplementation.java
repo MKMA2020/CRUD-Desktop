@@ -86,7 +86,7 @@ public class MenuManagerImplementation implements MenuManager{
      * @throws DatabaseException if there is an exception with the database 
      */
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws DatabaseException {
         try {
             LOGGER.info("Deleting a menu by id.");
             webClient.remove(id.toString());
@@ -101,7 +101,7 @@ public class MenuManagerImplementation implements MenuManager{
      * @throws DatabaseException if there is an exception with the database
      */
     @Override
-    public void create(Menu menu) {
+    public void create(Menu menu) throws DatabaseException{
         try {
             LOGGER.info("Creating a new menu");
             webClient.create(menu);
@@ -116,7 +116,7 @@ public class MenuManagerImplementation implements MenuManager{
      * @throws DatabaseException if there is an exception with the database
      */
     @Override
-    public void edit(Menu menu) {
+    public void edit(Menu menu) throws DatabaseException{
         try {
             LOGGER.info("Editing a menu");
             webClient.edit(menu);
