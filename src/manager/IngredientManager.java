@@ -11,7 +11,7 @@ import java.util.List;
 import model.Ingredient;
 
 /**
- *
+ * 
  * @author Martin Valiente Ainz
  */
 public interface IngredientManager {

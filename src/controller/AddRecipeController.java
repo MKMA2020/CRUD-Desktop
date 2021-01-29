@@ -186,12 +186,10 @@ public class AddRecipeController extends GlobalController {
     /**
      * All the ingredients retrieved from the database will be loaded into
      *
-     * @param usedingredients.
      */
     private ObservableList<Ingredient> usedIngredients;
     /**
-     * @param usedNameIngredientsObservableList
-     * @param usedNameTypeObservableList First one will only keep track of the
+     * First one will only keep track of the
      * ingredients name, used for the first table column. The other one instead
      * of the used ingredients type. Used for the second table column
      */

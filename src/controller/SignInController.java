@@ -187,7 +187,6 @@ public class SignInController extends GlobalController {
      * send and alert. IF there is no error and everything goes through the
      * applicattions main window will be launched.
      *
-     * @param event current event.
      * @throws IOException when there are input/output errors
      * @throws IncorrectCredentialsException when the loging credentials arent right
      * 
