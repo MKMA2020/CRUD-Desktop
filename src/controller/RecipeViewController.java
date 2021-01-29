@@ -23,7 +23,7 @@ import reto2crud.Reto2CRUD;
 
 /**
  * Controller class for the window used to display the recipes.
- * @author Martin Valiente Ainz & Aitor Garcia
+ * @author Martin Valiente Ainz and Aitor Garcia
  */
 public class RecipeViewController extends GlobalController {
 
