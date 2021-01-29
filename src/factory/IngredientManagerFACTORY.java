@@ -9,8 +9,8 @@ import manager.IngredientManagerImplementation;
 import manager.IngredientManager;
 
 /**
- *
- * @author Martin Valiente Ainz
+ * Returns the implementation
+ * @author Aitor Garcia
  */
 public class IngredientManagerFACTORY {
     public static IngredientManager getIngredientManager(){
