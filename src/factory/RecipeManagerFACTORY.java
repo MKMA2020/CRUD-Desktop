@@ -9,8 +9,8 @@ import manager.RecipeManager;
 import manager.RecipeManagerImplementation;
 
 /**
- *
- * @author Kerman
+ *Returns the manager implementation
+ * @author Martin Gros
  */
 public class RecipeManagerFACTORY {
     public static RecipeManager getRecipeManager(){

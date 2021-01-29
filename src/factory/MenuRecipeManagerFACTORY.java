@@ -5,8 +5,8 @@ import rest.MenuRecipesRESTClient;
 
 
 /**
- *
- * @author 2dam
+ *Returns the implementation
+ * @author Martin Valiente
  */
 public class MenuRecipeManagerFACTORY {
     public static MenuRecipeManager getMenuRecipeManager(){

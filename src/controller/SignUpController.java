@@ -169,7 +169,6 @@ public class SignUpController extends GlobalController {
     /**
      * Method that runs when you click the sign-up button. .
      *
-     * @param event it is the clicking event of the button
      */
 
     private void SignUp() {
@@ -282,7 +281,7 @@ public class SignUpController extends GlobalController {
     /**
      * This method receives a password and checks if it meets the requirements.
      *
-     * @param s the password to check
+     * @param pwd the password to check
      * @return a boolean telling if the password is valid
      */
     private boolean isValidPass(String pwd) {

@@ -5,7 +5,7 @@ import manager.UserManagerImplementation;
 import rest.UserRESTClient;
 
 /**
- *
+ *Returns the user manager implementation
  * @author Martin Valiente Ainz
  */
 public class UserManagerFACTORY {

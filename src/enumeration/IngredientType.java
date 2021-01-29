@@ -3,7 +3,7 @@ package enumeration;
 /**
  * The different types of Ingredients.
  * 
- * @author Kerman & Aitor
+ * @author Kerman and Aitor
  */
 public enum IngredientType {
     Dairy,

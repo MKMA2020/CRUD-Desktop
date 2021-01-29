@@ -32,6 +32,12 @@ public class IngredientManagerImplementation implements IngredientManager {
         webClient = new IngredientRESTClient();
     }
 
+    /**
+     * Creates a new ingredient
+     *
+     * @param ingredient that's gonna be added
+     */
+
     @Override
     public void create(Ingredient ingredient) {
         try {
@@ -41,6 +47,13 @@ public class IngredientManagerImplementation implements IngredientManager {
             LOGGER.log(Level.SEVERE, "Create Ingredient failed: {0}", ex.getMessage());
         }
     }
+
+    /**
+     * Finds an ingredient by its id
+     *
+     * @param id
+     * @return
+     */
 
     @Override
     public Ingredient find(Long id) {
@@ -54,6 +67,12 @@ public class IngredientManagerImplementation implements IngredientManager {
         return ingredient;
     }
 
+    /**
+     * Edit and updates an ingredient
+     *
+     * @param ingredient
+     */
+
     @Override
     public void edit(Ingredient ingredient) {
         try {
@@ -62,8 +81,14 @@ public class IngredientManagerImplementation implements IngredientManager {
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Edit Ingredient by ID failed: {0}", ex.getMessage());
         }
-        
+
     }
+
+    /**
+     * Removes an ingredient by its id
+     *
+     * @param id
+     */
 
     @Override
     public void remove(Long id) {
@@ -75,6 +100,12 @@ public class IngredientManagerImplementation implements IngredientManager {
         }
     }
 
+    /**
+     * Method that returns all the ingredients
+     *
+     * @return
+     * @throws TimeoutException
+     */
     @Override
     public List<Ingredient> findAll() throws TimeoutException {
         List<Ingredient> ingredients = null;
@@ -85,10 +116,17 @@ public class IngredientManagerImplementation implements IngredientManager {
         } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, "Find All Ingredients failed: {0}", ex.getMessage());
             throw new TimeoutException();
-            
+
         }
         return ingredients;
     }
+
+    /**
+     * Returns a list of ingredients sorted by their type
+     *
+     * @param type
+     * @return
+     */
 
     @Override
     public List<Ingredient> findAllByType(IngredientType type) {
