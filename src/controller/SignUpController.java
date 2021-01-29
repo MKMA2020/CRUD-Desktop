@@ -38,7 +38,8 @@ import model.User;
 import security.Ciphering;
 
 /**
- *
+ * Class of the SignUp that gets executed when the user clicks the sign up button
+ * in the login
  * @author Martin Gros
  */
 public class SignUpController extends GlobalController {
