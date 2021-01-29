@@ -70,7 +70,7 @@ public class Ingredient implements Serializable {
     /**
      * This is never used since the id is set automatically on the server
      *
-     * @param id
+     * @param id id to be set.
      */
     public void setId(Long id) {
         this.id = id;
@@ -79,7 +79,7 @@ public class Ingredient implements Serializable {
     /**
      * Sets the name of the ingredient
      *
-     * @param name
+     * @param name name to be set.
      */
     public void setName(String name) {
         this.name = name;
@@ -88,7 +88,7 @@ public class Ingredient implements Serializable {
     /**
      * Sets the type of the ingredient
      *
-     * @param type
+     * @param type type to be set.
      */
     public void setType(IngredientType type) {
         this.type = type;
@@ -97,7 +97,7 @@ public class Ingredient implements Serializable {
     /**
      * Verifies the ingredient modifying a boolean
      *
-     * @param verified
+     * @param verified the param to be set.
      */
     public void setVerified(boolean verified) {
         this.verified = verified;
@@ -114,8 +114,8 @@ public class Ingredient implements Serializable {
     /**
      * Compare parameters to their id
      *
-     * @param object
-     * @return wether they are equal or not
+     * @param object The object to be compared.
+     * @return wether they are equal or not.
      */
 
     //TODO Check whether commentary is necessary.

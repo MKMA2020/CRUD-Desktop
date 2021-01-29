@@ -108,7 +108,7 @@ public class RecipeManagerImplementation implements RecipeManager {
     /**
      * Removes an already existing recipe.
      *
-     * @param recipe Is the recipe that is going to be removed.
+     * @param id The id of the recipe to be removed
      */
 
     @Override

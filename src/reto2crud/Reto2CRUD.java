@@ -36,7 +36,7 @@ public class Reto2CRUD extends Application {
      * window.
      *
      * @param stage The primary window of the application
-     * @throws IOException
+     * @throws IOException if there is an Input Output exception.
      */
     @Override
     public void start(Stage stage) throws IOException {

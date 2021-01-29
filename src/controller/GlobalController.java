@@ -95,6 +95,7 @@ class GlobalController {
      * Shows a confirmation message in an alert dialog.
      *
      * @param msg The confirmation message to be shown.
+     * @return the result.
      */
     protected Boolean showConfirmation(String msg) {
         Boolean result = false;

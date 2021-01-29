@@ -220,7 +220,7 @@ public class Recipe {
     /**
      * Compare parameters to their id
      *
-     * @param object
+     * @param object The object to be compared
      * @return wether they are equal or not
      */
 
