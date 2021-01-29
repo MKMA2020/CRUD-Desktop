@@ -106,9 +106,6 @@ public class ResetPassControllerTest extends ApplicationTest{
     }
     
     /**
-     * Method that verifies the wrong password does not work.
-    
-    /**
      * Method that verifies that an error window is displayed when the password is too long.
      */
     @Test

@@ -22,7 +22,7 @@ import model.User;
 import reto2crud.Reto2CRUD;
 
 /**
- *
+ * Controller class for the window used to display the recipes.
  * @author Martin Valiente Ainz and Aitor Garcia
  */
 public class RecipeViewController extends GlobalController {
@@ -139,7 +139,11 @@ public class RecipeViewController extends GlobalController {
         controller.initStage(root, stage);
         //TODO wait until the window gets closed and refresh.
     }
-
+    
+    /**
+     * Fills a list with the recipes from the database.
+     * @return List of recipes of the database.
+     */
     private ObservableList<Recipe> fillTable() {
         ObservableList<Recipe> recipes = null;
         try {

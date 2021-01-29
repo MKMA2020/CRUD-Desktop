@@ -135,6 +135,9 @@ public class ResetPassController extends GlobalController {
         }
     }
 
+    /**
+     * Method to go back to the sigh-in window.
+     */
     private void handleButtonBack(){
         Parent root = null;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SignIn.fxml"));
@@ -150,6 +153,9 @@ public class ResetPassController extends GlobalController {
         this.stage.close();
     }
 
+    /**
+     * Method to confirm that you want to reset the password after giving the necessary information.
+     */
     private void handleButtonConfirm() {
         try {
                 handleButtonReset();

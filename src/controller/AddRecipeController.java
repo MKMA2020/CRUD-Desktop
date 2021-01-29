@@ -52,7 +52,9 @@ import model.Recipe;
 import reto2crud.Reto2CRUD;
 
 /**
- *
+ *Class of the popup that lets the user adds a recipe,
+ * This pop up will show up when the user hits the add recipe button either
+ * on the myrecipes window or on the recipes window
  * @author Martin Gros
  */
 public class AddRecipeController extends GlobalController {
