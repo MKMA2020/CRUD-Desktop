@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,10 +21,6 @@ import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import model.Menu;
 
 /**
@@ -199,6 +194,12 @@ public class MenuViewController extends GlobalController {
         stage.show();
     }
 
+    /**
+     * This method opens the new menu window and waits until it is closed.
+     * It then refreshes the table.
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void handleButtonMenuCreate(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/NewMenu.fxml"));
@@ -206,7 +207,9 @@ public class MenuViewController extends GlobalController {
         NewMenuController controller = (loader.getController());
         controller.setStage(stage);
         controller.initStage(root);
+        //Waits for the window to be closed
         try {
+        //Finds every menu back and refreshes the table
         everyMenu = FXCollections.observableArrayList(getMenuManager().findAll());
         menuTable.setItems(everyMenu);
         menuTable.refresh();
@@ -215,7 +218,12 @@ public class MenuViewController extends GlobalController {
         }
         
     }
-
+    
+    /**
+     * This method erases the menu from the server, asking for a confirmation 
+     * of the user
+     * @param event 
+     */
     @FXML
     private void deleteMenu(ActionEvent event) {      
         try {
@@ -237,6 +245,11 @@ public class MenuViewController extends GlobalController {
         }
     }
     
+    /**
+     * Listens to the edit of the description column, and updates the value
+     * when onEditCommit() is fired.
+     * @param t 
+     */
     private void updateMenuDescription(CellEditEvent <Menu,String> t) {
         if (t.getNewValue().length()>50)
             showError("La nueva descripción es demasiado larga!");
