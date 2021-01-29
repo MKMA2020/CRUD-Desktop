@@ -31,6 +31,8 @@ import static org.testfx.matcher.control.TextInputControlMatchers.hasText;
 import static reto2crud.Reto2CRUD.configFile;
 
 /**
+ * Testing class for SignUp controller. Tests the behavior using TestFX
+ * framework.
  *
  * @author Martin Gros
  */
@@ -54,7 +56,8 @@ public class SignUpControllerTest extends ApplicationTest {
     public void afterTest() {
         clickOn("#signUpBtnBack");
     }
-     /**
+
+    /**
      * Method will delete TEST_USER after all tests have been executed.
      *
      * @throws Exception If there is any error
@@ -285,10 +288,11 @@ public class SignUpControllerTest extends ApplicationTest {
         verifyThat("El usuario ya existe", isVisible());
         clickOn("Aceptar");
     }
+
     /**
      * Test that will only be valid if the server is out of reach
      */
-    
+
     @Test
     public void testI_ServerError() {
         clickOn("#signInUsername");
