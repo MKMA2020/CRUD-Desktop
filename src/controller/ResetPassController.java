@@ -92,7 +92,6 @@ public class ResetPassController extends GlobalController {
      * In case there are no errors, after pressing this button the user's
      * password will be reset.
      *
-     * @param event current event.
      * @throws IOException in case there are input/output errors.
      */
     @FXML

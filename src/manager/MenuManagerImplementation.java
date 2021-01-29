@@ -15,7 +15,7 @@ import rest.MenuRESTClient;
 
 
 /**
- *
+ * This class implements the REST methods for the menu entity
  * @author Kerman
  */
 public class MenuManagerImplementation implements MenuManager{
@@ -23,10 +23,17 @@ public class MenuManagerImplementation implements MenuManager{
     private MenuRESTClient webClient;
     private static final Logger LOGGER=Logger.getLogger("MenuManagerImplementation");
     
+    /**
+     * Empty constructor that creates a client
+     */
     public MenuManagerImplementation() {
         webClient = new MenuRESTClient();
     }
     
+    /**
+     * Finds every menu
+     * @return a menu list
+     */
     @Override
     public List<Menu> findAll() {
         List<Menu> menus = null;
@@ -38,7 +45,12 @@ public class MenuManagerImplementation implements MenuManager{
         }
         return menus;      
     }
-
+    
+    /**
+     * Finds every menu by a certain type
+     * @param type the type to filter the menus
+     * @return a list of menus by type
+     */
     @Override
     public List<Menu> findByType(MenuType type) {
         List<Menu> menus = null;
@@ -51,6 +63,11 @@ public class MenuManagerImplementation implements MenuManager{
         return menus; 
     }
 
+    /**
+     * Finds a menu by id
+     * @param id id of the menu
+     * @return a menu object
+     */
     @Override
     public Menu find(Long id) {
         Menu menu = null;
@@ -63,8 +80,13 @@ public class MenuManagerImplementation implements MenuManager{
         return menu;
     }
 
+     /**
+     * Deletes a menu by id
+     * @param id id of the menu
+     * @throws DatabaseException if there is an exception with the database 
+     */
     @Override
-    public void delete(Long id) {
+    public void delete(Long id) throws DatabaseException {
         try {
             LOGGER.info("Deleting a menu by id.");
             webClient.remove(id.toString());
@@ -73,8 +95,13 @@ public class MenuManagerImplementation implements MenuManager{
         }
     }
 
+    /**
+     *  Creates a menu in the server
+     * @param menu menu to create
+     * @throws DatabaseException if there is an exception with the database
+     */
     @Override
-    public void create(Menu menu) {
+    public void create(Menu menu) throws DatabaseException{
         try {
             LOGGER.info("Creating a new menu");
             webClient.create(menu);
@@ -83,8 +110,13 @@ public class MenuManagerImplementation implements MenuManager{
         }
     }
 
+    /**
+     * Edits a menu
+     * @param menu menu to be edited
+     * @throws DatabaseException if there is an exception with the database
+     */
     @Override
-    public void edit(Menu menu) {
+    public void edit(Menu menu) throws DatabaseException{
         try {
             LOGGER.info("Editing a menu");
             webClient.edit(menu);

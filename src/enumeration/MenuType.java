@@ -3,7 +3,7 @@ package enumeration;
 /**
  * The different types of Menus.
  * 
- * @author Kerman & Aitor
+ * @author Kerman and Aitor
  */
 public enum MenuType {
     Breakfast,

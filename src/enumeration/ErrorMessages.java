@@ -3,7 +3,7 @@ package enumeration;
 /**
  * Different error  messages to inform the client
  * 
- * @author Kerman & Martin Valiente
+ * @author Kerman and Martin Valiente
  */
 public enum ErrorMessages {
     USER_EXISTS,

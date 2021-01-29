@@ -3,7 +3,7 @@ package enumeration;
 /**
  * The different types of dishes.
  * 
- * @author Kerman & Aitor
+ * @author Kerman and Aitor
  */
 public enum Menu_recipeType {
     Starter,
