@@ -84,7 +84,11 @@ public class NewMenuController extends GlobalController {
     @FXML
     public Button btnMenuCancel;
     
-    
+    /**
+     * Initializes the window. Fills the choice boxes with recipes
+     * of each type and adds listeners to them.
+     * @param root 
+     */
     public void initStage(Parent root) {
         //STAGE PROPERTIES
         //Initializes the stage and sets its attributes.
@@ -141,6 +145,11 @@ public class NewMenuController extends GlobalController {
         stage.showAndWait();
     }
     
+    /**
+     * Method that checks if the fields are empty, and doesn´t enable the button
+     * until every field has value
+     * @param obs observes changes
+     */
     private void selectionChanged (Observable obs) {
         LOGGER.info("cambio");
         if (menuName.getText().equals("") ||
@@ -158,6 +167,10 @@ public class NewMenuController extends GlobalController {
         }
     }
     
+    /**
+     * Checks if the menu name is too long. If it is not, it creates a menu
+     * @param event the click event that fires the method
+     */
     @FXML
     private void validateMenu(ActionEvent event)  {
         if (menuName.getLength()>20)
@@ -167,11 +180,19 @@ public class NewMenuController extends GlobalController {
         }
     }
     
+    /**
+     * Closes the stage to go back to the menu table
+     * @param event 
+     */
     @FXML
     private void cancelNewMenu (ActionEvent event) {
         stage.close();
     }
-
+    
+    /**
+     * Creates a new empty menu and fills it with the data from the
+     * fields in the window. It then sends it to the database for its creation
+     */
     private void createNewMenu() {
         //Creates an empty menu object and sets its data
         Menu menu = new Menu();
@@ -241,4 +262,3 @@ public class NewMenuController extends GlobalController {
         
     }
     
-
