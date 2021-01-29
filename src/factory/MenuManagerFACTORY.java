@@ -5,8 +5,8 @@ import manager.MenuManagerImplementation;
 
 
 /**
- *
- * @author 2dam
+ * Returns the implementation
+ * @author Kerman Rodriguez
  */
 public class MenuManagerFACTORY {
     public static MenuManager getMenuManager(){
