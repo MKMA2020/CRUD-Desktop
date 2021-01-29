@@ -17,6 +17,8 @@ import model.User;
 import rest.UserRESTClient;
 
 /**
+ * This class implements {@link UserManager} business logic interface using a
+ * RESTful web client to access users in the server.
  *
  * @author Martin Valiente Ainz
  */
@@ -33,6 +35,12 @@ public class UserManagerImplementation implements UserManager {
         webClient = new UserRESTClient();
     }
 
+    /**
+     * This method adds a new created User. This is done by sending a POST
+     * request to a RESTful web service.
+     *
+     * @param user The User object to be added.
+     */
     @Override
     public void create(User user) {
         try {
@@ -42,7 +50,13 @@ public class UserManagerImplementation implements UserManager {
             LOGGER.log(Level.SEVERE, "Create User failed: {0}", ex.getMessage());
         }
     }
-
+    
+    /**
+     * This method finds a User. This is done by sending a GET
+     * request to a RESTful web service.
+     *
+     * @param id the id to be search.
+     */
     @Override
     public User find(Long id) {
         User user = null;
@@ -55,6 +69,12 @@ public class UserManagerImplementation implements UserManager {
         return user;
     }
 
+    /**
+     * This method updates data for an existing User data for user. This is done
+     * by sending a PUT request to a RESTful web service.
+     *
+     * @param user The User object to be updated.
+     */
     @Override
     public void edit(User user) {
         try {
@@ -65,6 +85,12 @@ public class UserManagerImplementation implements UserManager {
         }
     }
 
+    /**
+     * This method deletes data for an existing user. This is done by sending a
+     * DELETE request to a RESTful web service.
+     *
+     * @param id The User id.
+     */
     @Override
     public void remove(Long id) {
         try {
@@ -75,6 +101,15 @@ public class UserManagerImplementation implements UserManager {
         }
     }
 
+    /**
+     * This method returns a {@link User} matching the login.
+     *
+     * @param login the login String.
+     * @param password the password String.
+     * @return the logged User.
+     * @throws TimeoutException if there is a connection error.
+     * @throws IncorrectCredentialsException if there is no matching user.
+     */
     @Override
     public User login(String login, String password) throws TimeoutException, IncorrectCredentialsException {
         User user = null;
@@ -85,13 +120,18 @@ public class UserManagerImplementation implements UserManager {
             throw new IncorrectCredentialsException();
 
         } catch (Exception ex) {
-            
+
             LOGGER.log(Level.SEVERE, "Find All Users failed: {0}", ex.getMessage());
             throw new TimeoutException();
         }
         return user;
     }
 
+    /**
+     * This method returns a {@link User} matching the name.
+     *
+     * @return user The user.
+     */
     @Override
     public User findByName(String fullName) {
         User user = null;
@@ -104,6 +144,12 @@ public class UserManagerImplementation implements UserManager {
         return user;
     }
 
+    /**
+     * This method returns a List of {@link User}, containing all user data.
+     *
+     * @return users The List of all users.
+     * @throws TimeoutException If server is offline.
+     */
     @Override
     public List<User> findAll() throws TimeoutException {
         List<User> users = null;
@@ -114,7 +160,7 @@ public class UserManagerImplementation implements UserManager {
             users = loadResetField(users);
 
         } catch (Exception ex) {
-            
+
             LOGGER.log(Level.SEVERE, "Find All Users failed: {0}", ex.getMessage());
             throw new TimeoutException();
         }
@@ -134,6 +180,13 @@ public class UserManagerImplementation implements UserManager {
         return users;
     }
 
+    /**
+     * This method returns a List of {@link User}, containing all user data of
+     * the specified type.
+     *
+     * @param type the type of {@link User} to seach.
+     * @return the {@link User} List.
+     */
     @Override
     public List<User> findByType(UserType type) {
         List<User> users = null;
@@ -147,6 +200,12 @@ public class UserManagerImplementation implements UserManager {
         return users;
     }
 
+    /**
+     * This method resets the password to the user.
+     *
+     * @param login login to reset password.
+     * @param email email to reset password.
+     */
     @Override
     public void resetPassword(String login, String email) {
         try {

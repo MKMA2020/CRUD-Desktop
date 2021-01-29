@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package manager;
 
 import enumeration.IngredientType;
@@ -11,11 +6,15 @@ import java.util.List;
 import model.Ingredient;
 
 /**
- *
+ * IngredientManager interface encapsulating ingredient methods.
  * @author Martin Valiente Ainz
  */
 public interface IngredientManager {
     
+    /**
+     * Method calls webClient and calls for creation of ingredient.
+     * @param ingredient The ingredient to be created 
+     */
     public void create(Ingredient ingredient);
     
     public Ingredient find(Long id);
