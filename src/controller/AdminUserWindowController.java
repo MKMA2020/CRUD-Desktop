@@ -22,7 +22,7 @@ import javafx.stage.WindowEvent;
 import model.User;
 
 /**
- *
+ * Controller class for the Admin Window of PocketChef Desktop App.
  * @author Martin Valiente Ainz
  */
 public class AdminUserWindowController extends GlobalController {
@@ -88,8 +88,8 @@ public class AdminUserWindowController extends GlobalController {
     private Button btnUserListGenerateForm;
 
     /**
-     *
-     * @param root
+     * Method for initializing Admin Window.
+     * @param root The Parent object representing root node of view graph.
      */
     public void initStage(Parent root) {
 

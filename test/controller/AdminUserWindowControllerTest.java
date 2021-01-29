@@ -32,7 +32,7 @@ import static reto2crud.Reto2CRUD.configFile;
 import security.Ciphering;
 
 /**
- *
+ * Test Class for Admin Window.
  * @author Martin Valiente Ainz
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -43,12 +43,6 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
 
     public AdminUserWindowControllerTest() {
     }
-
-    /**
-     *
-     * @param stage Primary Stage object
-     * @throws Exception If there is any error
-     */
 
     /**
      * Method will SetUp the TEST Class getting the target server URL and
@@ -124,14 +118,6 @@ public class AdminUserWindowControllerTest extends ApplicationTest {
         clickOn("#btnShowAdmin");
         clickOn("Id");
         clickOn("Id");
-        verifyThat("#tclAdminId", hasText(""));
-        verifyThat("#tclAdminLogin", hasText(""));
-        verifyThat("#tclAdminEmail", hasText(""));
-        verifyThat("#tclAdminStatus", isEnabled());
-        verifyThat("#tclAdminLastAccess", hasText(""));
-        verifyThat("#tclAdminResetPassword", isEnabled());
-        verifyThat("#tclAdminLastPasswordChange", hasText(""));
-        verifyThat("#btnUserListGenerateForm", isEnabled());
         //Click on row 0
         Node row = lookup(".table-row-cell").nth(1).query();
         assertNotNull("Row is null: table has not that row. ", row);
