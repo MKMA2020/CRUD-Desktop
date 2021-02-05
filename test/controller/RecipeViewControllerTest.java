@@ -13,17 +13,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import model.Ingredient;
 import model.Recipe;
 import model.User;
 import org.junit.AfterClass;
 import org.junit.Assert;
+import static org.junit.Assert.assertNotEquals;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
+import org.testfx.api.FxToolkit;
 import org.testfx.framework.junit.ApplicationTest;
 import static org.testfx.matcher.base.NodeMatchers.isInvisible;
 import static org.testfx.matcher.base.NodeMatchers.isVisible;
@@ -38,12 +42,11 @@ import security.Ciphering;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RecipeViewControllerTest extends ApplicationTest{
     
+    private TableView recipeTable;
+    
     public RecipeViewControllerTest(){
     }
-    
-    public void start(Stage stage) throws Exception { 
-        new Reto2CRUD().start(stage);
-    }
+
     
     /**
      * Method that creates a new Recipe, its User and its list of ingredients.
@@ -52,8 +55,11 @@ public class RecipeViewControllerTest extends ApplicationTest{
     @BeforeClass
     public static void setUpBeforeClass() throws Exception{
         //Get target server
+        
         Reto2CRUD.configFile = ResourceBundle.getBundle("config.config");
         Reto2CRUD.BASE_URI = configFile.getString("URL");
+        FxToolkit.registerPrimaryStage();
+        FxToolkit.setupApplication(Reto2CRUD.class);
         
         Recipe testRecipe = new Recipe();
         Recipe testRecipe2 = new Recipe();
@@ -158,16 +164,25 @@ public class RecipeViewControllerTest extends ApplicationTest{
     }
     
     /**
+     * Method that gets executed before every test.
+     */
+    @Before
+    public void beforeTest(){
+        recipeTable = lookup("#recipeTable").queryTableView();
+        
+    }
+    
+    /**
      * Tests the initial state of the window.
      * @throws Exception generic exception in case of any error.
      */
     @Test
     public void testA_initialState()throws Exception{
-        clickOn("#SignInUsername");
+        clickOn("#signInUsername");
         write("tester");
-        clickOn("#SignInPWD");
+        clickOn("#signInPWD");
         write("Tester1");
-        clickOn("#SignInBtn");
+        clickOn("#signInBtn");
         sleep(1000);
         clickOn("#btnShowRecipes");
         sleep(150);
@@ -181,16 +196,12 @@ public class RecipeViewControllerTest extends ApplicationTest{
      */
     @Test
     public void testB_filterMyRecipes()throws Exception{
-        clickOn("#SignInUsername");
-        write("tester");
-        clickOn("#SignInPWD");
-        write("Tester1");
-        clickOn("#SignInBtn");
-        sleep(1000);
-        clickOn("#btnShowMyRecipes");
-        sleep(350);
+        int rows = recipeTable.getSelectionModel().getTableView().getItems().size();
+        clickOn("Mis Recetas");
+        recipeTable = lookup("#recipeTable").queryTableView();
+        int rowsAfterChange = recipeTable.getSelectionModel().getTableView().getItems().size();
         verifyThat("Test recipe", isVisible());
-        //verifyThat("Test recipe2", isInvisible());        
+        assertNotEquals(rows, rowsAfterChange);        
     }
     
     /**
@@ -199,12 +210,6 @@ public class RecipeViewControllerTest extends ApplicationTest{
      */
     @Test
     public void testC_createNewRecipe()throws Exception{
-        clickOn("#SignInUsername");
-        write("tester");
-        clickOn("#SignInPWD");
-        write("Tester1");
-        clickOn("#SignInBtn");
-        sleep(1000);
         clickOn("#btnNewRecipe");
         sleep(500);
         verifyThat("Nueva Receta", isVisible());

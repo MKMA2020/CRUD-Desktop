@@ -48,3 +48,12 @@ Cascading Style Sheet fot Recipe related windows on PocketChef Desktop app.
 	-fx-border-color:black;
 	-fx-border-collapse: collapse;
 }
+
+.tableColumnNum{
+	-fx-background-color: #ffa45b;
+	-fx-border-bottom-width: 2px;
+	-fx-border-color:black;
+	-fx-border-collapse: collapse;
+        -fx-alignment: center-right;
+        
+}

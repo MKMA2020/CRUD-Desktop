@@ -1,6 +1,7 @@
 package controller;
 
 import enumeration.RecipeType;
+import exception.DatabaseException;
 import exception.TimeoutException;
 import java.io.IOException;
 import javafx.collections.FXCollections;
@@ -12,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -60,6 +63,12 @@ public class RecipeViewController extends GlobalController {
 
     @FXML
     private SideMenuController sideMenuController;
+    
+    @FXML
+    private ContextMenu recipeContextMenu;
+    
+    @FXML
+    private MenuItem recipeDelButton;
 
     /**
      * Recipe table data model.
@@ -101,7 +110,8 @@ public class RecipeViewController extends GlobalController {
         tclKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
 
         //Set table model.
-        recipeTable.setItems(fillTable());
+        recipes = fillTable();
+        recipeTable.setItems(recipes);
 
         btnNewRecipe.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -112,6 +122,13 @@ public class RecipeViewController extends GlobalController {
                     showError("Error trying to create a recipe.");
                     LOGGER.severe("Error trying to create a recipe.");
                 }
+            }
+        });
+        
+        recipeDelButton.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                removeRecipe(event);
             }
         });
 
@@ -138,6 +155,28 @@ public class RecipeViewController extends GlobalController {
         controller.setStage(newRecipeDialog);
         controller.initStage(root, stage);
         //TODO wait until the window gets closed and refresh.
+    }
+    
+    /**
+     * 
+     * @param event 
+     */
+    public void removeRecipe(ActionEvent event){
+        if(personal){
+            Boolean confirm = showConfirmation("¿Seguro que deseas borrar esta receta?");
+        if(confirm){
+            try{
+            getRecipeManager().remove(recipeTable.getSelectionModel().getSelectedItem().getId());
+            recipes.remove(recipeTable.getSelectionModel().getSelectedItem());
+            recipeTable.refresh();
+            }catch(Exception ex){
+                LOGGER.severe("Error trying to remove an Item");
+                showError("Ha habido un error al borrar la receta");
+            }
+        }
+        }else{
+                showInformation("Solo puedes hacer eso desde la ventana de tus recetas");
+            }
     }
     
     /**
